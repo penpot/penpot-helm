@@ -1,0 +1,27 @@
+## Default values for Penpot (local setup for development purpose)
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+
+config:
+  publicUri: "http://localhost"
+  apiSecretKey: "my-secret-key"
+
+# backend:
+#   replicaCount: 2
+
+# frontend:
+#   replicaCount: 2
+
+# exporter:
+#   replicaCount: 2
+#   persistence:
+#     enabled: true
+
+persistence:
+  enabled: true
+
+ingress:
+  enabled: true
+  hosts:
+    - "localhost"

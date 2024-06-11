@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "penpot.fullname" . }}-frontend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "penpot.frontendSelectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.frontend.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: penpot-frontend
+        {{- include "penpot.frontendSelectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                - {{ .Release.Name }}
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          env:
+            - name: PENPOT_FLAGS
+              value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
+            - name: PENPOT_BACKEND_URI
+              value: {{ print "http://" (include "penpot.fullname" .) "-backend:" .Values.backend.service.http.port }}
+            - name: PENPOT_EXPORTER_URI
+              value: {{ print "http://" (include "penpot.fullname" .) "-exporter:" .Values.exporter.service.port }}
+          volumeMounts:
+            - mountPath: /opt/data/assets
+              name: app-data
+              readOnly: false
+          ports:
+            - name: http
+              containerPort: {{ .Values.frontend.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+    {{- with .Values.frontend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.frontend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.frontend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: app-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default ( include "penpot.fullname" . ) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}

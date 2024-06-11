@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "penpot.fullname" . }}-backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "penpot.backendSelectorLabels" . | nindent 4 }}
+  type: {{ .Values.backend.service.http.type }}
+  ports:
+    - port: {{ .Values.backend.service.http.port }}
+      targetPort: {{ .Values.backend.service.http.port }}
+      protocol: TCP
+      name: http
+
+---
+
+{{- if .Values.backend.service.prepl.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "penpot.fullname" . }}-backend-prepl
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "penpot.backendSelectorLabels" . | nindent 4 }}
+  type: {{ .Values.backend.service.prepl.type }}
+  ports:
+    - port: {{ .Values.backend.service.prepl.port }}
+      targetPort: {{ .Values.backend.service.prepl.port }}
+      protocol: TCP
+      name: prepl
+{{- end }}
