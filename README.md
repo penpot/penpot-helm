@@ -10,6 +10,15 @@ This repository contains the Penpot Helm Chart curated by Penpot.
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [helm](https://helm.sh/docs/intro/install/)
+- [helm-doc](https://github.com/norwoodj/helm-docs/tree/master)
+- [pre-commit](https://pre-commit.com/)
+
+### Set the environment:
+
+```shell
+# Enable  precommit in the repository
+pre-commit install --install-hooks -f
+```
 
 ### Usage:
 
