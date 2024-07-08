@@ -7,19 +7,20 @@ config:
   publicUri: "http://localhost"
   apiSecretKey: "my-secret-key"
 
-# backend:
-#   replicaCount: 2
+#backend:
+#  replicaCount: 2
 
-# frontend:
-#   replicaCount: 2
+#frontend:
+#  replicaCount: 2
 
-# exporter:
-#   replicaCount: 2
-#   persistence:
-#     enabled: true
+#exporter:
+#  replicaCount: 2
 
 persistence:
-  enabled: true
+  assets:
+    enabled: true
+  exporter:
+    enabled: true
 
 ingress:
   enabled: true

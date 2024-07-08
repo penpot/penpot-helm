@@ -1,24 +1,24 @@
-{{- if and .Values.exporter.persistence.enabled (not .Values.exporter.persistence.existingClaim) -}}
+{{- if and .Values.persistence.exporter.enabled (not .Values.persistence.exporter.existingClaim) -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "penpot.fullname" . }}-exporter
+  name: {{ include "penpot.fullname" . }}-data-exporter
   namespace: {{ .Release.Namespace }}
   labels:
 {{- include "penpot.labels" . | nindent 4 }}
-{{- if .Values.exporter.persistence.annotations }}
+{{- if .Values.persistence.exporter.annotations }}
   annotations:
-{{ toYaml .Values.exporter.persistence.annotations | indent 4 }}
+{{ toYaml .Values.persistence.exporter.annotations | indent 4 }}
 {{- end }}
 spec:
   accessModes:
-  {{- range .Values.exporter.persistence.accessModes }}
+  {{- range .Values.persistence.exporter.accessModes }}
     - {{ . | quote }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.exporter.persistence.size | quote }}
-{{- if .Values.exporter.persistence.storageClass }}
-  storageClassName: "{{ .Values.exporter.persistence.storageClass }}"
+      storage: {{ .Values.persistence.exporter.size | quote }}
+{{- if .Values.persistence.exporter.storageClass }}
+  storageClassName: "{{ .Values.persistence.exporter.storageClass }}"
 {{- end }}
 {{- end -}}

@@ -67,9 +67,9 @@ spec:
     {{- end }}
       volumes:
       - name: app-data
-      {{- if .Values.exporter.persistence.enabled }}
+      {{- if .Values.persistence.exporter.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.exporter.persistence.existingClaim | default ( printf "%s-%s" ( include "penpot.fullname" . ) "exporter" ) }}
+          claimName: {{ .Values.persistence.exporter.existingClaim | default ( printf "%s-%s" ( include "penpot.fullname" . ) "data-exporter" ) }}
       {{- else }}
         emptyDir: {}
       {{- end }}

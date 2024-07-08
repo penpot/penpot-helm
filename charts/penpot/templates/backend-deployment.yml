@@ -395,9 +395,9 @@ spec:
     {{- end }}
       volumes:
       - name: app-data
-      {{- if .Values.persistence.enabled }}
+      {{- if .Values.persistence.assets.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default ( include "penpot.fullname" . ) }}
+          claimName: {{ .Values.persistence.assets.existingClaim | default ( printf "%s-%s" ( include "penpot.fullname" . ) "data-assets" ) }}
       {{- else }}
         emptyDir: {}
       {{- end }}
