@@ -27,10 +27,12 @@ $ helm install my-release penpot/penpot
 | backend.containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set Penpot containers' security context readOnlyRootFilesystem |
 | backend.containerSecurityContext.runAsNonRoot | bool | `true` | Set Penpot container's security context runAsNonRoot |
 | backend.containerSecurityContext.runAsUser | int | `1001` | Set Penpot containers' security context runAsUser |
+| backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
 | backend.image.tag | string | `"2.0.3"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | backend.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
 | backend.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
@@ -146,10 +148,12 @@ $ helm install my-release penpot/penpot
 | exporter.containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set Penpot containers' security context readOnlyRootFilesystem |
 | exporter.containerSecurityContext.runAsNonRoot | bool | `true` | Set Penpot container's security context runAsNonRoot |
 | exporter.containerSecurityContext.runAsUser | int | `1001` | Set Penpot containers' security context runAsUser |
+| exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
 | exporter.image.tag | string | `"2.0.3"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | exporter.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
 | exporter.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
@@ -166,10 +170,12 @@ $ helm install my-release penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
 | frontend.image.tag | string | `"2.0.3"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |

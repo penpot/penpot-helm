@@ -5,6 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "penpot.labels" . | nindent 4 }}
+  {{- with .Values.frontend.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   selector:
     matchLabels:
@@ -15,6 +19,10 @@ spec:
       labels:
         app: penpot-frontend
         {{- include "penpot.frontendSelectorLabels" . | nindent 8 }}
+      {{- with .Values.frontend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
     {{- with .Values.global.imagePullSecrets }}
       imagePullSecrets:
