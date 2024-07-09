@@ -40,11 +40,8 @@ $ helm install my-release penpot/penpot
 | backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
 | backend.resources.requests | object | `{}` | The requested resources for the Penpot backend containers |
-| backend.service.http.port | int | `6060` | The http service port to use. |
-| backend.service.http.type | string | `"ClusterIP"` | The http service type to create. |
-| backend.service.prepl.enabled | bool | `false` | Whether to enable the prepl service in the backend. |
-| backend.service.prepl.port | int | `6063` | The prepl service port to use. |
-| backend.service.prepl.type | string | `"ClusterIP"` | The prepl service type to create. |
+| backend.service.port | int | `6060` | The http service port to use. |
+| backend.service.type | string | `"ClusterIP"` | The http service type to create. |
 | backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
 ### Configuration parameters

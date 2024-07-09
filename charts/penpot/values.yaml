@@ -320,23 +320,12 @@ backend:
   # @section -- Backend parameters
   replicaCount: 1
   service:
-    http:
-      # -- The http service type to create.
-      # @section -- Backend parameters
-      type: ClusterIP
-      # -- The http service port to use.
-      # @section -- Backend parameters
-      port: 6060
-    prepl:
-      # -- Whether to enable the prepl service in the backend.
-      # @section -- Backend parameters
-      enabled: false
-      # -- The prepl service type to create.
-      # @section -- Backend parameters
-      type: ClusterIP
-      # -- The prepl service port to use.
-      # @section -- Backend parameters
-      port: 6063
+    # -- The http service type to create.
+    # @section -- Backend parameters
+    type: ClusterIP
+    # -- The http service port to use.
+    # @section -- Backend parameters
+    port: 6060
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Backend parameters
   deploymentAnnotations: {}

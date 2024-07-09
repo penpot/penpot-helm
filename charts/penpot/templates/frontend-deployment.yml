@@ -47,7 +47,7 @@ spec:
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
             - name: PENPOT_BACKEND_URI
-              value: {{ print "http://" (include "penpot.fullname" .) "-backend:" .Values.backend.service.http.port }}
+              value: {{ print "http://" (include "penpot.fullname" .) "-backend:" .Values.backend.service.port }}
             - name: PENPOT_EXPORTER_URI
               value: {{ print "http://" (include "penpot.fullname" .) "-exporter:" .Values.exporter.service.port }}
           volumeMounts:

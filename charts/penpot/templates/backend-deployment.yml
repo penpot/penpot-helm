@@ -65,10 +65,6 @@ spec:
           {{- end }}
             - name: PENPOT_TELEMETRY_ENABLED
               value: {{ .Values.config.telemetryEnabled | quote }}
-          {{- if .Values.backend.service.prepl.enabled }}
-            - name: PENPOT_PREPL_HOST
-              value: "0.0.0.0"
-          {{- end }}
           {{/* PosgreSQL connection settings  */}}
             - name: PENPOT_DATABASE_URI
           {{- if .Values.config.postgresql.host }}
@@ -380,13 +376,8 @@ spec:
               readOnly: false
           ports:
             - name: http
-              containerPort: {{ .Values.backend.service.http.port }}
+              containerPort: {{ .Values.backend.service.port }}
               protocol: TCP
-          {{- if .Values.backend.service.prepl.enabled }}
-            - name: prepl
-              containerPort: {{ .Values.backend.service.prepl.port }}
-              protocol: TCP
-          {{- end }}
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
     {{- with .Values.backend.nodeSelector }}
