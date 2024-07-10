@@ -52,7 +52,7 @@ spec:
             {{- omit .Values.backend.containerSecurityContext "enabled" | toYaml | nindent 12 }}
         {{- end }}
           env:
-          {{/* General settings  */}}
+            # General settings
             - name: PENPOT_PUBLIC_URI
               value: {{ .Values.config.publicUri | quote }}
             - name: PENPOT_FLAGS
@@ -65,7 +65,7 @@ spec:
           {{- end }}
             - name: PENPOT_TELEMETRY_ENABLED
               value: {{ .Values.config.telemetryEnabled | quote }}
-          {{/* PosgreSQL connection settings  */}}
+            # PosgreSQL connection settings
             - name: PENPOT_DATABASE_URI
           {{- if .Values.config.postgresql.host }}
               value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
@@ -90,14 +90,14 @@ spec:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
           {{- end }}
-          {{/* Redis connection settings  */}}
+            # Redis connection settings
             - name: PENPOT_REDIS_URI
           {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
           {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
           {{- end }}
-          {{/* Assets storage settings  */}}
+            # Assets storage settings
             - name: PENPOT_ASSETS_STORAGE_BACKEND
               value: {{ .Values.config.assets.storageBackend | quote }}
           {{- if eq .Values.config.assets.storageBackend "assets-fs" }}
@@ -136,7 +136,7 @@ spec:
                   key: {{ .Values.config.assets.s3.secretKeys.endpointURIKey }}
             {{- end }}
           {{- end }}
-          {{/* SMTP settings  */}}
+            # SMTP settings
           {{- if .Values.config.smtp.enabled }}
             {{- if .Values.config.smtp.defaultFrom }}
             - name: PENPOT_SMTP_DEFAULT_FROM
@@ -183,7 +183,7 @@ spec:
               value: {{ .Values.config.smtp.ssl | quote }}
             {{- end }}
           {{- end }}
-          {{/* Google Auth provider settings  */}}
+            # Google Auth provider settings
           {{- if .Values.config.providers.google.enabled }}
             {{- if not .Values.config.providers.secretKeys.googleClientIDKey }}
             - name: PENPOT_GOOGLE_CLIENT_ID
@@ -206,7 +206,7 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.googleClientSecretKey }}
             {{- end }}
           {{- end }}
-          {{/* Github Auth provider settings  */}}
+            # Github Auth provider settings
           {{- if .Values.config.providers.github.enabled }}
             {{- if not .Values.config.providers.secretKeys.githubClientIDKey }}
             - name: PENPOT_GITHUB_CLIENT_ID
@@ -229,7 +229,7 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.githubClientSecretKey }}
             {{- end }}
           {{- end }}
-          {{/* Gitlab Auth provider settings  */}}
+            # Gitlab Auth provider settings
           {{- if .Values.config.providers.gitlab.enabled }}
             {{- if .Values.config.providers.gitlab.baseURI }}
             - name: PENPOT_GITLAB_BASE_URI
@@ -256,7 +256,7 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.gitlabClientSecretKey }}
             {{- end }}
           {{- end }}
-          {{/* OIDC provider settings  */}}
+            # OIDC provider settings
           {{- if .Values.config.providers.oidc.enabled }}
             {{- if .Values.config.providers.oidc.baseURI }}
             - name: PENPOT_OIDC_BASE_URI
@@ -319,7 +319,7 @@ spec:
               value: {{ .Values.config.providers.oidc.userInfoSource | quote }}
             {{- end }}
           {{- end }}
-          {{/* LDAP provider settings  */}}
+            # LDAP provider settings
           {{- if .Values.config.providers.ldap.enabled }}
             {{- if .Values.config.providers.ldap.host }}
             - name: PENPOT_LDAP_HOST

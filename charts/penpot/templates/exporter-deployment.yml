@@ -29,7 +29,7 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       serviceAccountName: {{ include "penpot.serviceAccountName" . }}
-    {{ if .Values.exporter.podSecurityContext.enabled }}
+    {{- if .Values.exporter.podSecurityContext.enabled }}
       securityContext:
         {{- omit .Values.exporter.podSecurityContext "enabled" | toYaml | nindent 8 }}
     {{- end }}
@@ -37,13 +37,13 @@ spec:
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
           imagePullPolicy: {{ .Values.exporter.image.imagePullPolicy }}
-        {{ if .Values.exporter.containerSecurityContext.enabled }}
+        {{- if .Values.exporter.containerSecurityContext.enabled }}
           securityContext:
             {{- omit .Values.exporter.containerSecurityContext "enabled" | toYaml | nindent 12 }}
         {{- end }}
           env:
             - name: PENPOT_PUBLIC_URI
-              value: {{ .Values.config.publicURI | quote }}
+              value: {{ print "http://" (include "penpot.fullname" .) ":" .Values.frontend.service.port }}
             - name: PENPOT_REDIS_URI
           {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"

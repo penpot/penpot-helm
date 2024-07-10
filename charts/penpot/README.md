@@ -60,7 +60,7 @@ $ helm install my-release penpot/penpot
 | config.assets.s3.secretKeys.endpointURIKey | string | `""` | The S3 endpoint URI to use from an existing secret. |
 | config.assets.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
 | config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
-| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-prepl-server"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
+| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |
 | config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
@@ -114,7 +114,7 @@ $ helm install my-release penpot/penpot
 | config.providers.secretKeys.googleClientSecretKey | string | `""` | The Google client secret key to use from an existing secret. |
 | config.providers.secretKeys.oidcClientIDKey | string | `""` | The OpenID Connect client ID key to use from an existing secret. |
 | config.providers.secretKeys.oidcClientSecretKey | string | `""` | The OpenID Connect client secret key to use from an existing secret. |
-| config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
+| config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
 | config.redis.database | string | `"0"` | The Redis database to connect to. |
 | config.redis.host | string | `""` | The Redis host to connect to. Empty to use dependencies |
 | config.redis.port | int | `6379` | The Redis host port to use. |

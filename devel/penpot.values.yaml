@@ -4,25 +4,30 @@ global:
   redisEnabled: true
 
 config:
-  publicUri: "http://localhost"
+  publicUri: "http://penpot.example.com"
   apiSecretKey: "my-secret-key"
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp disable-secure-session-cookies"
 
 #backend:
 #  replicaCount: 2
 
 #frontend:
 #  replicaCount: 2
-
+#
 #exporter:
 #  replicaCount: 2
+#  podSecurityContext:
+#    enabled: false
+#  containerSecurityContext:
+#    enabled: false
 
 persistence:
   assets:
     enabled: true
-  exporter:
-    enabled: true
+#  exporter:
+#    enabled: true
 
 ingress:
   enabled: true
   hosts:
-    - "localhost"
+    - "penpot.example.com"

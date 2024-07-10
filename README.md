@@ -38,7 +38,9 @@ pre-commit install --install-hooks -f
   helm install penpot ./charts/penpot -f devel/penpot.values.yaml
   ```
 
-- Access to http://localhost/
+- Access to [http://penpot.example.com/](http://penpot.example.com/) (
+  > :exclamation: You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`_
+
   > :bulb: if you disable ingress, you can exposing the app in the port 8888 with:
   > ```shell
   > kubectl port-forward service/penpot 8888:80
