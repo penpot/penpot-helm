@@ -33,6 +33,7 @@ $ helm install my-release penpot/penpot
 | backend.image.tag | string | `"2.0.3"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| backend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | backend.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
 | backend.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
@@ -151,6 +152,7 @@ $ helm install my-release penpot/penpot
 | exporter.image.tag | string | `"2.0.3"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | exporter.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
 | exporter.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
@@ -173,6 +175,7 @@ $ helm install my-release penpot/penpot
 | frontend.image.tag | string | `"2.0.3"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| frontend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |

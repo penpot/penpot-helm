@@ -330,6 +330,9 @@ backend:
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Backend parameters
   deploymentAnnotations: {}
+  # -- An optional map of labels to be applied to the controller Pods
+  # @section -- Backend parameters
+  podLabels: {}
   # -- An optional map of annotations to be applied to the controller Pods
   # @section -- Backend parameters
   podAnnotations: {}
@@ -408,6 +411,9 @@ frontend:
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Frontend parameters
   deploymentAnnotations: {}
+  # -- An optional map of labels to be applied to the controller Pods
+  # @section -- Frontend parameters
+  podLabels: {}
   # -- An optional map of annotations to be applied to the controller Pods
   # @section -- Frontend parameters
   podAnnotations: {}
@@ -454,6 +460,9 @@ exporter:
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Exporter parameters
   deploymentAnnotations: {}
+  # -- An optional map of labels to be applied to the controller Pods
+  # @section -- Exporter parameters
+  podLabels: {}
   # -- An optional map of annotations to be applied to the controller Pods
   # @section -- Exporter parameters
   podAnnotations: {}

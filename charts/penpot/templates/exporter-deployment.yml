@@ -19,6 +19,9 @@ spec:
       labels:
         app: penpot-exporter
         {{- include "penpot.exporterSelectorLabels" . | nindent 8 }}
+        {{- with .Values.exporter.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.exporter.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
