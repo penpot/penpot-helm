@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This repository is a **work in progress**. Please do **NOT** use this code for production environments.
+
 # Penpot Helm Chart
 
 This repository contains the Penpot Helm Chart curated by Penpot.
@@ -39,9 +42,11 @@ pre-commit install --install-hooks -f
   ```
 
 - Access to [http://penpot.example.com/](http://penpot.example.com/) (
-  > :exclamation: You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`_
+> [!NOTE]
+> You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`
 
-  > :bulb: if you disable ingress, you can exposing the app in the port 8888 with:
-  > ```shell
-  > kubectl port-forward service/penpot 8888:80
-  > ```
+> [!TIP]
+> if you disable ingress, you can exposing the app in the port 8888 with:
+> ```shell
+> kubectl port-forward service/penpot 8888:80
+> ```
