@@ -1,5 +1,5 @@
 apiVersion: v2
-version: 0.1.0  # Chart version
+version: 0.1.0-alpha-1  # Chart version
 appVersion: "2.0.3"  # Penpot version
 type: application
 name: penpot
@@ -21,6 +21,10 @@ keywords:
 - opensource
 - ux
 - ui
+annotations:
+  artifacthub.io/signKey: |
+    fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+    url: https://penpot.github.io/penpot-helm/pubkey.asc
 dependencies:
 - name: postgresql
   version: 15.x.x  # appVersion >= 16.2.0

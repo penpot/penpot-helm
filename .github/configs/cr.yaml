@@ -1,0 +1,12 @@
+---
+# cr.yaml
+## Reference: https://github.com/helm/chart-releaser
+index-path: "./index.yaml"
+# Set to true for GPG signing
+sign: true
+# UID of the GPG key to use
+key: Kaleidos INC <infra@kaleidos.net>
+# Enable automatic generation of release notes using GitHubs release notes
+# generator. See:
+# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+generate-release-notes: true
