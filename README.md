@@ -3,50 +3,64 @@
 
 # Penpot Helm Chart
 
-This repository contains the Penpot Helm Chart curated by Penpot.
+This repository contains charts for Penpot (https://penpot.app) project.
 
-## Local Development
 
-### Requirements:
+## What is Penpot
 
-- [docker](https://docs.docker.com/engine/install/)
-- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
-- [helm](https://helm.sh/docs/intro/install/)
-- [helm-doc](https://github.com/norwoodj/helm-docs/tree/master)
-- [pre-commit](https://pre-commit.com/)
+Penpot is the first **open-source** design tool for design and code collaboration. Designers can create stunning designs, interactive prototypes, design systems at scale, while developers enjoy ready-to-use code and make their workflow easy and fast. And all of this with no handoff drama.
 
-### Set the environment:
+Penpot is available on browser and [self host](https://penpot.app/self-host). It’s web-based and works with open standards (SVG, CSS and HTML). And last but not least, it’s free!
 
-```shell
-# Enable  precommit in the repository
-pre-commit install --install-hooks -f
+
+## Usage
+
+The charts can be added using following command:
+
+```
+helm repo add argo https://helm.penpot.app/
 ```
 
-### Usage:
+## Contributing ##
 
-- Create the cluster `penpot-cluster` with a namespace `penpot`:
-  ```shell
-  ./scripts/cluster_create.sh
-  ```
+We'd love to have you contribute! Please refer to our [contribution guidelines](/CONTRIBUTING.md) for details if you want to contribute to this repository or visit the [Contributing](https://github.com/penpot/penpot/tree/develop?tab=readme-ov-file#contributing) section in the main project repository to discover other ways to contribute.
 
-- Download dependencies
-  ```shell
-  helm repo add bitnami https://charts.bitnami.com/bitnami
-  helm dependency build ./charts/penpot
-  ```
 
-- Install the chart
-  ```shell
-  helm install penpot ./charts/penpot -f devel/penpot.values.yaml
-  ```
+## Community
 
-- Access to [http://penpot.example.com/](http://penpot.example.com/) (
-> [!NOTE]
-> You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`
+We love the Open Source software community. Contributing is our passion and if it’s yours too, participate and [improve](https://community.penpot.app/c/help-us-improve-penpot/7) Penpot. All your designs, code and ideas are welcome!
 
-> [!TIP]
-> if you disable ingress, you can exposing the app in the port 8888 with:
-> ```shell
-> kubectl port-forward service/penpot 8888:80
-> ```
+If you need help or have any questions; if you’d like to share your experience using Penpot or get inspired; if you’d rather meet our community of developers and designers, [join our Community](https://community.penpot.app/)!
+
+You will find the following categories:
+- [Ask the Community](https://community.penpot.app/c/ask-for-help-using-penpot/6)
+- [Troubleshooting](https://community.penpot.app/c/technical/8)
+- [Help us Improve Penpot](https://community.penpot.app/c/help-us-improve-penpot/7)
+- [#MadeWithPenpot](https://community.penpot.app/c/madewithpenpot/9)
+- [Events and Announcements](https://community.penpot.app/c/announcements/5)
+- [Inside Penpot](https://community.penpot.app/c/inside-penpot/21)
+- [Penpot in your language](https://community.penpot.app/c/penpot-in-your-language/12)
+- [Design and Code Essentials](https://community.penpot.app/c/design-and-code-essentials/22)
+
+
+## Resources
+
+You can ask and answer questions, have open-ended conversations, and follow along on decisions affecting the project.
+
+💾 [Documentation](https://help.penpot.app/technical-guide/)
+🚀 [Getting Started](https://help.penpot.app/technical-guide/getting-started/)
+✏️ [Tutorials](https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr)
+🏘️ [Architecture](https://help.penpot.app/technical-guide/developer/architecture/)
+📚 [Dev Diaries](https://penpot.app/dev-diaries.html)
+
+
+## License ##
+
+```
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Copyright (c) KALEIDOS INC
+```
+Penpot is a Kaleidos’ [open source project](https://kaleidos.net/)
