@@ -3,6 +3,8 @@
 
 # Penpot Helm Chart
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/penpot)](https://artifacthub.io/packages/search?repo=penpot)
+
 This repository contains charts for Penpot (https://penpot.app) project.
 
 
