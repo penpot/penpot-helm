@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.1.0-alpha-1](https://img.shields.io/badge/Version-0.1.0--alpha--1-informational?style=flat-square) ![AppVersion: 2.0.3](https://img.shields.io/badge/AppVersion-2.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.1.0-alpha-001](https://img.shields.io/badge/Version-0.1.0--alpha--001-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -30,7 +30,7 @@ $ helm install my-release penpot/penpot
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
-| backend.image.tag | string | `"2.0.3"` | The image tag to use. |
+| backend.image.tag | string | `"2.1.0"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | backend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
@@ -149,7 +149,7 @@ $ helm install my-release penpot/penpot
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
-| exporter.image.tag | string | `"2.0.3"` | The image tag to use. |
+| exporter.image.tag | string | `"2.1.0"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
@@ -172,7 +172,7 @@ $ helm install my-release penpot/penpot
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
-| frontend.image.tag | string | `"2.0.3"` | The image tag to use. |
+| frontend.image.tag | string | `"2.1.0"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | frontend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
