@@ -1,7 +1,7 @@
 name: Release Charts
 
 on:
-   workflow_dispatch:
+  workflow_dispatch:
     inputs:
       logLevel:
         description: 'Log level'
@@ -12,11 +12,11 @@ on:
         - info
         - warning
         - debug
-   #push:
-   #  branches:
-   #    - main
-   #  paths:
-   #    - "charts/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "charts/**"
 
 jobs:
   release:
