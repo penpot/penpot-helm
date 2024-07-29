@@ -26,13 +26,7 @@ $ helm install my-release penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"enabled":true,"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| backend.containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set Penpot containers' security context allowPrivilegeEscalation |
-| backend.containerSecurityContext.capabilities | object | `{"drop":["all"]}` | Set Penpot containers' security context capabilities to be dropped |
-| backend.containerSecurityContext.enabled | bool | `true` | Enabled Penpot containers' security context |
-| backend.containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set Penpot containers' security context readOnlyRootFilesystem |
-| backend.containerSecurityContext.runAsNonRoot | bool | `true` | Set Penpot container's security context runAsNonRoot |
-| backend.containerSecurityContext.runAsUser | int | `1001` | Set Penpot containers' security context runAsUser |
+| backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
@@ -40,9 +34,7 @@ $ helm install my-release penpot/penpot
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | backend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| backend.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| backend.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
-| backend.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
+| backend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.replicaCount | int | `1` | The number of replicas to deploy. |
 | backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
@@ -145,13 +137,7 @@ $ helm install my-release penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | exporter.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"enabled":true,"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| exporter.containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set Penpot containers' security context allowPrivilegeEscalation |
-| exporter.containerSecurityContext.capabilities | object | `{"drop":["all"]}` | Set Penpot containers' security context capabilities to be dropped |
-| exporter.containerSecurityContext.enabled | bool | `true` | Enabled Penpot containers' security context |
-| exporter.containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set Penpot containers' security context readOnlyRootFilesystem |
-| exporter.containerSecurityContext.runAsNonRoot | bool | `true` | Set Penpot container's security context runAsNonRoot |
-| exporter.containerSecurityContext.runAsUser | int | `1001` | Set Penpot containers' security context runAsUser |
+| exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
@@ -159,9 +145,7 @@ $ helm install my-release penpot/penpot
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| exporter.podSecurityContext | object | `{"enabled":true,"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| exporter.podSecurityContext.enabled | bool | `true` | Enabled Penpot pods' security context |
-| exporter.podSecurityContext.fsGroup | int | `1001` | Set Penpot pod's security context fsGroup |
+| exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.replicaCount | int | `1` | The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount |
 | exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | exporter.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
@@ -175,6 +159,7 @@ $ helm install my-release penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| frontend.containerSecurityContext | object | `{}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
@@ -182,6 +167,7 @@ $ helm install my-release penpot/penpot
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | frontend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
+| frontend.podSecurityContext | object | `{}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
