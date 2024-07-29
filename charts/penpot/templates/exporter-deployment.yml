@@ -27,32 +27,32 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-    {{- with .Values.global.imagePullSecrets }}
+      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
+      {{- with .Values.global.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
-    {{- if .Values.exporter.podSecurityContext.enabled }}
+      {{- end }}
+      {{- with .Values.exporter.podSecurityContext }}
       securityContext:
-        {{- omit .Values.exporter.podSecurityContext "enabled" | toYaml | nindent 8 }}
-    {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
           imagePullPolicy: {{ .Values.exporter.image.imagePullPolicy }}
-        {{- if .Values.exporter.containerSecurityContext.enabled }}
+          {{- with .Values.exporter.containerSecurityContext }}
           securityContext:
-            {{- omit .Values.exporter.containerSecurityContext "enabled" | toYaml | nindent 12 }}
-        {{- end }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: PENPOT_PUBLIC_URI
               value: {{ print "http://" (include "penpot.fullname" .) ":" .Values.frontend.service.port }}
             - name: PENPOT_REDIS_URI
-          {{- if .Values.config.redis.host }}
+              {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-          {{- else }}
+              {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
-          {{- end }}
+              {{- end }}
             - name: PENPOT_TEMPDIR
               value: "/tmp/penpot-exporter"
           volumeMounts:
@@ -65,23 +65,23 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.exporter.resources | nindent 12 }}
-    {{- with .Values.exporter.nodeSelector }}
+      {{- with .Values.exporter.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.exporter.affinity }}
+      {{- end }}
+      {{- with .Values.exporter.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.exporter.tolerations }}
+      {{- end }}
+      {{- with .Values.exporter.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
       volumes:
       - name: app-data
-      {{- if .Values.persistence.exporter.enabled }}
+        {{- if .Values.persistence.exporter.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.exporter.existingClaim | default ( printf "%s-%s" ( include "penpot.fullname" . ) "data-exporter" ) }}
-      {{- else }}
+        {{- else }}
         emptyDir: {}
-      {{- end }}
+        {{- end }}

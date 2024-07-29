@@ -339,34 +339,16 @@ backend:
   # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Backend parameters
   podSecurityContext:
-    # -- Enabled Penpot pods' security context
-    # @section -- Backend parameters
-    enabled: true
-    # -- Set Penpot pod's security context fsGroup
-    # @section -- Backend parameters
     fsGroup: 1001
   # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Backend parameters
   containerSecurityContext:
-    # -- Enabled Penpot containers' security context
-    # @section -- Backend parameters
-    enabled: true
-    # -- Set Penpot containers' security context runAsUser
-    # @section -- Backend parameters
     runAsUser: 1001
-    # -- Set Penpot containers' security context allowPrivilegeEscalation
-    # @section -- Backend parameters
     allowPrivilegeEscalation: false
-    # -- Set Penpot containers' security context capabilities to be dropped
-    # @section -- Backend parameters
     capabilities:
       drop:
         - all
-    # -- Set Penpot containers' security context readOnlyRootFilesystem
-    # @section -- Backend parameters
     readOnlyRootFilesystem: false
-    # -- Set Penpot container's security context runAsNonRoot
-    # @section -- Backend parameters
     runAsNonRoot: true
   # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
   # @section -- Backend parameters
@@ -417,6 +399,12 @@ frontend:
   # -- An optional map of annotations to be applied to the controller Pods
   # @section -- Frontend parameters
   podAnnotations: {}
+  # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+  # @section -- Frontend parameters
+  podSecurityContext: {}
+  # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+  # @section -- Frontend parameters
+  containerSecurityContext: {}
   # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
   # @section -- Frontend parameters
   affinity: {}
@@ -469,34 +457,16 @@ exporter:
   # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Exporter parameters
   podSecurityContext:
-    # -- Enabled Penpot pods' security context
-    # @section -- Exporter parameters
-    enabled: true
-    # -- Set Penpot pod's security context fsGroup
-    # @section -- Exporter parameters
     fsGroup: 1001
   # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Exporter parameters
   containerSecurityContext:
-    # -- Enabled Penpot containers' security context
-    # @section -- Exporter parameters
-    enabled: true
-    # -- Set Penpot containers' security context runAsUser
-    # @section -- Exporter parameters
     runAsUser: 1001
-    # -- Set Penpot containers' security context allowPrivilegeEscalation
-    # @section -- Exporter parameters
     allowPrivilegeEscalation: false
-    # -- Set Penpot containers' security context capabilities to be dropped
-    # @section -- Exporter parameters
     capabilities:
       drop:
         - all
-    # -- Set Penpot containers' security context readOnlyRootFilesystem
-    # @section -- Exporter parameters
     readOnlyRootFilesystem: false
-    # -- Set Penpot container's security context runAsNonRoot
-    # @section -- Exporter parameters
     runAsNonRoot: true
   # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
   # @section -- Exporter parameters

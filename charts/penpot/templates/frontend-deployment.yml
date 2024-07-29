@@ -27,25 +27,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-    {{- with .Values.global.imagePullSecrets }}
+      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
+      {{- with .Values.global.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/instance
-                operator: In
-                values:
-                - {{ .Release.Name }}
-            topologyKey: "kubernetes.io/hostname"
+      {{- end }}
+      {{- with .Values.frontend.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-frontend
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          {{- with .Values.frontend.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
@@ -63,23 +61,23 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
-    {{- with .Values.frontend.nodeSelector }}
+      {{- with .Values.frontend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.frontend.affinity }}
+      {{- end }}
+      {{- with .Values.frontend.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.frontend.tolerations }}
+      {{- end }}
+      {{- with .Values.frontend.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
       volumes:
       - name: app-data
-      {{- if .Values.persistence.assets.enabled }}
+        {{- if .Values.persistence.assets.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.assets.existingClaim | default ( printf "%s-%s" ( include "penpot.fullname" . ) "data-assets" ) }}
-      {{- else }}
+        {{- else }}
         emptyDir: {}
-      {{- end }}
+        {{- end }}

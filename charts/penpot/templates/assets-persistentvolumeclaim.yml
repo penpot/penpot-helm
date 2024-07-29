@@ -5,11 +5,11 @@ metadata:
   name: {{ include "penpot.fullname" . }}-data-assets
   namespace: {{ .Release.Namespace }}
   labels:
-{{- include "penpot.labels" . | nindent 4 }}
-{{- if .Values.persistence.assets.annotations }}
+    {{- include "penpot.labels" . | nindent 4 }}
+  {{- if .Values.persistence.assets.annotations }}
   annotations:
-{{ toYaml .Values.persistence.assets.annotations | indent 4 }}
-{{- end }}
+    {{ toYaml .Values.persistence.assets.annotations | indent 4 }}
+  {{- end }}
 spec:
   accessModes:
   {{- range .Values.persistence.assets.accessModes }}
@@ -18,7 +18,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.assets.size | quote }}
-{{- if .Values.persistence.assets.storageClass }}
+  {{- if .Values.persistence.assets.storageClass }}
   storageClassName: "{{ .Values.persistence.assets.storageClass }}"
-{{- end }}
+  {{- end }}
 {{- end -}}
