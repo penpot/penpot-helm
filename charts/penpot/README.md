@@ -4,6 +4,12 @@
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
+## What is Penpot
+
+Penpot is the first **open-source** design tool for design and code collaboration. Designers can create stunning designs, interactive prototypes, design systems at scale, while developers enjoy ready-to-use code and make their workflow easy and fast. And all of this with no handoff drama.
+
+Penpot is available on browser and [self host](https://penpot.app/self-host). It’s web-based and works with open standards (SVG, CSS and HTML). And last but not least, it’s free!
+
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
@@ -246,3 +252,15 @@ $ helm install my-release penpot/penpot
 |-----|------|---------|-------------|
 | redis | object | `{"auth":{"enabled":false}}` | Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis)) |
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
+
+## Resources
+
+:speaking_head: [Community](https://community.penpot.app)
+
+:floppy_disk: [Documentation](https://help.penpot.app/)
+
+:houses: [Architecture](https://help.penpot.app/technical-guide/developer/architecture/)
+
+:woman_teacher: [Tutorials](https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr)
+
+:memo: [Dev Diaries](https://penpot.app/dev-diaries.html)

@@ -35,6 +35,7 @@ We love the Open Source software community. Contributing is our passion and if i
 If you need help or have any questions; if you’d like to share your experience using Penpot or get inspired; if you’d rather meet our community of developers and designers, [join our Community](https://community.penpot.app/)!
 
 You will find the following categories:
+
 - [Ask the Community](https://community.penpot.app/c/ask-for-help-using-penpot/6)
 - [Troubleshooting](https://community.penpot.app/c/technical/8)
 - [Help us Improve Penpot](https://community.penpot.app/c/help-us-improve-penpot/7)
@@ -50,9 +51,13 @@ You will find the following categories:
 You can ask and answer questions, have open-ended conversations, and follow along on decisions affecting the project.
 
 💾 [Documentation](https://help.penpot.app/technical-guide/)
+
 🚀 [Getting Started](https://help.penpot.app/technical-guide/getting-started/)
+
 ✏️ [Tutorials](https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr)
+
 🏘️ [Architecture](https://help.penpot.app/technical-guide/developer/architecture/)
+
 📚 [Dev Diaries](https://penpot.app/dev-diaries.html)
 
 
