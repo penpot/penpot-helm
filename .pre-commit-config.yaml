@@ -13,6 +13,12 @@ repos:
           # Repeating the flag adds this to the list, now [./_templates.gotmpl, README.md.gotmpl]
           # A base filename makes it relative to each chart directory found
           - --template-files=README.md.gotmpl
+
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.23
+    hooks:
+      - id: helmlint
+
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v3.2.0
     hooks:
