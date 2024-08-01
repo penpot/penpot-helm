@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
-version: 0.1.0-alpha-001  # Chart version
-appVersion: "2.1.0"  # Penpot version
+version: 0.1.0-alpha-002  # Chart version
+appVersion: "2.1.1"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -26,6 +26,19 @@ annotations:
   artifacthub.io/signKey: |
     fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
     url: https://helm.penpot.app/pubkey.asc
+  artifacthub.io/links: |
+    - name: support
+      url: https://github.com/penpot/penpot-helm/issues
+    - name: community
+      url: https://community.penpot.app
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump penpot to 2.1.1.
+    - kind: fix
+      description: homogenize and simplify container and pod security context and affinity.
+    - kind: fix
+      description: Imporve documentation.
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
