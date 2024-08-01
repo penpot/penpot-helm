@@ -20,7 +20,7 @@ Penpot is available on browser and [self host](https://penpot.app/self-host). It
 The charts can be added using following command:
 
 ```
-helm repo add argo https://helm.penpot.app/
+helm repo add penpot https://helm.penpot.app/
 ```
 
 ## Contributing ##
