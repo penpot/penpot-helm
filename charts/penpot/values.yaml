@@ -164,8 +164,6 @@ config:
       # @section -- Configuration parameters
       passwordKey: ""
 
-  # -- Penpot Authentication providers parameters
-  # @section -- Configuration parameters
   providers:
     google:
       # -- Whether to enable Google configuration. To enable Google auth, add `enable-login-with-google` to the flags.
