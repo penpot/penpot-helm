@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.1.0-alpha-002  # Chart version
+version: 0.1.0-alpha-003  # Chart version
 appVersion: "2.1.1"  # Penpot version
 type: application
 name: penpot
@@ -35,9 +35,9 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Bump penpot to 2.1.1.
-    - kind: fix
+    - kind: fixed
       description: homogenize and simplify container and pod security context and affinity.
-    - kind: fix
+    - kind: fixed
       description: Imporve documentation.
 dependencies:
   - name: postgresql
