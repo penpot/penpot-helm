@@ -19,31 +19,44 @@ $ helm repo add penpot http://helm.penpot.app
 $ helm install my-release penpot/penpot
 ```
 
-## Values
+You can customize the installation specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
-### Backend parameters
+```console
+helm install my-release \
+  --set global.postgresqlEnabled=true \
+  --set global.redisEnabled=true \
+  --set persistence.assets.enabled=true \
+  penpot/penpot
+```
+
+Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
+
+```console
+helm install my-release -f values.yaml penpot/penpot
+```
+> **Tip**: You can use the default values.yaml
+
+## Parameters
+
+### Global
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
-| backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
-| backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
-| backend.image.tag | string | `"2.1.1"` | The image tag to use. |
-| backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
-| backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
-| backend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| backend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| backend.replicaCount | int | `1` | The number of replicas to deploy. |
-| backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
-| backend.resources.requests | object | `{}` | The requested resources for the Penpot backend containers |
-| backend.service.port | int | `6060` | The http service port to use. |
-| backend.service.type | string | `"ClusterIP"` | The http service type to create. |
-| backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
+| global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
+| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. |
 
-### Configuration parameters
+### General
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| fullnameOverride | string | `""` | To fully override common.names.fullname |
+| nameOverride | string | `""` | To partially override common.names.fullname |
+| serviceAccount.annotations | object | `{}` | Annotations for service account. Evaluated as a template. |
+| serviceAccount.enabled | bool | `true` | Specifies whether a ServiceAccount should be created. |
+| serviceAccount.name | string | `"penpot"` | The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template. |
+
+### Penpot Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -131,29 +144,29 @@ $ helm install my-release penpot/penpot
 | config.smtp.username | string | `""` | The SMTP username to use. |
 | config.telemetryEnabled | bool | `true` | Whether to enable sending of anonymous telemetry data. |
 
-### Exporter parameters
+### Penpot backend
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| exporter.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
-| exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
-| exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
-| exporter.image.tag | string | `"2.1.1"` | The image tag to use. |
-| exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
-| exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
-| exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| exporter.replicaCount | int | `1` | The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount |
-| exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| exporter.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
-| exporter.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
-| exporter.service.port | int | `6061` | The service port to use. |
-| exporter.service.type | string | `"ClusterIP"` | The service type to create. |
-| exporter.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
+| backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
+| backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
+| backend.image.tag | string | `"2.1.1"` | The image tag to use. |
+| backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| backend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
+| backend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| backend.replicaCount | int | `1` | The number of replicas to deploy. |
+| backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
+| backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
+| backend.resources.requests | object | `{}` | The requested resources for the Penpot backend containers |
+| backend.service.port | int | `6060` | The http service port to use. |
+| backend.service.type | string | `"ClusterIP"` | The http service type to create. |
+| backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
-### Frontend parameters
+### Penpot Frontend
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -175,25 +188,46 @@ $ helm install my-release penpot/penpot
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
-### Common parameters
+### Penpot exporter
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| fullnameOverride | string | `""` | To fully override common.names.fullname |
-| nameOverride | string | `""` | To partially override common.names.fullname |
-| serviceAccount.annotations | object | `{}` | Annotations for service account. Evaluated as a template. |
-| serviceAccount.enabled | bool | `true` | Specifies whether a ServiceAccount should be created. |
-| serviceAccount.name | string | `"penpot"` | The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template. |
+| exporter.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
+| exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
+| exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
+| exporter.image.tag | string | `"2.1.1"` | The image tag to use. |
+| exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
+| exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| exporter.replicaCount | int | `1` | The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount |
+| exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
+| exporter.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
+| exporter.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
+| exporter.service.port | int | `6061` | The service port to use. |
+| exporter.service.type | string | `"ClusterIP"` | The service type to create. |
+| exporter.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
-### Global parameters
+### Persistence
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
-| global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
-| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. |
+| persistence.assets.accessModes | list | `["ReadWriteOnce"]` | Assets persistent Volume access modes. |
+| persistence.assets.annotations | object | `{}` | Assetsp ersistent Volume Claim annotations. |
+| persistence.assets.enabled | bool | `false` | Enable assets persistence using Persistent Volume Claims. |
+| persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for assets persistence. |
+| persistence.assets.size | string | `"20Gi"` | Assets persistent Volume size. |
+| persistence.assets.storageClass | string | `""` | Assets persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
+| persistence.exporter.accessModes | list | `["ReadWriteOnce"]` | Exporter persistent Volume access modes. |
+| persistence.exporter.annotations | object | `{}` | Exporter persistent Volume Claim annotations. |
+| persistence.exporter.enabled | bool | `false` | Enable exporter persistence using Persistent Volume Claims. If exporter.replicaCount you have to enable it. |
+| persistence.exporter.existingClaim | string | `""` | The name of an existing PVC to use for persistence. |
+| persistence.exporter.size | string | `"10Gi"` | Exporter persistent Volume size. |
+| persistence.exporter.storageClass | string | `""` | Exporter persistent Volume storage class. Empty is choosing the default provisioner by the provider. |
 
-### Ingress parameters
+### Ingress
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -205,24 +239,7 @@ $ helm install my-release penpot/penpot
 | ingress.path | string | `"/"` | Root path for every hosts. |
 | ingress.tls | list | `[]` | Array style TLS secrets for the (frontend) ingress crontroller. E.g. tls:   - secretName: penpot.example.com-tls     hosts:       - penpot.example.com |
 
-### Persistence parameters
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| persistence.assets.accessModes | list | `["ReadWriteOnce"]` | Assets persistent Volume access modes. |
-| persistence.assets.annotations | object | `{}` | Assetsp ersistent Volume Claim annotations. |
-| persistence.assets.enabled | string | `"fals"` | Enable assets persistence using Persistent Volume Claims. |
-| persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for assets persistence. |
-| persistence.assets.size | string | `"20Gi"` | Assets persistent Volume size. |
-| persistence.assets.storageClass | string | `""` | Assets persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
-| persistence.exporter.accessModes | list | `["ReadWriteOnce"]` | Exporter persistent Volume access modes. |
-| persistence.exporter.annotations | object | `{}` | Exporter persistent Volume Claim annotations. |
-| persistence.exporter.enabled | bool | `false` | Enable exporter persistence using Persistent Volume Claims. If exporter.replicaCount you have to enable it. |
-| persistence.exporter.existingClaim | string | `""` | The name of an existing PVC to use for persistence. |
-| persistence.exporter.size | string | `"10Gi"` | Exporter persistent Volume size. |
-| persistence.exporter.storageClass | string | `""` | Exporter persistent Volume storage class. Empty is choosing the default provisioner by the provider. |
-
-### PostgreSQL Dependencie parameters
+### PostgreSQL
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -231,21 +248,24 @@ $ helm install my-release penpot/penpot
 | postgresql.auth.password | string | `"penpot"` | Password for the custom user to create. |
 | postgresql.auth.username | string | `"penpot"` | Name for a custom user to create. |
 
-### Redis Dependencie parameters
+> **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
+
+### Redis
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | redis | object | `{"auth":{"enabled":false}}` | Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis)) |
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
 
-## Resources
+> **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
-:speaking_head: [Community](https://community.penpot.app)
+## License ##
 
-:floppy_disk: [Documentation](https://help.penpot.app/)
+```
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-:houses: [Architecture](https://help.penpot.app/technical-guide/developer/architecture/)
-
-:woman_teacher: [Tutorials](https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr)
-
-:memo: [Dev Diaries](https://penpot.app/dev-diaries.html)
+Copyright (c) KALEIDOS INC
+```
+Penpot is a Kaleidos’ [open source project](https://kaleidos.net/)
