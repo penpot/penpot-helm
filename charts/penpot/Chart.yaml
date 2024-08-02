@@ -31,13 +31,15 @@ annotations:
       url: https://github.com/penpot/penpot-helm/issues
     - name: community
       url: https://community.penpot.app
+    - name: documentation
+      url: https://help.penpot.app/
+    - name: tutorials
+      url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+    - name: dev-diaries
+      url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump penpot to 2.1.1.
-    - kind: fixed
-      description: homogenize and simplify container and pod security context and affinity.
-    - kind: fixed
       description: Imporve documentation.
 dependencies:
   - name: postgresql
