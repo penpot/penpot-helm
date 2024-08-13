@@ -234,8 +234,8 @@ helm install my-release -f values.yaml penpot/penpot
 | ingress.annotations | object | `{}` | Mapped annotations for the ingress crontroller. E.g. annotations:   kubernetes.io/ingress.class: nginx   kubernetes.io/tls-acme: "true" |
 | ingress.className | string | `""` | The Ingress className. |
 | ingress.enabled | bool | `false` | Enable (frontend) Ingress Controller. |
-| ingress.hosts | list | `[{"host":"penpot.example.com"}]` | Array style hosts for the (frontend) ingress crontroller. |
-| ingress.hosts[0] | object | `{"host":"penpot.example.com"}` | The default external hostname to access to the penpot app. |
+| ingress.hosts | list | `["penpot.example.com"]` | Array style hosts for the (frontend) ingress crontroller. |
+| ingress.hosts[0] | string | `"penpot.example.com"` | The default external hostname to access to the penpot app. |
 | ingress.path | string | `"/"` | Root path for every hosts. |
 | ingress.tls | list | `[]` | Array style TLS secrets for the (frontend) ingress crontroller. E.g. tls:   - secretName: penpot.example.com-tls     hosts:       - penpot.example.com |
 

@@ -553,7 +553,7 @@ ingress:
   hosts:
     # -- The default external hostname to access to the penpot app.
     # @section -- Ingress parameters
-    - host: penpot.example.com
+    - "penpot.example.com"
   # -- Array style TLS secrets for the (frontend) ingress crontroller.
   # E.g.
   # tls:

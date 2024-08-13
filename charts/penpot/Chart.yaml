@@ -41,6 +41,8 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Imporve documentation.
+    - kind: fixed
+      description: hostname example for ingress (by @Tchoupinax).
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
