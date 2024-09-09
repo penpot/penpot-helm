@@ -367,6 +367,18 @@ backend:
     # -- The requested resources for the Penpot backend containers
     # @section -- Backend parameters
     requests: {}
+  # -- Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+  # @section -- Backend parameters
+  pdb:
+    # -- Enable Pod Disruption Budget for the backend pods.
+    # @section -- Backend parameters
+    enabled: false
+    # -- (int,string) The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%").
+    # @section -- Backend parameters
+    minAvailable:
+    # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
+    # @section -- Backend parameters
+    maxUnavailable:
 
 frontend:
   image:
@@ -422,6 +434,18 @@ frontend:
     # -- The requested resources for the Penpot frontend containers
     # @section -- Frontend parameters
     requests: {}
+  # -- Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+  # @section -- Frontend parameters
+  pdb:
+    # -- Enable Pod Disruption Budget for the frontend pods.
+    # @section -- Frontend parameters
+    enabled: false
+    # -- (int,string) The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%").
+    # @section -- Frontend parameters
+    minAvailable:
+    # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
+    # @section -- Frontend parameters
+    maxUnavailable:
 
 exporter:
   image:
@@ -485,6 +509,18 @@ exporter:
     # -- The requested resources for the Penpot frontend containers
     # @section -- Exporter parameters
     requests: {}
+  # -- Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+  # @section -- Exporter parameters
+  pdb:
+    # -- Enable Pod Disruption Budget for the exporter pods.
+    # @section -- Exporter parameters
+    enabled: false
+    # -- (int,string) The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%").
+    # @section -- Exporter parameters
+    minAvailable:
+    # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
+    # @section -- Exporter parameters
+    maxUnavailable:
 
 # @section -- Persistence parameters
 persistence:

@@ -1,0 +1,20 @@
+{{- if .Values.exporter.pdb.enabled -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "penpot.fullname" . }}-exporter
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.exporter.pdb.minAvailable }}
+  minAvailable: {{ .Values.exporter.pdb.minAvailable }}
+  {{- else if .Values.exporter.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.exporter.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      app: penpot-exporter
+{{- end -}}

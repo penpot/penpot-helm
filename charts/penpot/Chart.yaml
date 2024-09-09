@@ -39,6 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Allow to define pod disruption budgets.
     - kind: changed
       description: Bump penpot to 2.1.4.
     - kind: changed
