@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.1.0-alpha-004  # Chart version
+version: 0.1.0  # Chart version
 appVersion: "2.1.4"  # Penpot version
 type: application
 name: penpot
@@ -39,14 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Allow to define pod disruption budgets.
     - kind: changed
-      description: Bump penpot to 2.1.4.
-    - kind: changed
-      description: Imporve documentation.
-    - kind: fixed
-      description: hostname example for ingress (by @Tchoupinax).
+      description: Bump to 0.1.0. Initial release.
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

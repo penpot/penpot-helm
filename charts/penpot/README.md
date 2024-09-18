@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.1.0-alpha-004](https://img.shields.io/badge/Version-0.1.0--alpha--004-informational?style=flat-square) ![AppVersion: 2.1.4](https://img.shields.io/badge/AppVersion-2.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: 2.1.4](https://img.shields.io/badge/AppVersion-2.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -270,6 +270,20 @@ helm install my-release -f values.yaml penpot/penpot
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
 
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
+
+## Resources
+
+You can ask and answer questions, have open-ended conversations, and follow along on decisions affecting the project.
+
+💾 [Documentation](https://help.penpot.app/technical-guide/)
+
+🚀 [Getting Started](https://help.penpot.app/technical-guide/getting-started/)
+
+✏️ [Tutorials](https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr)
+
+🏘️ [Architecture](https://help.penpot.app/technical-guide/developer/architecture/)
+
+📚 [Dev Diaries](https://penpot.app/dev-diaries.html)
 
 ## License ##
 

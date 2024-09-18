@@ -1,6 +1,3 @@
-> [!CAUTION]
-> This repository is a **work in progress**. Please do **NOT** use this code for production environments.
-
 # Penpot Helm Chart
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/penpot)](https://artifacthub.io/packages/search?repo=penpot)
