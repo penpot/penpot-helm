@@ -39,8 +39,12 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: containsSecurityUpdates and podSecurityContext can be defined for penpot-frontend.
+    - kind: added
+      description: Allow to run in a Openshift Container Platform.
     - kind: changed
-      description: Bump to 0.1.0. Initial release.
+      description: Change penpot-frontend service port to 8080.
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

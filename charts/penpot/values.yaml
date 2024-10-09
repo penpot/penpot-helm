@@ -400,7 +400,7 @@ frontend:
     type: ClusterIP
     # -- The service port to use.
     # @section -- Frontend parameters
-    port: 80
+    port: 8080
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Frontend parameters
   deploymentAnnotations: {}
@@ -412,10 +412,18 @@ frontend:
   podAnnotations: {}
   # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Frontend parameters
-  podSecurityContext: {}
+  podSecurityContext:
+    fsGroup: 1001
   # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Frontend parameters
-  containerSecurityContext: {}
+  containerSecurityContext:
+    runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - all
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
   # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
   # @section -- Frontend parameters
   affinity: {}
@@ -522,7 +530,6 @@ exporter:
     # @section -- Exporter parameters
     maxUnavailable:
 
-# @section -- Persistence parameters
 persistence:
   assets:
     # -- Enable assets persistence using Persistent Volume Claims.
@@ -599,9 +606,39 @@ ingress:
   # @section -- Ingress parameters
   tls: []
 
-# -- PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql))
-# @section -- PostgreSQL Dependencie parameters
+route:
+  # -- Enable Openshift/OKD Route. Check [the official doc](https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html). When it is enabled, all fsGroup and runAsUser must be changed to null.
+  # @section -- Route parameters
+  enabled: false
+  # -- An optional map of annotations to be applied to the route.
+  # @section -- Route parameters
+  annotations: {}
+  # -- The default external hostname to access to the penpot app.
+  # @section -- Route parameters
+  host: penpot.example.com
+  # -- Define a path to use Path-based routes.
+  # @section -- Route parameters
+  path: null
+  # -- A Map with TLS configuration for the route.
+  # E.g.
+  # tls:
+  #   terminationType: edge
+  #   terminationPolicy: Redirect
+  # @section -- Route parameters
+  tls: {}
+  # -- Define the wildcard policy (None, Subdomain, ...)
+  # @section -- Route parameters
+  wildcardPolicy: None
+
+# PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql))
 postgresql:
+  global:
+    compatibility:
+      openshift:
+        # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
+        # @section -- PostgreSQL Dependencie parameters
+        adaptSecurityContext: 'auto'
+
   auth:
     # -- Name for a custom user to create.
     # @section -- PostgreSQL Dependencie parameters
@@ -613,9 +650,14 @@ postgresql:
     # @section -- PostgreSQL Dependencie parameters
     database: "penpot"
 
-# -- Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
-# @section -- Redis Dependencie parameters
+# Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
 redis:
+  global:
+    compatibility:
+      openshift:
+        # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
+        # @section -- Redis Dependencie parameters
+        adaptSecurityContext: 'auto'
   auth:
     # -- Whether to enable password authentication.
     # @section -- Redis Dependencie parameters

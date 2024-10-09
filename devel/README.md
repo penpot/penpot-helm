@@ -41,5 +41,5 @@ pre-commit install --install-hooks -f
 > [!TIP]
 > if you disable ingress, you can exposing the app in the port 8888 with:
 > ```shell
-> kubectl port-forward service/penpot 8888:80
+> kubectl port-forward service/penpot 8888:8080
 > ```

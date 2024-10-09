@@ -9,7 +9,7 @@ spec:
   type: {{ .Values.frontend.service.type }}
   ports:
     - port: {{ .Values.frontend.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.frontend.service.port }}
       protocol: TCP
       name: http
   selector:

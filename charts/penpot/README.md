@@ -175,7 +175,7 @@ helm install my-release -f values.yaml penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| frontend.containerSecurityContext | object | `{}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| frontend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
@@ -187,12 +187,12 @@ helm install my-release -f values.yaml penpot/penpot
 | frontend.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | frontend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| frontend.podSecurityContext | object | `{}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| frontend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
 | frontend.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
-| frontend.service.port | int | `80` | The service port to use. |
+| frontend.service.port | int | `8080` | The service port to use. |
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
@@ -251,14 +251,25 @@ helm install my-release -f values.yaml penpot/penpot
 | ingress.path | string | `"/"` | Root path for every hosts. |
 | ingress.tls | list | `[]` | Array style TLS secrets for the (frontend) ingress crontroller. E.g. tls:   - secretName: penpot.example.com-tls     hosts:       - penpot.example.com |
 
+### Reute (for OpenShift Container Platform)
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| route.annotations | object | `{}` | An optional map of annotations to be applied to the route. |
+| route.enabled | bool | `false` | Enable Openshift/OKD Route. Check [the official doc](https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html). When it is enabled, all fsGroup and runAsUser must be changed to null. |
+| route.host | string | `"penpot.example.com"` | The default external hostname to access to the penpot app. |
+| route.path | string | `nil` | Define a path to use Path-based routes. |
+| route.tls | object | `{}` | A Map with TLS configuration for the route. E.g. tls:   terminationType: edge   terminationPolicy: Redirect |
+| route.wildcardPolicy | string | `"None"` | Define the wildcard policy (None, Subdomain, ...) |
+
 ### PostgreSQL
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| postgresql | object | `{"auth":{"database":"penpot","password":"penpot","username":"penpot"}}` | PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql)) |
 | postgresql.auth.database | string | `"penpot"` | Name for a custom database to create. |
 | postgresql.auth.password | string | `"penpot"` | Password for the custom user to create. |
 | postgresql.auth.username | string | `"penpot"` | Name for a custom user to create. |
+| postgresql.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 
 > **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
 
@@ -266,8 +277,8 @@ helm install my-release -f values.yaml penpot/penpot
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| redis | object | `{"auth":{"enabled":false}}` | Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis)) |
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
+| redis.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
