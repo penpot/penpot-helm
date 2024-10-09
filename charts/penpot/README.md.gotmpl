@@ -64,6 +64,7 @@ helm install my-release -f values.yaml penpot/{{ template "chart.name" . }}
     (hasPrefix "exporter" .Key)
     (hasPrefix "persistence" .Key)
     (hasPrefix "ingress" .Key)
+    (hasPrefix "route" .Key)
     (hasPrefix "postgresql" .Key)
     (hasPrefix "redis" .Key)
   ) }}
@@ -133,6 +134,17 @@ helm install my-release -f values.yaml penpot/{{ template "chart.name" . }}
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "ingress" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+
+### Reute (for OpenShift Container Platform)
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "route" .Key }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}
