@@ -1,3 +1,4 @@
+---
 ## Default values for Penpot (local setup for development purpose)
 global:
   postgresqlEnabled: true
