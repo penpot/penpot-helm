@@ -47,6 +47,8 @@ spec:
           env:
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
+            - name: PENPOT_PUBLIC_URI
+              value: {{ .Values.config.publicUri | quote }}
             - name: PENPOT_BACKEND_URI
               value: {{ print "http://" (include "penpot.fullname" .) "-backend:" .Values.backend.service.port }}
             - name: PENPOT_EXPORTER_URI
