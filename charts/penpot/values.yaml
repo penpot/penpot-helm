@@ -384,10 +384,10 @@ frontend:
   image:
     # -- The Docker repository to pull the image from.
     # @section -- Frontend parameters
-    repository: penpotapp/frontend
+    repository: bameda00/test-p
     # -- The image tag to use.
     # @section -- Frontend parameters
-    tag: 2.1.4
+    tag: latest
     # -- The image pull policy to use.
     # @section -- Frontend parameters
     pullPolicy: IfNotPresent
@@ -400,7 +400,7 @@ frontend:
     type: ClusterIP
     # -- The service port to use.
     # @section -- Frontend parameters
-    port: 80
+    port: 8080
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Frontend parameters
   deploymentAnnotations: {}
@@ -412,10 +412,18 @@ frontend:
   podAnnotations: {}
   # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Frontend parameters
-  podSecurityContext: {}
+  podSecurityContext:
+    fsGroup: 1001
   # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
   # @section -- Frontend parameters
-  containerSecurityContext: {}
+  containerSecurityContext:
+    runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - all
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
   # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
   # @section -- Frontend parameters
   affinity: {}

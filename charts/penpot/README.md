@@ -175,11 +175,11 @@ helm install my-release -f values.yaml penpot/penpot
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| frontend.containerSecurityContext | object | `{}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| frontend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
-| frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
-| frontend.image.tag | string | `"2.1.4"` | The image tag to use. |
+| frontend.image.repository | string | `"bameda00/test-p"` | The Docker repository to pull the image from. |
+| frontend.image.tag | string | `"latest"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the frontend pods. |
@@ -187,12 +187,12 @@ helm install my-release -f values.yaml penpot/penpot
 | frontend.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | frontend.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
-| frontend.podSecurityContext | object | `{}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| frontend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
 | frontend.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
-| frontend.service.port | int | `80` | The service port to use. |
+| frontend.service.port | int | `8080` | The service port to use. |
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
