@@ -53,7 +53,7 @@ config:
   postgresql:
     # -- The PostgreSQL host to connect to. Empty to use dependencies.
     # @section -- Configuration parameters
-    host: ""  # Ex.: "postgresql.penpot.svc.cluster.local"
+    host: "" # Ex.: "postgresql.penpot.svc.cluster.local"
     # -- The PostgreSQL host port to use.
     # @section -- Configuration parameters
     port: 5432
@@ -80,7 +80,7 @@ config:
   redis:
     # -- The Redis host to connect to. Empty to use dependencies
     # @section -- Configuration parameters
-    host: ""  # Ex.: "redis-headless.penpot.svc.cluster.local"
+    host: "" # Ex.: "redis-headless.penpot.svc.cluster.local"
     # -- The Redis host port to use.
     # @section -- Configuration parameters
     port: 6379
@@ -567,6 +567,22 @@ persistence:
     # @section -- Persistence parameters
     annotations: {}
 
+# Note if activate is change all fsGroup and runAsUser must be changed to null in you values-override.yml
+# Official doc -> https://docs.openshift.com/container-platform/4.16/networking/routes/route-configuration.html
+route:
+  # -- Enable (frontend) Route Openshift/OKD.
+  enabled: false
+  annotations: {}
+  host: penpot.example.com
+  path: null
+
+  # Recommend to change default certificate of okd
+  tls:
+    terminationType: edge
+    # Redirect | None | Allow
+    terminationPolicy: Redirect
+  wildcardPolicy: None
+
 ingress:
   # -- Enable (frontend) Ingress Controller.
   # @section -- Ingress parameters
@@ -612,6 +628,11 @@ postgresql:
     # -- Name for a custom database to create.
     # @section -- PostgreSQL Dependencie parameters
     database: "penpot"
+  # Enable if opeenshift/okd
+  # global:
+  #   compatibility:
+  #     openshift:
+  #       adaptSecurityContext: 'force'
 
 # -- Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
 # @section -- Redis Dependencie parameters
@@ -620,3 +641,8 @@ redis:
     # -- Whether to enable password authentication.
     # @section -- Redis Dependencie parameters
     enabled: false
+  # Enable if opeenshift/okd
+  # global:
+  #   compatibility:
+  #     openshift:
+  #       adaptSecurityContext: 'force'
