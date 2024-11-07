@@ -43,3 +43,14 @@ pre-commit install --install-hooks -f
 > ```shell
 > kubectl port-forward service/penpot 8888:80
 > ```
+
+### Troubleshooting:
+
+- ```
+  Error: INSTALLATION FAILED: 1 error occurred:
+  	  * Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": dial tcp 10.96.81.208:443: connect: connection refused
+  ```
+  This error appears after install penpot helm. Tu ignore it, run:
+  ```
+  kubectl delete ValidatingWebhookCOnfiguration ingress-nginx-admission
+  ```
