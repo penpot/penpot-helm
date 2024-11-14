@@ -34,6 +34,16 @@ pre-commit install --install-hooks -f
   helm install penpot ./charts/penpot -f devel/penpot.values.yaml
   ```
 
+- Check status
+  ```shell
+  kubectl get all,pvc,ingress,pdb -o wide
+  ```
+
+- Stop and delete cluster
+  ```shell
+  ./scripts/cluster_delete.sh
+  ```
+
 - Access to [http://penpot.example.com/](http://penpot.example.com/) (
 > [!NOTE]
 > You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`
