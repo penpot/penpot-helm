@@ -12,3 +12,5 @@
 .vscode/
 # Dependencies
 charts/*.tgz
+# Local values files
+local.*.values.yaml

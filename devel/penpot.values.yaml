@@ -6,8 +6,7 @@ global:
 config:
   publicUri: "http://penpot.example.com"
   apiSecretKey: "my-secret-key"
-  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp disable-secure-session-cookies"
-
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp disable-secure-session-cookies disable-onboarding"
 #backend:
 #  replicaCount: 2
 

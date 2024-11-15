@@ -23,28 +23,31 @@ pre-commit install --install-hooks -f
   ./scripts/cluster_create.sh
   ```
 
-- Download dependencies
+- Download dependencies (only the first time or for an upgrade).
   ```shell
   helm repo add bitnami https://charts.bitnami.com/bitnami
   helm dependency build ./charts/penpot
   ```
 
-- Install the chart
+- Create a local copy of the custom settings file.
   ```shell
-  helm install penpot ./charts/penpot -f devel/penpot.values.yaml
+  cp devel/penpot.values.yaml local.penpot.values.yaml
   ```
+  You can edit and customize your copy as your wish.
 
-- Check status
+- Install the chart.
+  ```shell
+  helm install penpot ./charts/penpot -f local.penpot.values.yaml
+  ```
+  Use `upgrade` to install a new version or applay changes in the settings file.
+
+- Check status.
   ```shell
   kubectl get all,pvc,ingress,pdb -o wide
   ```
 
-- Stop and delete cluster
-  ```shell
-  ./scripts/cluster_delete.sh
-  ```
+- Access to [http://penpot.example.com/](http://penpot.example.com/).
 
-- Access to [http://penpot.example.com/](http://penpot.example.com/) (
 > [!NOTE]
 > You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`
 
@@ -54,13 +57,18 @@ pre-commit install --install-hooks -f
 > kubectl port-forward service/penpot 8888:80
 > ```
 
+- Stop and delete cluster.
+  ```shell
+  ./scripts/cluster_delete.sh
+  ```
+
 ### Troubleshooting:
 
 - ```
   Error: INSTALLATION FAILED: 1 error occurred:
   	  * Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": dial tcp 10.96.81.208:443: connect: connection refused
   ```
-  This error appears after install penpot helm. Tu ignore it, run:
+  This error appears after install penpot helm. To ignore it, run:
   ```
   kubectl delete ValidatingWebhookCOnfiguration ingress-nginx-admission
   ```
