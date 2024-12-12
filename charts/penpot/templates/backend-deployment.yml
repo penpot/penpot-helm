@@ -363,6 +363,11 @@ spec:
               value: {{ .Values.config.providers.ldap.attributesPhoto | quote }}
             {{- end }}
           {{- end }}
+            # Auto file snapshot settings
+            - name: PENPOT_AUTO_FILE_SNAPSHOT_EVERY
+              value: {{ .Values.config.autoFileSnapshot.every | quote }}
+            - name: PENPOT_AUTO_FILE_SNAPSHOT_TIMEOUT
+              value: {{ .Values.config.autoFileSnapshot.timeout | quote }}
           volumeMounts:
             - mountPath: /opt/data/assets
               name: app-data
