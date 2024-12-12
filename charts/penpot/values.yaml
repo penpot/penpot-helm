@@ -308,6 +308,14 @@ config:
       # @section -- Configuration parameters
       oidcClientSecretKey: ""
 
+  autoFileSnapshot:
+    # -- How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
+    # @section -- Configuration parameters
+    every: 5  # Every 5 changes
+    # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
+    # @section -- Configuration parameters
+    timeout: "3h"
+
 backend:
   image:
     # -- The Docker repository to pull the image from.
@@ -315,7 +323,7 @@ backend:
     repository: penpotapp/backend
     # -- The image tag to use.
     # @section -- Backend parameters
-    tag: 2.3.3
+    tag: 2.4.0
     # -- The image pull policy to use.
     # @section -- Backend parameters
     pullPolicy: IfNotPresent
@@ -390,7 +398,7 @@ frontend:
     repository: penpotapp/frontend
     # -- The image tag to use.
     # @section -- Frontend parameters
-    tag: 2.3.3
+    tag: 2.4.0
     # -- The image pull policy to use.
     # @section -- Frontend parameters
     pullPolicy: IfNotPresent
@@ -465,7 +473,7 @@ exporter:
     repository: penpotapp/exporter
     # -- The image tag to use.
     # @section -- Exporter parameters
-    tag: 2.3.3
+    tag: 2.4.0
     # -- The image pull policy to use.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent

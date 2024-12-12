@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![AppVersion: 2.3.3](https://img.shields.io/badge/AppVersion-2.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 2.4.0](https://img.shields.io/badge/AppVersion-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -72,6 +72,8 @@ helm install my-release -f values.yaml penpot/penpot
 | config.assets.s3.secretKeys.endpointURIKey | string | `""` | The S3 endpoint URI to use from an existing secret. |
 | config.assets.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
 | config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
+| config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
+| config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
@@ -154,7 +156,7 @@ helm install my-release -f values.yaml penpot/penpot
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
-| backend.image.tag | string | `"2.3.3"` | The image tag to use. |
+| backend.image.tag | string | `"2.4.0"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | backend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the backend pods. |
@@ -180,7 +182,7 @@ helm install my-release -f values.yaml penpot/penpot
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
-| frontend.image.tag | string | `"2.3.3"` | The image tag to use. |
+| frontend.image.tag | string | `"2.4.0"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the frontend pods. |
@@ -206,7 +208,7 @@ helm install my-release -f values.yaml penpot/penpot
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
-| exporter.image.tag | string | `"2.3.3"` | The image tag to use. |
+| exporter.image.tag | string | `"2.4.0"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the exporter pods. |
