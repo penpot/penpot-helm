@@ -72,6 +72,8 @@ helm install my-release -f values.yaml penpot/penpot
 | config.assets.s3.secretKeys.endpointURIKey | string | `""` | The S3 endpoint URI to use from an existing secret. |
 | config.assets.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
 | config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
+| config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
+| config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |

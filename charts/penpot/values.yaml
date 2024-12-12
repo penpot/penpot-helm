@@ -305,6 +305,14 @@ config:
       # @section -- Configuration parameters
       oidcClientSecretKey: ""
 
+  autoFileSnapshot:
+    # -- How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
+    # @section -- Configuration parameters
+    every: 5  # Every 5 changes
+    # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
+    # @section -- Configuration parameters
+    timeout: "3h"
+
 backend:
   image:
     # -- The Docker repository to pull the image from.
