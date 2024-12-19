@@ -53,6 +53,14 @@ spec:
               value: {{ print "http://" (include "penpot.fullname" .) "-backend:" .Values.backend.service.port }}
             - name: PENPOT_EXPORTER_URI
               value: {{ print "http://" (include "penpot.fullname" .) "-exporter:" .Values.exporter.service.port }}
+            - name: PENPOT_INTERNAL_RESOLVER
+              {{- if not .Values.config.internalResolver }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+              {{- else }}
+              value: {{ .Values.config.internalResolver | quote }}
+              {{- end }}
           volumeMounts:
             - mountPath: /opt/data/assets
               name: app-data

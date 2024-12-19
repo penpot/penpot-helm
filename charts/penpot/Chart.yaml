@@ -47,6 +47,11 @@ annotations:
       description: Bump Penpot images to 2.3.3.
     - kind: changed
       description: Change penpot-frontend service port to 8080.
+    - kind: added
+      description: config.internalResolver sets PENPOT_INTERNAL_RESOLVER to the frontend deployment.
+      links:
+        - name: Github Issue #12
+          url: https://github.com/penpot/penpot-helm/issues/12
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
