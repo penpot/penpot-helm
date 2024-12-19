@@ -73,6 +73,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.assets.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
 | config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
+| config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |
 | config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
