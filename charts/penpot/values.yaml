@@ -49,6 +49,9 @@ config:
   # -- Whether to enable sending of anonymous telemetry data.
   # @section -- Configuration parameters
   telemetryEnabled: true
+  # -- Add custom resolver for frontend. e.g. 192.168.1.1
+  # @section -- Configuration parameters
+  internalResolver: ""
 
   postgresql:
     # -- The PostgreSQL host to connect to. Empty to use dependencies.
