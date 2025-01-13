@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 0.6.0  # Chart version
-appVersion: "2.4.0"  # Penpot version
+appVersion: "2.4.1"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -40,25 +40,7 @@ annotations:
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump Penpot images to 2.4.0.
-    - kind: changed
-      description: Change penpot-frontend service port to 8080.
-    - kind: added
-      description: Add autoFileSnapshot configuration
-    - kind: added
-      description: containsSecurityUpdates and podSecurityContext can be defined for penpot-frontend.
-    - kind: added
-      description: Allow to run in a Openshift Container Platform. Thanks to @alverad-katsuro.
-      links:
-        - name: GitHub PR #9
-          url: https://github.com/penpot/penpot-helm/pull/9
-    - kind: added
-      description: config.internalResolver sets PENPOT_INTERNAL_RESOLVER to the frontend deployment. Thanks to @vipinjn24.
-      links:
-        - name: Github Issue #12
-          url: https://github.com/penpot/penpot-helm/issues/12
-        - name: GitHub PR #13
-          url: https://github.com/penpot/penpot-helm/pull/13
+      description: Bump Penpot images to 2.4.1.
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
