@@ -176,6 +176,11 @@ spec:
               value: {{ .Values.config.smtp.ssl | quote }}
             {{- end }}
           {{- end }}
+            # Telemetry settings
+            - name: PENPOT_TELEMETRY_ENABLED
+              value: true
+            - name: PENPOT_TELEMETRY_REFERER
+              value: kubernetes
             # Google Auth provider settings
           {{- if .Values.config.providers.google.enabled }}
             {{- if not .Values.config.providers.secretKeys.googleClientIDKey }}
