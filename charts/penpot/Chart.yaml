@@ -39,8 +39,11 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: added telemetry referer configuration
+    - kind: fixed
+      description: fixed conflicting telemetry configuration
+      links:
+        - name: GitHub Issue #17
+          url: https://github.com/penpot/penpot-helm/issues/17
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

@@ -56,8 +56,11 @@ spec:
             - name: PENPOT_REGISTRATION_DOMAIN_WHITELIST
               value: {{ .Values.config.registrationDomainWhitelist | quote }}
             {{- end }}
+            # Telemetry settings
             - name: PENPOT_TELEMETRY_ENABLED
               value: {{ .Values.config.telemetryEnabled | quote }}
+            - name: PENPOT_TELEMETRY_REFERER
+              value: kubernetes
             # PosgreSQL connection settings
             - name: PENPOT_DATABASE_URI
               {{- if .Values.config.postgresql.host }}
@@ -176,11 +179,6 @@ spec:
               value: {{ .Values.config.smtp.ssl | quote }}
             {{- end }}
           {{- end }}
-            # Telemetry settings
-            - name: PENPOT_TELEMETRY_ENABLED
-              value: true
-            - name: PENPOT_TELEMETRY_REFERER
-              value: kubernetes
             # Google Auth provider settings
           {{- if .Values.config.providers.google.enabled }}
             {{- if not .Values.config.providers.secretKeys.googleClientIDKey }}
