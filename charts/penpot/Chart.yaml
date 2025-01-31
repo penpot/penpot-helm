@@ -39,8 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.4.3
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
