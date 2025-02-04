@@ -336,8 +336,8 @@ spec:
               value: {{ .Values.config.providers.oidc.userInfoSource | quote }}
             {{- end }}
           {{- end }}
-            # LDAP provider settings
           {{- if .Values.config.providers.ldap.enabled }}
+            # LDAP provider settings
             {{- if .Values.config.providers.ldap.host }}
             - name: PENPOT_LDAP_HOST
               value: {{ .Values.config.providers.ldap.host | quote }}
@@ -362,7 +362,13 @@ spec:
             - name: PENPOT_LDAP_BIND_DN
               value: {{ .Values.config.providers.ldap.bindDN | quote }}
             {{- end }}
-            {{- if .Values.config.providers.ldap.bindPassword }}
+            {{- if .Values.config.providers.secretKeys.ldapBindPasswordKey }}
+            - name: PENPOT_LDAP_BIND_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.providers.existingSecret }}
+                  key: {{ .Values.config.providers.secretKeys.ldapBindPasswordKey }}
+            {{- else if .Values.config.providers.ldap.bindPassword }}
             - name: PENPOT_LDAP_BIND_PASSWORD
               value: {{ .Values.config.providers.ldap.bindPassword | quote }}
             {{- end }}
@@ -392,6 +398,9 @@ spec:
               value: {{ .Values.config.autoFileSnapshot.every | quote }}
             - name: PENPOT_AUTO_FILE_SNAPSHOT_TIMEOUT
               value: {{ .Values.config.autoFileSnapshot.timeout | quote }}
+          {{- with .Values.backend.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /opt/data/assets
               name: app-data
