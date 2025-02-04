@@ -56,7 +56,7 @@ config:
   postgresql:
     # -- The PostgreSQL host to connect to. Empty to use dependencies.
     # @section -- Configuration parameters
-    host: ""  # Ex.: "postgresql.penpot.svc.cluster.local"
+    host: "" # Ex.: "postgresql.penpot.svc.cluster.local"
     # -- The PostgreSQL host port to use.
     # @section -- Configuration parameters
     port: 5432
@@ -73,6 +73,15 @@ config:
     # @section -- Configuration parameters
     existingSecret: ""
     secretKeys:
+      # -- The host key to use from an existing secret.
+      # @section -- Configuration parameters
+      hostKey: ""
+      # -- The port key to use from an existing secret.
+      # @section -- Configuration parameters
+      portKey: ""
+      # -- The database key to use from an existing secret.
+      # @section -- Configuration parameters
+      databaseKey: ""
       # -- The username key to use from an existing secret.
       # @section -- Configuration parameters
       usernameKey: ""
@@ -83,7 +92,7 @@ config:
   redis:
     # -- The Redis host to connect to. Empty to use dependencies
     # @section -- Configuration parameters
-    host: ""  # Ex.: "redis-headless.penpot.svc.cluster.local"
+    host: "" # Ex.: "redis-headless.penpot.svc.cluster.local"
     # -- The Redis host port to use.
     # @section -- Configuration parameters
     port: 6379
@@ -311,7 +320,7 @@ config:
   autoFileSnapshot:
     # -- How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
-    every: 5  # Every 5 changes
+    every: 5 # Every 5 changes
     # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
     timeout: "3h"
@@ -648,7 +657,7 @@ postgresql:
       openshift:
         # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         # @section -- PostgreSQL Dependencie parameters
-        adaptSecurityContext: 'auto'
+        adaptSecurityContext: "auto"
 
   auth:
     # -- Name for a custom user to create.
@@ -668,7 +677,7 @@ redis:
       openshift:
         # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         # @section -- Redis Dependencie parameters
-        adaptSecurityContext: 'auto'
+        adaptSecurityContext: "auto"
   auth:
     # -- Whether to enable password authentication.
     # @section -- Redis Dependencie parameters

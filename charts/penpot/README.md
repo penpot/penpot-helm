@@ -81,7 +81,10 @@ helm install my-release -f values.yaml penpot/penpot
 | config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
 | config.postgresql.password | string | `"penpot"` | The database password to use. |
 | config.postgresql.port | int | `5432` | The PostgreSQL host port to use. |
+| config.postgresql.secretKeys.databaseKey | string | `""` | The database key to use from an existing secret. |
+| config.postgresql.secretKeys.hostKey | string | `""` | The host key to use from an existing secret. |
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
+| config.postgresql.secretKeys.portKey | string | `""` | The port key to use from an existing secret. |
 | config.postgresql.secretKeys.usernameKey | string | `""` | The username key to use from an existing secret. |
 | config.postgresql.username | string | `"penpot"` | The database username to use. |
 | config.providers.existingSecret | string | `""` | The name of an existing secret to use. |

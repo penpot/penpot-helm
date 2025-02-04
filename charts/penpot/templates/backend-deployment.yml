@@ -61,31 +61,60 @@ spec:
               value: {{ .Values.config.telemetryEnabled | quote }}
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
+            {{- with .Values.config.postgresql }}
             # PosgreSQL connection settings
-            - name: PENPOT_DATABASE_URI
-              {{- if .Values.config.postgresql.host }}
-              value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
+            - name: PENPOT_DATABASE_HOST
+              {{- if .secretKeys.hostKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .existingSecret }}
+                  key: {{ .secretKeys.hostKey }}
               {{- else }}
-              value: {{ print "postgresql://" (include "penpot.fullname" .) "-postgresql:" .Values.config.postgresql.port "/" .Values.config.postgresql.database }}
+              value: {{ if .host }}
+                {{- .host }}
+              {{- else }}
+                {{- printf "%s-%s" (include "penpot.fullname" $) "postgresql" }}
               {{- end }}
+              {{- end }}
+            - name: PENPOT_DATABASE_PORT
+              {{- if .secretKeys.portKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .existingSecret }}
+                  key: {{ .secretKeys.portKey }}
+              {{- else }}
+              value: {{ .port | quote }}
+              {{- end }}
+            - name: PENPOT_DATABASE_NAME
+              {{- if .secretKeys.databaseKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .existingSecret }}
+                  key: {{ .secretKeys.databaseKey }}
+              {{- else }}
+              value: {{ .database | quote }}
+              {{- end }}
+            - name: PENPOT_DATABASE_URI
+              value: "postgresql://$(PENPOT_DATABASE_HOST):$(PENPOT_DATABASE_PORT)/$(PENPOT_DATABASE_NAME)"
             - name: PENPOT_DATABASE_USERNAME
-              {{- if not .Values.config.postgresql.secretKeys.usernameKey }}
-              value: {{ .Values.config.postgresql.username | quote }}
+              {{- if not .secretKeys.usernameKey }}
+              value: {{ .username | quote }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.postgresql.existingSecret }}
-                  key: {{ .Values.config.postgresql.secretKeys.usernameKey }}
+                  name: {{ .existingSecret }}
+                  key: {{ .secretKeys.usernameKey }}
               {{- end }}
             - name: PENPOT_DATABASE_PASSWORD
-              {{- if not .Values.config.postgresql.secretKeys.passwordKey }}
-              value: {{ .Values.config.postgresql.password | quote }}
+              {{- if not .secretKeys.passwordKey }}
+              value: {{ .password | quote }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.postgresql.existingSecret }}
-                  key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
+                  name: {{ .existingSecret }}
+                  key: {{ .secretKeys.passwordKey }}
               {{- end }}
+            {{- end }}
             # Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if .Values.config.redis.host }}
