@@ -56,7 +56,7 @@ config:
   postgresql:
     # -- The PostgreSQL host to connect to. Empty to use dependencies.
     # @section -- Configuration parameters
-    host: ""  # Ex.: "postgresql.penpot.svc.cluster.local"
+    host: "" # Ex.: "postgresql.penpot.svc.cluster.local"
     # -- The PostgreSQL host port to use.
     # @section -- Configuration parameters
     port: 5432
@@ -83,7 +83,7 @@ config:
   redis:
     # -- The Redis host to connect to. Empty to use dependencies
     # @section -- Configuration parameters
-    host: ""  # Ex.: "redis-headless.penpot.svc.cluster.local"
+    host: "" # Ex.: "redis-headless.penpot.svc.cluster.local"
     # -- The Redis host port to use.
     # @section -- Configuration parameters
     port: 6379
@@ -260,7 +260,7 @@ config:
       baseDN: "ou=people,dc=planetexpress,dc=com"
       # -- The LDAP bind DN to use.
       # @section -- Configuration parameters
-      bindDN: "cn=admin,dc=planetexpress,dc=com"
+      bindDN: "uid=admin,ou=people,dc=planetexpress,dc=com"
       # -- The LDAP bind password to use.
       # @section -- Configuration parameters
       bindPassword: "GoodNewsEveryone"
@@ -307,11 +307,14 @@ config:
       # -- The OpenID Connect client secret key to use from an existing secret.
       # @section -- Configuration parameters
       oidcClientSecretKey: ""
+      # -- The LDAP admin bind password to use from an exsiting secret
+      # @section -- Configuration parameters
+      ldapBindPasswordKey: ""
 
   autoFileSnapshot:
     # -- How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
-    every: 5  # Every 5 changes
+    every: 5 # Every 5 changes
     # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
     timeout: "3h"
@@ -390,6 +393,9 @@ backend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Backend parameters
     maxUnavailable:
+  # -- Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
+  # @section -- Backend parameters
+  extraEnvs: []
 
 frontend:
   image:
@@ -648,7 +654,7 @@ postgresql:
       openshift:
         # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         # @section -- PostgreSQL Dependencie parameters
-        adaptSecurityContext: 'auto'
+        adaptSecurityContext: "auto"
 
   auth:
     # -- Name for a custom user to create.
@@ -668,7 +674,7 @@ redis:
       openshift:
         # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         # @section -- Redis Dependencie parameters
-        adaptSecurityContext: 'auto'
+        adaptSecurityContext: "auto"
   auth:
     # -- Whether to enable password authentication.
     # @section -- Redis Dependencie parameters

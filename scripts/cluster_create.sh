@@ -4,7 +4,7 @@
 kind create cluster --name penpot-cluster --config devel/kind.config.yml
 
 # Create a namespace for Penpot
-kubectl apply -f devel/penpot-namespace.yml
+kubectl apply -f devel/penpot-namespace.yml --context=kind-penpot-cluster
 kubectl config set-context penpot --namespace=penpot --cluster=kind-penpot-cluster --user=kind-penpot-cluster
 kubectl config use-context penpot
 

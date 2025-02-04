@@ -100,7 +100,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.providers.ldap.attributesPhoto | string | `"jpegPhoto"` | The LDAP attributes photo format to use. |
 | config.providers.ldap.attributesUsername | string | `"uid"` | The LDAP attributes username to use. |
 | config.providers.ldap.baseDN | string | `"ou=people,dc=planetexpress,dc=com"` | The LDAP base DN to use. |
-| config.providers.ldap.bindDN | string | `"cn=admin,dc=planetexpress,dc=com"` | The LDAP bind DN to use. |
+| config.providers.ldap.bindDN | string | `"uid=admin,ou=people,dc=planetexpress,dc=com"` | The LDAP bind DN to use. |
 | config.providers.ldap.bindPassword | string | `"GoodNewsEveryone"` | The LDAP bind password to use. |
 | config.providers.ldap.enabled | bool | `false` | Whether to enable LDAP configuration. To enable LDAP, also add `enable-login-with-ldap` to the flags. |
 | config.providers.ldap.host | string | `"ldap"` | The LDAP host to use. |
@@ -126,6 +126,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.providers.secretKeys.gitlabClientSecretKey | string | `""` | The GitLab client secret key to use from an existing secret. |
 | config.providers.secretKeys.googleClientIDKey | string | `""` | The Google client ID key to use from an existing secret. |
 | config.providers.secretKeys.googleClientSecretKey | string | `""` | The Google client secret key to use from an existing secret. |
+| config.providers.secretKeys.ldapBindPasswordKey | string | `""` | The LDAP admin bind password to use from an exsiting secret |
 | config.providers.secretKeys.oidcClientIDKey | string | `""` | The OpenID Connect client ID key to use from an existing secret. |
 | config.providers.secretKeys.oidcClientSecretKey | string | `""` | The OpenID Connect client secret key to use from an existing secret. |
 | config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
@@ -154,6 +155,7 @@ helm install my-release -f values.yaml penpot/penpot
 | backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
+| backend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
 | backend.image.tag | string | `"2.4.3"` | The image tag to use. |
