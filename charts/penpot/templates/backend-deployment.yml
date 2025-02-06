@@ -51,7 +51,14 @@ spec:
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
             - name: PENPOT_SECRET_KEY
+              {{- if not .Values.config.secretKeys.apiSecretKey }}
               value: {{ .Values.config.apiSecretKey | quote }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.existingSecret }}
+                  key: {{ .Values.config.secretKeys.apiSecretKey }}
+              {{- end }}
             {{- if .Values.config.registrationDomainWhitelist }}
             - name: PENPOT_REGISTRATION_DOMAIN_WHITELIST
               value: {{ .Values.config.registrationDomainWhitelist | quote }}
@@ -63,10 +70,17 @@ spec:
               value: kubernetes
             # PosgreSQL connection settings
             - name: PENPOT_DATABASE_URI
-              {{- if .Values.config.postgresql.host }}
+              {{- if not .Values.config.postgresql.secretKeys.postgresqlUriKey }}
+                {{- if .Values.config.postgresql.host }}
               value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-              {{- else }}
+                {{- else }}
               value: {{ print "postgresql://" (include "penpot.fullname" .) "-postgresql:" .Values.config.postgresql.port "/" .Values.config.postgresql.database }}
+                {{- end }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.postgresql.existingSecret }}
+                  key: {{ .Values.config.postgresql.secretKeys.postgresqlUriKey }}
               {{- end }}
             - name: PENPOT_DATABASE_USERNAME
               {{- if not .Values.config.postgresql.secretKeys.usernameKey }}
@@ -88,10 +102,17 @@ spec:
               {{- end }}
             # Redis connection settings
             - name: PENPOT_REDIS_URI
-              {{- if .Values.config.redis.host }}
+              {{- if not .Values.config.secretKeys.redisUriKey }}
+                {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-              {{- else }}
+                {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                {{- end }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.redis.existingSecret }}
+                  key: {{ .Values.config.redis.secretKeys.redisUriKey }}
               {{- end }}
             # Assets storage settings
             - name: PENPOT_ASSETS_STORAGE_BACKEND

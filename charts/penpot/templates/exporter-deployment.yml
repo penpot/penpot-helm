@@ -48,10 +48,17 @@ spec:
             - name: PENPOT_PUBLIC_URI
               value: {{ print "http://" (include "penpot.fullname" .) ":" .Values.frontend.service.port }}
             - name: PENPOT_REDIS_URI
-              {{- if .Values.config.redis.host }}
+              {{- if not .Values.config.secretKeys.redisUriKey }}
+                {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-              {{- else }}
+                {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                {{- end }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.redis.existingSecret }}
+                  key: {{ .Values.config.redis.secretKeys.redisUriKey }}
               {{- end }}
             - name: PENPOT_TEMPDIR
               value: "/tmp/penpot-exporter"

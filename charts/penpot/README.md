@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square) ![AppVersion: 2.4.3](https://img.shields.io/badge/AppVersion-2.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.11.0-unreleased](https://img.shields.io/badge/Version-0.11.0--unreleased-informational?style=flat-square) ![AppVersion: 2.4.3](https://img.shields.io/badge/AppVersion-2.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -74,6 +74,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
 | config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
+| config.existingSecret | string | `""` | The name of an existing secret. |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
@@ -82,6 +83,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.postgresql.password | string | `"penpot"` | The database password to use. |
 | config.postgresql.port | int | `5432` | The PostgreSQL host port to use. |
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
+| config.postgresql.secretKeys.postgresqlUriKey | string | `""` | The postgresql uri key to use from an existing secret. (postgresql://host:port/database). |
 | config.postgresql.secretKeys.usernameKey | string | `""` | The username key to use from an existing secret. |
 | config.postgresql.username | string | `"penpot"` | The database username to use. |
 | config.providers.existingSecret | string | `""` | The name of an existing secret to use. |
@@ -130,9 +132,12 @@ helm install my-release -f values.yaml penpot/penpot
 | config.providers.secretKeys.oidcClientSecretKey | string | `""` | The OpenID Connect client secret key to use from an existing secret. |
 | config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
 | config.redis.database | string | `"0"` | The Redis database to connect to. |
+| config.redis.existingSecret | string | `""` | The name of an existing secret. |
 | config.redis.host | string | `""` | The Redis host to connect to. Empty to use dependencies |
 | config.redis.port | int | `6379` | The Redis host port to use. |
+| config.redis.secretKeys.redisUriKey | string | `""` | The redis uri key to use from an existing secret. (redis://:password@host:port/database). |
 | config.registrationDomainWhitelist | string | `""` | Comma separated list of allowed domains to register. Empty to allow all domains. |
+| config.secretKeys.apiSecretKey | string | `""` | The api secret key to use from an existing secret. |
 | config.smtp.defaultFrom | string | `""` | The SMTP default email to send from. |
 | config.smtp.defaultReplyTo | string | `""` | The SMTP default email to reply to. |
 | config.smtp.enabled | bool | `false` | Whether to enable SMTP configuration. You also need to add the 'enable-smtp' flag to the PENPOT_FLAGS variable. |

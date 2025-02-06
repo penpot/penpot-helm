@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.10.0  # Chart version
+version: 0.11.0-unreleased  # Chart version
 appVersion: "2.4.3"  # Penpot version
 type: application
 name: penpot
@@ -39,6 +39,11 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Allow to use secrets to define PENPOT_SECRET_KEY, PENPOT_DATABASE_URI and PENPOT_REDIS_URI
+      links:
+        - name: GitHub Issue #16
+          url: https://github.com/penpot/penpot-helm/issues/16
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
