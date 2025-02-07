@@ -86,6 +86,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.postgresql.secretKeys.postgresqlUriKey | string | `""` | The postgresql uri key to use from an existing secret. (postgresql://host:port/database). |
 | config.postgresql.secretKeys.usernameKey | string | `""` | The username key to use from an existing secret. |
 | config.postgresql.username | string | `"penpot"` | The database username to use. |
+| config.privacyPolicyUri | string | `""` | Url adress to Privacy Policy (empty to hide the link) |
 | config.providers.existingSecret | string | `""` | The name of an existing secret to use. |
 | config.providers.github.clientID | string | `""` | The GitHub client ID to use. |
 | config.providers.github.clientSecret | string | `""` | The GitHub client secret to use. |
@@ -152,6 +153,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.smtp.tls | bool | `true` | Whether to use TLS for the SMTP connection. |
 | config.smtp.username | string | `""` | The SMTP username to use. |
 | config.telemetryEnabled | bool | `true` | Whether to enable sending of anonymous telemetry data. |
+| config.termsOfSrvicesUri | string | `""` | Url adress to Terms of Services (empty to hide the link) |
 
 ### Penpot backend
 
