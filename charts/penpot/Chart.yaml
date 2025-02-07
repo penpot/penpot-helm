@@ -44,6 +44,8 @@ annotations:
       links:
         - name: GitHub Issue #16
           url: https://github.com/penpot/penpot-helm/issues/16
+    - kind: added
+      description: Allow to set the url of Privacy Policy and Terms of Service
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

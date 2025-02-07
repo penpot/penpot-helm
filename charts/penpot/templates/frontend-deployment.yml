@@ -61,6 +61,10 @@ spec:
               {{- else }}
               value: {{ .Values.config.internalResolver | quote }}
               {{- end }}
+            - name: PENPOT_TERMS_OF_SERVICE_URI
+              value: {{ .Values.config.termsOfSrvicesUri | quote }}
+            - name: PENPOT_PRIVACY_POLICY_URI
+              value: {{ .Values.config.privacyPolicyUri | quote }}
           volumeMounts:
             - mountPath: /opt/data/assets
               name: app-data

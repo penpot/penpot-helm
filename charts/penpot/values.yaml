@@ -40,7 +40,6 @@ config:
   # -- The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info.
   # @section -- Configuration parameters
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
-
   # -- A random secret key needed for persistent user sessions. Generate with `python3 -c "import secrets; print(secrets.token_urlsafe(64))"` for example.
   # @section -- Configuration parameters
   apiSecretKey: "kmZ96pAxhTgk3HZvvBkPeVTspGBneKVLEpO_3ecORs_gwACENZ77z05zCe7skvPsQ3jI3QgkULQOWCuLjmjQsg"
@@ -60,6 +59,12 @@ config:
   # -- Add custom resolver for frontend. e.g. 192.168.1.1
   # @section -- Configuration parameters
   internalResolver: ""
+  # -- Url adress to Terms of Services (empty to hide the link)
+  # @section -- Configuration parameters
+  termsOfSrvicesUri: ""
+  # -- Url adress to Privacy Policy (empty to hide the link)
+  # @section -- Configuration parameters
+  privacyPolicyUri: ""
 
   postgresql:
     # -- The PostgreSQL host to connect to. Empty to use dependencies.
