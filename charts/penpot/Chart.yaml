@@ -42,10 +42,25 @@ annotations:
     - kind: added
       description: Allow to use secrets to define PENPOT_SECRET_KEY, PENPOT_DATABASE_URI and PENPOT_REDIS_URI
       links:
-        - name: GitHub Issue #16
+        - name: GitHub Issue 16
           url: https://github.com/penpot/penpot-helm/issues/16
     - kind: added
+      description: Allow to use secrets to define PENPOT_LDAP_BIND_PASSWORD. Thanks to @jdollar
+      links:
+        - name: GitHub PR 18
+          url: https://github.com/penpot/penpot-helm/pull/18
+    - kind: added
       description: Allow to set the url of Privacy Policy and Terms of Service
+    - kind: added
+      description: Allow to set extra environments to the backend deployment. Thanks to @jdollar
+      links:
+        - name: GitHub PR 18
+          url: https://github.com/penpot/penpot-helm/pull/18
+    - kind: fixed
+      description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
+      links:
+        - name: GitHub PR 18
+          url: https://github.com/penpot/penpot-helm/pull/18
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

@@ -153,8 +153,8 @@ spec:
                   key: {{ .Values.config.assets.s3.secretKeys.endpointURIKey }}
               {{- end }}
             {{- end }}
-            # SMTP settings
           {{- if .Values.config.smtp.enabled }}
+            # SMTP settings
             {{- if .Values.config.smtp.defaultFrom }}
             - name: PENPOT_SMTP_DEFAULT_FROM
               value: {{ .Values.config.smtp.defaultFrom | quote }}
@@ -200,8 +200,8 @@ spec:
               value: {{ .Values.config.smtp.ssl | quote }}
             {{- end }}
           {{- end }}
-            # Google Auth provider settings
           {{- if .Values.config.providers.google.enabled }}
+            # Google Auth provider settings
             {{- if not .Values.config.providers.secretKeys.googleClientIDKey }}
             - name: PENPOT_GOOGLE_CLIENT_ID
               value: {{ .Values.config.providers.google.clientID | quote }}
@@ -223,8 +223,8 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.googleClientSecretKey }}
             {{- end }}
           {{- end }}
-            # Github Auth provider settings
           {{- if .Values.config.providers.github.enabled }}
+            # Github Auth provider settings
             {{- if not .Values.config.providers.secretKeys.githubClientIDKey }}
             - name: PENPOT_GITHUB_CLIENT_ID
               value: {{ .Values.config.providers.github.clientID | quote }}
@@ -246,8 +246,8 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.githubClientSecretKey }}
             {{- end }}
           {{- end }}
-            # Gitlab Auth provider settings
           {{- if .Values.config.providers.gitlab.enabled }}
+            # Gitlab Auth provider settings
             {{- if .Values.config.providers.gitlab.baseURI }}
             - name: PENPOT_GITLAB_BASE_URI
               value: {{ .Values.config.providers.gitlab.baseURI | quote }}
@@ -273,8 +273,8 @@ spec:
                   key: {{ .Values.config.providers.secretKeys.gitlabClientSecretKey }}
             {{- end }}
           {{- end }}
-            # OIDC provider settings
           {{- if .Values.config.providers.oidc.enabled }}
+            # OIDC provider settings
             {{- if .Values.config.providers.oidc.baseURI }}
             - name: PENPOT_OIDC_BASE_URI
               value: {{ .Values.config.providers.oidc.baseURI | quote }}
@@ -398,6 +398,7 @@ spec:
               value: {{ .Values.config.autoFileSnapshot.every | quote }}
             - name: PENPOT_AUTO_FILE_SNAPSHOT_TIMEOUT
               value: {{ .Values.config.autoFileSnapshot.timeout | quote }}
+            # Extra environments
           {{- with .Values.backend.extraEnvs }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
