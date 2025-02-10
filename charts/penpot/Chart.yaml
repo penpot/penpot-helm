@@ -50,9 +50,9 @@ annotations:
         - name: GitHub PR 18
           url: https://github.com/penpot/penpot-helm/pull/18
     - kind: added
-      description: Allow to set the url of Privacy Policy and Terms of Service
+      description: Allow to set up the url of Privacy Policy and Terms of Service
     - kind: added
-      description: Allow to set extra environments to the backend deployment. Thanks to @jdollar
+      description: Allow to set up extra environments for all containers, specific and common. Thanks to @jdollar
       links:
         - name: GitHub PR 18
           url: https://github.com/penpot/penpot-helm/pull/18

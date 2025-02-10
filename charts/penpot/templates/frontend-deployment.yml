@@ -65,6 +65,13 @@ spec:
               value: {{ .Values.config.termsOfSrvicesUri | quote }}
             - name: PENPOT_PRIVACY_POLICY_URI
               value: {{ .Values.config.privacyPolicyUri | quote }}
+            # Extra environments
+          {{- with .Values.config.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.frontend.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /opt/data/assets
               name: app-data

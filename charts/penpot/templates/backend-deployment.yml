@@ -399,6 +399,9 @@ spec:
             - name: PENPOT_AUTO_FILE_SNAPSHOT_TIMEOUT
               value: {{ .Values.config.autoFileSnapshot.timeout | quote }}
             # Extra environments
+          {{- with .Values.config.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.backend.extraEnvs }}
             {{- toYaml . | nindent 12 }}
           {{- end }}

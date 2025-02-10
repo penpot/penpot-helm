@@ -341,6 +341,9 @@ config:
     # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
     timeout: "3h"
+  # -- Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
+  # @section -- Configuration parameters
+  extraEnvs: []
 
 backend:
   image:
@@ -494,6 +497,9 @@ frontend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Frontend parameters
     maxUnavailable:
+  # -- Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
+  # @section -- Frontend parameters
+  extraEnvs: []
 
 exporter:
   image:
@@ -569,6 +575,9 @@ exporter:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Exporter parameters
     maxUnavailable:
+  # -- Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
+  # @section -- Exporter parameters
+  extraEnvs: []
 
 persistence:
   assets:

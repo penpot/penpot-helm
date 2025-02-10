@@ -62,6 +62,13 @@ spec:
               {{- end }}
             - name: PENPOT_TEMPDIR
               value: "/tmp/penpot-exporter"
+            # Extra environments
+          {{- with .Values.config.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.exporter.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /tmp/penpot-exporter
               name: app-data
