@@ -30,7 +30,7 @@ annotations:
     - name: support
       url: https://github.com/penpot/penpot-helm/issues
     - name: community
-      url: https://community.penpot.app
+      url: https://community.penpot.appto
     - name: documentation
       url: https://help.penpot.app/
     - name: tutorials
@@ -61,6 +61,11 @@ annotations:
       links:
         - name: GitHub PR 18
           url: https://github.com/penpot/penpot-helm/pull/18
+    - kind: fixed
+      description: Fix documentation related to OpenID integration. Thanks to @danton721
+      links:
+        - name: GitHub PR 21
+          url: https://github.com/penpot/penpot-helm/pull/21
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0

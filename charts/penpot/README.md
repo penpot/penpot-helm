@@ -119,9 +119,9 @@ helm install my-release -f values.yaml penpot/penpot
 | config.providers.oidc.emailAttribute | string | `""` | Optional OpenID Connect email attribute to use. If not provided, the `email` prop will be used. |
 | config.providers.oidc.enabled | bool | `false` | Whether to enable OIDC configuration. To enable OpenID Connect auth, also add `enable-login-with-oidc` to the flags. |
 | config.providers.oidc.nameAttribute | string | `""` | Optional OpenID Connect name attribute to use. If not provided, the `name` prop will be used. |
-| config.providers.oidc.roles | string | `"role1 role2"` | Optional OpenID Connect roles to use. If no role is provided, roles checking  disabled. |
-| config.providers.oidc.rolesAttribute | string | `""` | Optional OpenID Connect roles attribute to use. If not provided, the roles checking will be disabled. |
-| config.providers.oidc.scopes | string | `"scope1 scope2"` | Optional OpenID Connect scopes to use. This settings allow overwrite the required scopes, use with caution because penpot requres at least `name` and `email` attrs found on the user info. Optional, defaults to `openid profile`. |
+| config.providers.oidc.roles | string | `"designer developer"` | Optional OpenID Connect roles to use. If no role is provided, role checking is  disabled (default role values are set below, to disable role verification, send an empty string). |
+| config.providers.oidc.rolesAttribute | string | `""` | Optional OpenID Connect roles attribute to use. If not provided, the role checking will be disabled. |
+| config.providers.oidc.scopes | string | `"scope1 scope2"` | Optional OpenID Connect scopes to use. These settings allow overwriting the required scopes, use with caution because penpot requires at least `name` and `email` attrs found on the user info. Optional, defaults to `openid profile`. |
 | config.providers.oidc.tokenURI | string | `""` | Optional OpenID Connect token URI to use. Auto discovered if not provided. |
 | config.providers.oidc.userURI | string | `""` | Optional OpenID Connect user URI to use. Auto discovered if not provided. |
 | config.providers.secretKeys.githubClientIDKey | string | `""` | The GitHub client ID key to use from an existing secret. |
