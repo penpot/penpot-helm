@@ -1,0 +1,19 @@
+name: Prevent external Pull Request to 'main' branch
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+jobs:
+  check-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Reques base and target branches
+        run: |
+          if [ ${{ github.head_ref }} != "develop" ] && [ ${{ github.base_ref }} == "main" ]; then
+            echo "Pull Requests to 'main' branch are only allowed from 'develop' branch."
+            echo "You can make your Pull Requests to 'develop'."
+            exit 1
+          fi
