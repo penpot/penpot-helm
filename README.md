@@ -1,4 +1,4 @@
-# Penpot Helm Chart
+# Penpot Helm Chart (test)
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/penpot)](https://artifacthub.io/packages/search?repo=penpot)
 
