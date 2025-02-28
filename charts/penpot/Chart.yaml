@@ -56,6 +56,11 @@ annotations:
       links:
         - name: GitHub PR 18
           url: https://github.com/penpot/penpot-helm/pull/18
+    - kind: changed
+      description: The default Redis architecture will be standalone instead of replication
+      links:
+        - name: GitHub Issue 23
+          url: https://github.com/penpot/penpot-helm/issues/23
     - kind: fixed
       description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
       links:

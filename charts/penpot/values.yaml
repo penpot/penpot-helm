@@ -711,3 +711,6 @@ redis:
     # -- Whether to enable password authentication.
     # @section -- Redis Dependencie parameters
     enabled: false
+  # -- Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies)
+  # @section -- Redis Dependencie parameters
+  architecture: standalone

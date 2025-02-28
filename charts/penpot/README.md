@@ -292,6 +292,7 @@ helm install my-release -f values.yaml penpot/penpot
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| redis.architecture | string | `"standalone"` | Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies) |
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
 | redis.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 
