@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.11.0  # Chart version
+version: 0.12.0-unreleased  # Chart version
 appVersion: "2.5.1"  # Penpot version
 type: application
 name: penpot
@@ -39,40 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Allow to use secrets to define PENPOT_SECRET_KEY, PENPOT_DATABASE_URI and PENPOT_REDIS_URI
-      links:
-        - name: GitHub Issue 16
-          url: https://github.com/penpot/penpot-helm/issues/16
-    - kind: added
-      description: Allow to use secrets to define PENPOT_LDAP_BIND_PASSWORD. Thanks to @jdollar
-      links:
-        - name: GitHub PR 18
-          url: https://github.com/penpot/penpot-helm/pull/18
-    - kind: added
-      description: Allow to set up the url of Privacy Policy and Terms of Service
-    - kind: added
-      description: Allow to set up extra environments for all containers, specific and common. Thanks to @jdollar
-      links:
-        - name: GitHub PR 18
-          url: https://github.com/penpot/penpot-helm/pull/18
-    - kind: changed
-      description: The default Redis architecture will be standalone instead of replication
-      links:
-        - name: GitHub Issue 23
-          url: https://github.com/penpot/penpot-helm/issues/23
-    - kind: changed
-      description: Bump Penpot to 2.5.1
-    - kind: fixed
-      description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
-      links:
-        - name: GitHub PR 18
-          url: https://github.com/penpot/penpot-helm/pull/18
-    - kind: fixed
-      description: Fix documentation related to OpenID integration. Thanks to @danton721
-      links:
-        - name: GitHub PR 21
-          url: https://github.com/penpot/penpot-helm/pull/21
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
