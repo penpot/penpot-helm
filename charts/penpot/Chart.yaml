@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 0.11.0-unreleased  # Chart version
-appVersion: "2.4.3"  # Penpot version
+appVersion: "2.5.1"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -61,6 +61,8 @@ annotations:
       links:
         - name: GitHub Issue 23
           url: https://github.com/penpot/penpot-helm/issues/23
+    - kind: changed
+      description: Bump Penpot to 2.5.1
     - kind: fixed
       description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
       links:
