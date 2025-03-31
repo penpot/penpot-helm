@@ -48,7 +48,7 @@ spec:
             - name: PENPOT_PUBLIC_URI
               value: {{ print "http://" (include "penpot.fullname" .) ":" .Values.frontend.service.port }}
             - name: PENPOT_REDIS_URI
-              {{- if not .Values.config.secretKeys.redisUriKey }}
+              {{- if not .Values.config.redis.secretKeys.redisUriKey }}
                 {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
                 {{- else }}

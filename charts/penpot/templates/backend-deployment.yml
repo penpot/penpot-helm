@@ -102,7 +102,7 @@ spec:
               {{- end }}
             # Redis connection settings
             - name: PENPOT_REDIS_URI
-              {{- if not .Values.config.secretKeys.redisUriKey }}
+              {{- if not .Values.config.redis.secretKeys.redisUriKey }}
                 {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
                 {{- else }}
