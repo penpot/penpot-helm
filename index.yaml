@@ -3,6 +3,64 @@ entries:
   penpot:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix issue with Redis configuration thanks to @amith55555
+          links:
+            - name: Github Issue 25
+              url: https://github.com/penpot/penpot-helm/issues/25
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.appto
+        - name: documentation
+          url: https://help.penpot.app/
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: 2.5.4
+    created: "2025-03-31T09:32:24.051069868Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.x.x
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: 6743df3659358ac15f111f2a6331565eb835b48f339c66fed4c1af6f77a72b98
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: Kaleidos INC
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.15.0/penpot-0.15.0.tgz
+    version: 0.15.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Bump Penpot to 2.5.4
       artifacthub.io/containsSecurityUpdates: "false"
@@ -1086,4 +1144,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2025-03-20T16:33:35.57606261Z"
+generated: "2025-03-31T09:32:24.051246571Z"
