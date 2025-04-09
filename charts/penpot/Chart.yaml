@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.15.0  # Chart version
+version: 0.16.0-unreleashed  # Chart version
 appVersion: "2.5.4"  # Penpot version
 type: application
 name: penpot
@@ -39,11 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix issue with Redis configuration thanks to @amith55555
-      links:
-        - name: Github Issue 25
-          url: https://github.com/penpot/penpot-helm/issues/25
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
