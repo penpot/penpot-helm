@@ -182,6 +182,7 @@ helm install my-release -f values.yaml penpot/penpot
 | backend.service.annotations | object | `{}` | Mapped annotations for the backend service |
 | backend.service.port | int | `6060` | The http service port to use. |
 | backend.service.type | string | `"ClusterIP"` | The http service type to create. |
+| backend.startupProbe | object | `{"failureThreshold":30,"httpGet":{"path":"/readyz","port":"http"},"periodSeconds":10}` | Startup probe for the Penpot backend containers. Tolerates up to 30 * 10 = 300 seconds = 5 Minutes. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes) |
 | backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | backend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | backend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |

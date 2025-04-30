@@ -46,6 +46,13 @@ annotations:
           url: https://github.com/penpot/penpot-helm/issues/33
         - name: GitHub PR 34
           url: https://github.com/penpot/penpot-helm/pull/34
+    - kind: added
+      description: Add Healthchecks to the backedn to prevent premature handover. Thanks to @SIMULATAN
+      links:
+        - name: GitHub Issue 27
+          url: https://github.com/penpot/penpot-helm/issues/27
+        - name: GitHub PR 28
+          url: https://github.com/penpot/penpot-helm/pull/28
     - kind: fixed
       description: Typo on termsOfServicesUri parameter. Thanks to @smalot
       links:

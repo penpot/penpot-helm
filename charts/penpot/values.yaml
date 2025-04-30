@@ -410,6 +410,14 @@ backend:
     # -- The requested resources for the Penpot backend containers
     # @section -- Backend parameters
     requests: {}
+  # -- Startup probe for the Penpot backend containers. Tolerates up to 30 * 10 = 300 seconds = 5 Minutes. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
+  # @section -- Backend parameters
+  startupProbe:
+    httpGet:
+      path: /readyz
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
   # -- Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
   # @section -- Backend parameters
   pdb:
