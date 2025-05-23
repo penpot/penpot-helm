@@ -366,6 +366,9 @@ backend:
     # -- The http service port to use.
     # @section -- Backend parameters
     port: 6060
+    # -- Mapped annotations for the backend service
+    # @section -- Backend parameters
+    annotations: {}
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Backend parameters
   deploymentAnnotations: {}
@@ -444,6 +447,9 @@ frontend:
     # -- The service port to use.
     # @section -- Frontend parameters
     port: 8080
+    # -- Mapped annotations for the frontend service
+    # @section -- Frontend parameters
+    annotations: {}
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Frontend parameters
   deploymentAnnotations: {}
@@ -522,6 +528,9 @@ exporter:
     # -- The service port to use.
     # @section -- Exporter parameters
     port: 6061
+    # -- Mapped annotations for the exporter service
+    # @section -- Exporter parameters
+    annotations: {}
   # -- An optional map of annotations to be applied to the controller Deployment
   # @section -- Exporter parameters
   deploymentAnnotations: {}

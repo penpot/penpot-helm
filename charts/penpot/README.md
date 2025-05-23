@@ -179,6 +179,7 @@ helm install my-release -f values.yaml penpot/penpot
 | backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
 | backend.resources.requests | object | `{}` | The requested resources for the Penpot backend containers |
+| backend.service.annotations | object | `{}` | Mapped annotations for the backend service |
 | backend.service.port | int | `6060` | The http service port to use. |
 | backend.service.type | string | `"ClusterIP"` | The http service type to create. |
 | backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
@@ -206,6 +207,7 @@ helm install my-release -f values.yaml penpot/penpot
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
 | frontend.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
+| frontend.service.annotations | object | `{}` | Mapped annotations for the frontend service |
 | frontend.service.port | int | `8080` | The service port to use. |
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
@@ -233,6 +235,7 @@ helm install my-release -f values.yaml penpot/penpot
 | exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | exporter.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
 | exporter.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
+| exporter.service.annotations | object | `{}` | Mapped annotations for the exporter service |
 | exporter.service.port | int | `6061` | The service port to use. |
 | exporter.service.type | string | `"ClusterIP"` | The service type to create. |
 | exporter.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |

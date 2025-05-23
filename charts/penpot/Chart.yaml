@@ -39,6 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Added annotations for Penpot services
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
