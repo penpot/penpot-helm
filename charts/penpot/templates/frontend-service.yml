@@ -5,6 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "penpot.labels" . | nindent 4 }}
+  {{- if .Values.frontend.service.annotations }}
+  annotations:
+    {{- .Values.frontend.service.annotations | toYaml | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
