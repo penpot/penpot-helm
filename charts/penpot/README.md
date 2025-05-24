@@ -154,7 +154,7 @@ helm install my-release -f values.yaml penpot/penpot
 | config.smtp.tls | bool | `true` | Whether to use TLS for the SMTP connection. |
 | config.smtp.username | string | `""` | The SMTP username to use. |
 | config.telemetryEnabled | bool | `true` | Whether to enable sending of anonymous telemetry data. |
-| config.termsOfSrvicesUri | string | `""` | Url adress to Terms of Services (empty to hide the link) |
+| config.termsOfServicesUri | string | `""` | Url adress to Terms of Services (empty to hide the link) |
 
 ### Penpot backend
 

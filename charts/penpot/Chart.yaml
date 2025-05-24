@@ -39,6 +39,11 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: fixed
+      description: Typo on termsOfServicesUri parameter. Thanks to @smalot
+      links:
+        - name: GitHub PR 30
+          url: https://github.com/penpot/penpot-helm/pull/30
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
