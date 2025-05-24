@@ -61,7 +61,7 @@ config:
   internalResolver: ""
   # -- Url adress to Terms of Services (empty to hide the link)
   # @section -- Configuration parameters
-  termsOfSrvicesUri: ""
+  termsOfServicesUri: ""
   # -- Url adress to Privacy Policy (empty to hide the link)
   # @section -- Configuration parameters
   privacyPolicyUri: ""
