@@ -62,7 +62,7 @@ spec:
               value: {{ .Values.config.internalResolver | quote }}
               {{- end }}
             - name: PENPOT_TERMS_OF_SERVICE_URI
-              value: {{ .Values.config.termsOfSrvicesUri | quote }}
+              value: {{ .Values.config.termsOfServicesUri | quote }}
             - name: PENPOT_PRIVACY_POLICY_URI
               value: {{ .Values.config.privacyPolicyUri | quote }}
             # Extra environments
