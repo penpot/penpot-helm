@@ -425,6 +425,12 @@ backend:
   # -- Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Backend parameters
   extraEnvs: []
+  # -- Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Backend parameters
+  volumes: []
+  # -- Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Backend parameters
+  volumeMounts: []
 
 frontend:
   image:
@@ -506,6 +512,12 @@ frontend:
   # -- Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Frontend parameters
   extraEnvs: []
+  # -- Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Frontend parameters
+  volumes: []
+  # -- Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Frontend parameters
+  volumeMounts: []
 
 exporter:
   image:
@@ -587,6 +599,12 @@ exporter:
   # -- Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Exporter parameters
   extraEnvs: []
+  # -- Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Exporter parameters
+  volumes: []
+  # -- Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- Exporter parameters
+  volumeMounts: []
 
 persistence:
   assets:
