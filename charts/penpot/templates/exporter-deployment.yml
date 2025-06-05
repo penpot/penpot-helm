@@ -73,6 +73,9 @@ spec:
             - mountPath: /tmp/penpot-exporter
               name: app-data
               readOnly: false
+            {{- with .Values.exporter.volumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.exporter.service.port }}
@@ -99,3 +102,6 @@ spec:
         {{- else }}
         emptyDir: {}
         {{- end }}
+      {{- with .Values.exporter.volumes }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}

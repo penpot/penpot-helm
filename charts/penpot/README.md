@@ -183,6 +183,8 @@ helm install my-release -f values.yaml penpot/penpot
 | backend.service.port | int | `6060` | The http service port to use. |
 | backend.service.type | string | `"ClusterIP"` | The http service type to create. |
 | backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| backend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| backend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
 ### Penpot Frontend
 
@@ -211,6 +213,8 @@ helm install my-release -f values.yaml penpot/penpot
 | frontend.service.port | int | `8080` | The service port to use. |
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| frontend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| frontend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
 ### Penpot exporter
 
@@ -239,6 +243,8 @@ helm install my-release -f values.yaml penpot/penpot
 | exporter.service.port | int | `6061` | The service port to use. |
 | exporter.service.type | string | `"ClusterIP"` | The service type to create. |
 | exporter.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| exporter.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| exporter.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
 ### Persistence
 

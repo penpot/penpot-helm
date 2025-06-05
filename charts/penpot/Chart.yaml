@@ -39,6 +39,13 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Support custom volume mounts in containers. Thanks to @rossigee
+      links:
+        - name: GitHub Issue 33
+          url: https://github.com/penpot/penpot-helm/issues/33
+        - name: GitHub PR 34
+          url: https://github.com/penpot/penpot-helm/pull/34
     - kind: fixed
       description: Typo on termsOfServicesUri parameter. Thanks to @smalot
       links:

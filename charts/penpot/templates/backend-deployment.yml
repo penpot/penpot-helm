@@ -409,6 +409,9 @@ spec:
             - mountPath: /opt/data/assets
               name: app-data
               readOnly: false
+            {{- with .Values.backend.volumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.backend.service.port }}
@@ -435,3 +438,6 @@ spec:
         {{- else }}
         emptyDir: {}
         {{- end }}
+      {{- with .Values.backend.volumes }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
