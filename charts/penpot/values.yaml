@@ -352,7 +352,7 @@ backend:
     repository: penpotapp/backend
     # -- The image tag to use.
     # @section -- Backend parameters
-    tag: 2.7.1
+    tag: 2.7.2
     # -- The image pull policy to use.
     # @section -- Backend parameters
     pullPolicy: IfNotPresent
@@ -433,7 +433,7 @@ frontend:
     repository: penpotapp/frontend
     # -- The image tag to use.
     # @section -- Frontend parameters
-    tag: 2.7.1
+    tag: 2.7.2
     # -- The image pull policy to use.
     # @section -- Frontend parameters
     pullPolicy: IfNotPresent
@@ -514,7 +514,7 @@ exporter:
     repository: penpotapp/exporter
     # -- The image tag to use.
     # @section -- Exporter parameters
-    tag: 2.7.1
+    tag: 2.7.2
     # -- The image pull policy to use.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent
