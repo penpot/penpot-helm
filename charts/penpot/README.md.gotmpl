@@ -25,7 +25,7 @@ You can customize the installation specify each parameter using the `--set key=v
 ```console
 helm install my-release \
   --set global.postgresqlEnabled=true \
-  --set global.redisEnabled=true \
+  --set global.valkeyEnabled=true \
   --set persistence.assets.enabled=true \
   penpot/{{ template "chart.name" . }}
 ```
@@ -66,12 +66,12 @@ helm install my-release -f values.yaml penpot/{{ template "chart.name" . }}
     (hasPrefix "ingress" .Key)
     (hasPrefix "route" .Key)
     (hasPrefix "postgresql" .Key)
+    (hasPrefix "valkey" .Key)
     (hasPrefix "redis" .Key)
   ) }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}
-
 
 
 ### Penpot Configuration
@@ -163,7 +163,22 @@ helm install my-release -f values.yaml penpot/{{ template "chart.name" . }}
 > **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
 
 
+### Valkey
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "valkey" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+> **NOTE**: You can use more parameters according to the [Valkey oficial documentation](https://artifacthub.io/packages/helm/bitnami/valkey#parameters).
+
+
 ### Redis
+
+> **DEPRECATION WARNING:** Since penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions. 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -174,6 +189,15 @@ helm install my-release -f values.yaml penpot/{{ template "chart.name" . }}
 {{- end }}
 
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
+
+
+## Upgrading
+
+### To 0.23.0
+
+Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions for a long, long time. 
+
+Using `global.valkeyEnabled` and `global.redisEnabled` you will be able to choose which one to use.
 
 
 ## Resources

@@ -100,13 +100,17 @@ spec:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
               {{- end }}
-            # Redis connection settings
+            # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if not .Values.config.redis.secretKeys.redisUriKey }}
                 {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
                 {{- else }}
+                  {{- if .Values.global.valkeyEnabled }}
+              value: {{ print "redis://" (include "penpot.fullname" .) "-valkey-primary:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                  {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                  {{- end }}
                 {{- end }}
               {{- else }}
               valueFrom:

@@ -52,7 +52,11 @@ spec:
                 {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
                 {{- else }}
+                  {{- if .Values.global.valkeyEnabled }}
+              value: {{ print "redis://" (include "penpot.fullname" .) "-valkey-primary:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                  {{- else }}
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
+                  {{- end }}
                 {{- end }}
               {{- else }}
               valueFrom:

@@ -30,15 +30,17 @@ annotations:
     - name: support
       url: https://github.com/penpot/penpot-helm/issues
     - name: community
-      url: https://community.penpot.appto
+      url: https://community.penpot.app
     - name: documentation
-      url: https://help.penpot.app/
+      url: https://help.penpot.app
     - name: tutorials
       url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
     - name: dev-diaries
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Now Valkey is the default key/value datastore instead of Redis
     - kind: added
       description: Support custom volume mounts in containers. Thanks to @rossigee
       links:
@@ -60,6 +62,8 @@ annotations:
           url: https://github.com/penpot/penpot-helm/issues/31
         - name: GitHub PR 36
           url: https://github.com/penpot/penpot-helm/pull/36
+    - kind: changed
+      description: Upgrade PostgreSQL and Redis dependencies
     - kind: fixed
       description: Typo on termsOfServicesUri parameter. Thanks to @smalot
       links:
@@ -70,7 +74,11 @@ dependencies:
     version: 15.x.x  # appVersion >= 16.2.0
     repository: https://charts.bitnami.com/bitnami
     condition: global.postgresqlEnabled
+  - name: valkey
+    version: 3.x.x  # appVersion >= 8.1.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: global.valkeyEnabled
   - name: redis
-    version: 19.x.x  # appVersion >= 7.2.4
+    version: 19.6.4  # appVersion == 7.2.5
     repository: https://charts.bitnami.com/bitnami
     condition: global.redisEnabled
