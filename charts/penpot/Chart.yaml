@@ -30,20 +30,28 @@ annotations:
     - name: support
       url: https://github.com/penpot/penpot-helm/issues
     - name: community
-      url: https://community.penpot.appto
+      url: https://community.penpot.app
     - name: documentation
-      url: https://help.penpot.app/
+      url: https://help.penpot.app
     - name: tutorials
       url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
     - name: dev-diaries
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Now Valkey is the default key/value datastore instead of Redis
+    - kind: changed
+      description: Upgrade PostgreSQL and Redis dependencies.
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
     repository: https://charts.bitnami.com/bitnami
     condition: global.postgresqlEnabled
+  - name: valkey
+    version: 3.x.x  # appVersion >= 8.1.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: global.valkeyEnabled
   - name: redis
     version: 19.x.x  # appVersion >= 7.2.4
     repository: https://charts.bitnami.com/bitnami
