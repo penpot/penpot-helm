@@ -618,7 +618,7 @@ persistence:
   assets:
     # -- Enable assets persistence using Persistent Volume Claims.
     # @section -- Persistence parameters
-    enabled: false
+    enabled: true
     # -- Assets persistent Volume storage class.
     # If defined, storageClassName: <storageClass>.
     # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.

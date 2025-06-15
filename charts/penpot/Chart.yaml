@@ -53,6 +53,13 @@ annotations:
           url: https://github.com/penpot/penpot-helm/issues/27
         - name: GitHub PR 28
           url: https://github.com/penpot/penpot-helm/pull/28
+    - kind: changed
+      description: Make assets directory persistent by default. Thanks to @jonas-be
+      links:
+        - name: GitHub Issue 31
+          url: https://github.com/penpot/penpot-helm/issues/31
+        - name: GitHub PR 36
+          url: https://github.com/penpot/penpot-helm/pull/36
     - kind: fixed
       description: Typo on termsOfServicesUri parameter. Thanks to @smalot
       links:

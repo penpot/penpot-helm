@@ -253,7 +253,7 @@ helm install my-release -f values.yaml penpot/penpot
 |-----|------|---------|-------------|
 | persistence.assets.accessModes | list | `["ReadWriteOnce"]` | Assets persistent Volume access modes. |
 | persistence.assets.annotations | object | `{}` | Assetsp ersistent Volume Claim annotations. |
-| persistence.assets.enabled | bool | `false` | Enable assets persistence using Persistent Volume Claims. |
+| persistence.assets.enabled | bool | `true` | Enable assets persistence using Persistent Volume Claims. |
 | persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for assets persistence. |
 | persistence.assets.size | string | `"20Gi"` | Assets persistent Volume size. |
 | persistence.assets.storageClass | string | `""` | Assets persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
