@@ -1,8 +1,18 @@
-Thank you for installing {{ .Chart.Name }}.
+>--
+  APP NAME: {{ .Chart.Name }}
+  APP VERSION: {{ .Chart.AppVersion }}
+  CHART VERSION: {{ .Chart.Version }}
+  RELEASE NAME: {{ .Release.Name }}
+  
+  To learn more about the release, try:
+  
+    $ helm status {{ .Release.Name }}
+    $ helm get all {{ .Release.Name }}
+  
+  {{- if .Values.global.redisEnabled }}
 
-Your release is named '{{ .Release.Name }}'.
-
-To learn more about the release, try:
-
-  $ helm status {{ .Release.Name }}
-  $ helm get all {{ .Release.Name }}
+  DEPRECATION WARNING: 
+     Since Penpot 2.8, Penpot has migrated from Redis to Valkey. 
+     Although migration is recommended, Penpot will work seamlessly
+     with compatible Redis versions.
+  {{- end }}

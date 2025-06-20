@@ -24,7 +24,7 @@ You can customize the installation specify each parameter using the `--set key=v
 ```console
 helm install my-release \
   --set global.postgresqlEnabled=true \
-  --set global.redisEnabled=true \
+  --set global.valkeyEnabled=true \
   --set persistence.assets.enabled=true \
   penpot/penpot
 ```
@@ -44,7 +44,8 @@ helm install my-release -f values.yaml penpot/penpot
 |-----|------|---------|-------------|
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
 | global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
-| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. |
+| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions.  |
+| global.valkeyEnabled | bool | `false` | Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration. |
 
 ### General
 
@@ -134,10 +135,10 @@ helm install my-release -f values.yaml penpot/penpot
 | config.providers.secretKeys.oidcClientIDKey | string | `""` | The OpenID Connect client ID key to use from an existing secret. |
 | config.providers.secretKeys.oidcClientSecretKey | string | `""` | The OpenID Connect client secret key to use from an existing secret. |
 | config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
-| config.redis.database | string | `"0"` | The Redis database to connect to. |
+| config.redis.database | string | `"0"` | The Valkey database to connect to. |
 | config.redis.existingSecret | string | `""` | The name of an existing secret. |
-| config.redis.host | string | `""` | The Redis host to connect to. Empty to use dependencies |
-| config.redis.port | int | `6379` | The Redis host port to use. |
+| config.redis.host | string | `""` | The Valkey host to connect to. Empty to use dependencies |
+| config.redis.port | int | `6379` | The Valkey host port to use. |
 | config.redis.secretKeys.redisUriKey | string | `""` | The redis uri key to use from an existing secret. (redis://:password@host:port/database). |
 | config.registrationDomainWhitelist | string | `""` | Comma separated list of allowed domains to register. Empty to allow all domains. |
 | config.secretKeys.apiSecretKey | string | `""` | The api secret key to use from an existing secret. |
@@ -298,7 +299,19 @@ helm install my-release -f values.yaml penpot/penpot
 
 > **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
 
+### Valkey
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| valkey.architecture | string | `"standalone"` | Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies) |
+| valkey.auth.enabled | bool | `false` | Whether to enable password authentication. |
+| valkey.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
+
+> **NOTE**: You can use more parameters according to the [Valkey oficial documentation](https://artifacthub.io/packages/helm/bitnami/valkey#parameters).
+
 ### Redis
+
+> **DEPRECATION WARNING:** Since penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -307,6 +320,14 @@ helm install my-release -f values.yaml penpot/penpot
 | redis.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
+
+## Upgrading
+
+### To 0.23.0
+
+Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions for a long, long time.
+
+Using `global.valkeyEnabled` and `global.redisEnabled` you will be able to choose which one to use.
 
 ## Resources
 
