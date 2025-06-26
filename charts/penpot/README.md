@@ -36,6 +36,51 @@ helm install my-release -f values.yaml penpot/penpot
 ```
 > **Tip**: You can use the default values.yaml
 
+<details>
+<summary>🔐 <strong>OpenShift Requirements (click to expand)</strong></summary>
+
+If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
+You can do this with the following command:
+
+```console
+oc adm policy add-scc-to-group anyuid system:serviceaccounts:<your-namespace>
+```
+
+Replace <your-namespace> with the actual namespace, e.g. penpot.
+
+Alternatively, if you do not want to relax this security constraint, you can configure the container to use a specific UID allowed by OpenShift by setting it explicitly in the values file.
+First, get the UID range assigned to your namespace:
+
+```console
+oc get project <your-namespace> -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}'
+```
+
+This will return a value like:
+
+```console
+1000700000/10000
+```
+From that range, you can pick a UID (e.g., 1000700000) and set it in your `values.yaml` like this:
+
+```console
+backend:
+  securityContext:
+    runAsUser: 1000700000
+
+frontend:
+  securityContext:
+    runAsUser: 1000700000
+
+exporter:
+  securityContext:
+    runAsUser: 1000700000
+```
+
+Replace `1000700000` with a valid UID from your namespace range.
+This allows running the chart securely in OpenShift without granting anyuid permissions.
+
+</details>
+
 ## Parameters
 
 ### Global
