@@ -175,20 +175,20 @@ spec:
             - name: PENPOT_SMTP_PORT
               value: {{ .Values.config.smtp.port | quote }}
             {{- end }}
-            {{- if not .Values.config.smtp.secretKeys.usernameKey }}
+            {{- if .Values.config.smtp.username }}
             - name: PENPOT_SMTP_USERNAME
               value: {{ .Values.config.smtp.username | quote }}
-            {{- else }}
+            {{- else if .Values.config.smtp.secretKeys.usernameKey }}
             - name: PENPOT_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.smtp.existingSecret }}
                   key: {{ .Values.config.smtp.secretKeys.usernameKey }}
             {{- end }}
-            {{- if not .Values.config.smtp.secretKeys.passwordKey }}
+            {{- if .Values.config.smtp.password }}
             - name: PENPOT_SMTP_PASSWORD
               value: {{ .Values.config.smtp.password | quote }}
-            {{- else }}
+            {{- else if .Values.config.smtp.secretKeys.passwordKey }}
             - name: PENPOT_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
