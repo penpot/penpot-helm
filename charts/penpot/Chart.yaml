@@ -65,6 +65,11 @@ annotations:
     - kind: changed
       description: Upgrade PostgreSQL and Redis dependencies
     - kind: fixed
+      description: Avoid setting SMTP auth variables if not configured. Thanks to @DF-diego
+      links:
+        - name: GitHub PR 38
+          url: https://github.com/penpot/penpot-helm/pull/38
+    - kind: fixed
       description: Typo on termsOfServicesUri parameter. Thanks to @smalot
       links:
         - name: GitHub PR 30
