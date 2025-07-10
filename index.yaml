@@ -3,6 +3,100 @@ entries:
   penpot:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Now Valkey is the default key/value datastore instead of Redis
+        - kind: added
+          description: Support custom volume mounts in containers. Thanks to @rossigee
+          links:
+            - name: GitHub Issue 33
+              url: https://github.com/penpot/penpot-helm/issues/33
+            - name: GitHub PR 34
+              url: https://github.com/penpot/penpot-helm/pull/34
+        - kind: added
+          description: Add Healthchecks to the backedn to prevent premature handover. Thanks to @SIMULATAN
+          links:
+            - name: GitHub Issue 27
+              url: https://github.com/penpot/penpot-helm/issues/27
+            - name: GitHub PR 28
+              url: https://github.com/penpot/penpot-helm/pull/28
+        - kind: changed
+          description: Bump penpot to 2.8.0
+        - kind: changed
+          description: Make assets directory persistent by default. Thanks to @jonas-be
+          links:
+            - name: GitHub Issue 31
+              url: https://github.com/penpot/penpot-helm/issues/31
+            - name: GitHub PR 36
+              url: https://github.com/penpot/penpot-helm/pull/36
+        - kind: changed
+          description: Upgrade PostgreSQL and Redis dependencies
+        - kind: fixed
+          description: Avoid setting SMTP auth variables if not configured. Thanks to @DF-diego
+          links:
+            - name: GitHub PR 38
+              url: https://github.com/penpot/penpot-helm/pull/38
+        - kind: fixed
+          description: Typo on termsOfServicesUri parameter. Thanks to @smalot
+          links:
+            - name: GitHub PR 30
+              url: https://github.com/penpot/penpot-helm/pull/30
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.app
+        - name: documentation
+          url: https://help.penpot.app
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: 2.8.0
+    created: "2025-07-10T14:44:32.632492335Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.x.x
+    - condition: global.valkeyEnabled
+      name: valkey
+      repository: https://charts.bitnami.com/bitnami
+      version: 3.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.6.4
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: 1d5fcddc74961986ef5fe84fe94b922d45417a877cdb886944805c4c45bad8a4
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: Kaleidos INC
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.23.0/penpot-0.23.0.tgz
+    version: 0.23.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Bumped Penpot to 2.7.2
       artifacthub.io/containsSecurityUpdates: "false"
@@ -1529,4 +1623,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2025-06-09T14:26:36.802284078Z"
+generated: "2025-07-10T14:44:32.632729829Z"
