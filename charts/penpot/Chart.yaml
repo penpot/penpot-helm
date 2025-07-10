@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.23.0 # Chart version
+version: 0.24.0-unrealesed # Chart version
 appVersion: "2.8.0"  # Penpot version
 type: application
 name: penpot
@@ -39,43 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Now Valkey is the default key/value datastore instead of Redis
-    - kind: added
-      description: Support custom volume mounts in containers. Thanks to @rossigee
-      links:
-        - name: GitHub Issue 33
-          url: https://github.com/penpot/penpot-helm/issues/33
-        - name: GitHub PR 34
-          url: https://github.com/penpot/penpot-helm/pull/34
-    - kind: added
-      description: Add Healthchecks to the backedn to prevent premature handover. Thanks to @SIMULATAN
-      links:
-        - name: GitHub Issue 27
-          url: https://github.com/penpot/penpot-helm/issues/27
-        - name: GitHub PR 28
-          url: https://github.com/penpot/penpot-helm/pull/28
-    - kind: changed
-      description: Bump penpot to 2.8.0
-    - kind: changed
-      description: Make assets directory persistent by default. Thanks to @jonas-be
-      links:
-        - name: GitHub Issue 31
-          url: https://github.com/penpot/penpot-helm/issues/31
-        - name: GitHub PR 36
-          url: https://github.com/penpot/penpot-helm/pull/36
-    - kind: changed
-      description: Upgrade PostgreSQL and Redis dependencies
-    - kind: fixed
-      description: Avoid setting SMTP auth variables if not configured. Thanks to @DF-diego
-      links:
-        - name: GitHub PR 38
-          url: https://github.com/penpot/penpot-helm/pull/38
-    - kind: fixed
-      description: Typo on termsOfServicesUri parameter. Thanks to @smalot
-      links:
-        - name: GitHub PR 30
-          url: https://github.com/penpot/penpot-helm/pull/30
 dependencies:
   - name: postgresql
     version: 15.x.x  # appVersion >= 16.2.0
