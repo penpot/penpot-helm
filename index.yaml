@@ -1534,9 +1534,9 @@ entries:
       artifacthub.io/changes: |
         - kind: changed
           description: Bump penpot to 2.1.1.
-        - kind: fix
+        - kind: fixed
           description: homogenize and simplify container and pod security context and affinity.
-        - kind: fix
+        - kind: fixed
           description: Imporve documentation.
       artifacthub.io/containsSecurityUpdates: "false"
       artifacthub.io/links: |
