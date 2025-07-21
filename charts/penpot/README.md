@@ -36,8 +36,7 @@ helm install my-release -f values.yaml penpot/penpot
 ```
 > **Tip**: You can use the default values.yaml
 
-<details>
-<summary>🔐 <strong>OpenShift Requirements (click to expand)</strong></summary>
+### 🔐 OpenShift Requirements
 
 If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
 You can do this with the following command:
