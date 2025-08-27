@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 0.26.0-unreleased # Chart version
-appVersion: "2.8.1"  # Penpot version
+appVersion: "2.9.0" # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -41,14 +41,14 @@ annotations:
   artifacthub.io/changes: |
 dependencies:
   - name: postgresql
-    version: 15.x.x  # appVersion >= 16.2.0
-    repository: https://charts.bitnami.com/bitnami
+    version: 15.x.x # appVersion >= 16.2.0
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.postgresqlEnabled
   - name: valkey
-    version: 3.x.x  # appVersion >= 8.1.1
-    repository: https://charts.bitnami.com/bitnami
+    version: 3.x.x # appVersion >= 8.1.1
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.valkeyEnabled
   - name: redis
-    version: 19.6.4  # appVersion == 7.2.5
-    repository: https://charts.bitnami.com/bitnami
+    version: 19.6.4 # appVersion == 7.2.5
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.redisEnabled
