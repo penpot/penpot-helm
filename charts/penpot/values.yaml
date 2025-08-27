@@ -720,6 +720,9 @@ route:
 
 # PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql))
 postgresql:
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: "16.4.0-debian-12-r14"
   global:
     compatibility:
       openshift:
@@ -740,6 +743,9 @@ postgresql:
 
 # Valkey configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/valkey))
 valkey:
+  image:
+    repository: bitnamilegacy/valkey
+    tag: "8.1.3-debian-12-r3"
   global:
     compatibility:
       openshift:
@@ -757,6 +763,9 @@ valkey:
 # Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
 # DEPRECATION WARNING: Since penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions. 
 redis:
+  image:
+    repository: bitnamilegacy/redis
+    tag: "7.2.5-debian-12-r4"
   global:
     compatibility:
       openshift:
