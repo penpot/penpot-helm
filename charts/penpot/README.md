@@ -340,6 +340,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | postgresql.auth.password | string | `"penpot"` | Password for the custom user to create. |
 | postgresql.auth.username | string | `"penpot"` | Name for a custom user to create. |
 | postgresql.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| postgresql.image.tag | string | `"16.4.0-debian-12-r14"` |  |
 
 > **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
 
@@ -350,6 +352,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | valkey.architecture | string | `"standalone"` | Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies) |
 | valkey.auth.enabled | bool | `false` | Whether to enable password authentication. |
 | valkey.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
+| valkey.image.repository | string | `"bitnamilegacy/valkey"` |  |
+| valkey.image.tag | string | `"8.1.3-debian-12-r3"` |  |
 
 > **NOTE**: You can use more parameters according to the [Valkey oficial documentation](https://artifacthub.io/packages/helm/bitnami/valkey#parameters).
 
@@ -362,6 +366,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | redis.architecture | string | `"standalone"` | Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies) |
 | redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
 | redis.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
+| redis.image.repository | string | `"bitnamilegacy/redis"` |  |
+| redis.image.tag | string | `"7.2.5-debian-12-r4"` |  |
 
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 

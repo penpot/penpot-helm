@@ -39,16 +39,21 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: changed
+      description: Adapt dependencies to Bitnami changes
+      links:
+        - name: Bitnami announcement
+          url: https://github.com/bitnami/containers/issues/83267
 dependencies:
   - name: postgresql
-    version: 15.x.x  # appVersion >= 16.2.0
-    repository: https://charts.bitnami.com/bitnami
+    version: 15.5.38 # default appVersion 16.4.0
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.postgresqlEnabled
   - name: valkey
-    version: 3.x.x  # appVersion >= 8.1.1
-    repository: https://charts.bitnami.com/bitnami
+    version: 3.0.31 # default appVersion 8.1.3
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.valkeyEnabled
   - name: redis
-    version: 19.6.4  # appVersion == 7.2.5
-    repository: https://charts.bitnami.com/bitnami
+    version: 19.6.4 # default appVersion == 7.2.5
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: global.redisEnabled
