@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.26.0 # Chart version
+version: 0.27.0-unreleased # Chart version
 appVersion: "2.9.0"  # Penpot version
 type: application
 name: penpot
@@ -39,13 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Adapt dependencies to Bitnami changes
-      links:
-        - name: Bitnami announcement
-          url: https://github.com/bitnami/containers/issues/83267
-    - kind: changed
-      description: Bump Penpot to 2.9.0
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
