@@ -1,6 +1,7 @@
 name: release-charts
 
 on:
+  workflow_call:
   workflow_dispatch:
     inputs:
       logLevel:
