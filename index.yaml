@@ -1,1808 +1,1755 @@
 apiVersion: v1
 entries:
   penpot:
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Adapt dependencies to Bitnami changes
-          links:
-            - name: Bitnami announcement
-              url: https://github.com/bitnami/containers/issues/83267
-        - kind: changed
-          description: Bump Penpot to 2.9.0
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.9.0
-    created: "2025-08-29T08:48:56.350208036Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: oci://registry-1.docker.io/bitnamicharts
-      version: 15.5.38
-    - condition: global.valkeyEnabled
-      name: valkey
-      repository: oci://registry-1.docker.io/bitnamicharts
-      version: 3.0.31
-    - condition: global.redisEnabled
-      name: redis
-      repository: oci://registry-1.docker.io/bitnamicharts
-      version: 19.6.4
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 190b461c4eb91847de62ef0a32cad070aec1203ae6929eb61ce0a7088e6e045d
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.26.0/penpot-0.26.0.tgz
-    version: 0.26.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.8.1
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.8.1
-    created: "2025-08-01T19:44:40.522115991Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.valkeyEnabled
-      name: valkey
-      repository: https://charts.bitnami.com/bitnami
-      version: 3.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.6.4
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 447bcb548f4433055f26874c03740845ec26631d3484b8fd8d63959f016481b0
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.25.0/penpot-0.25.0.tgz
-    version: 0.25.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Update documentation
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.8.0
-    created: "2025-07-22T08:34:40.059937767Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.valkeyEnabled
-      name: valkey
-      repository: https://charts.bitnami.com/bitnami
-      version: 3.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.6.4
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 97e3b1458eb15dc35bdce0d1b21b6df27e2a4ecee9e6a25bac00b109f6521811
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.24.0/penpot-0.24.0.tgz
-    version: 0.24.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: Now Valkey is the default key/value datastore instead of Redis
-        - kind: added
-          description: Support custom volume mounts in containers. Thanks to @rossigee
-          links:
-            - name: GitHub Issue 33
-              url: https://github.com/penpot/penpot-helm/issues/33
-            - name: GitHub PR 34
-              url: https://github.com/penpot/penpot-helm/pull/34
-        - kind: added
-          description: Add Healthchecks to the backedn to prevent premature handover. Thanks to @SIMULATAN
-          links:
-            - name: GitHub Issue 27
-              url: https://github.com/penpot/penpot-helm/issues/27
-            - name: GitHub PR 28
-              url: https://github.com/penpot/penpot-helm/pull/28
-        - kind: changed
-          description: Bump penpot to 2.8.0
-        - kind: changed
-          description: Make assets directory persistent by default. Thanks to @jonas-be
-          links:
-            - name: GitHub Issue 31
-              url: https://github.com/penpot/penpot-helm/issues/31
-            - name: GitHub PR 36
-              url: https://github.com/penpot/penpot-helm/pull/36
-        - kind: changed
-          description: Upgrade PostgreSQL and Redis dependencies
-        - kind: fixed
-          description: Avoid setting SMTP auth variables if not configured. Thanks to @DF-diego
-          links:
-            - name: GitHub PR 38
-              url: https://github.com/penpot/penpot-helm/pull/38
-        - kind: fixed
-          description: Typo on termsOfServicesUri parameter. Thanks to @smalot
-          links:
-            - name: GitHub PR 30
-              url: https://github.com/penpot/penpot-helm/pull/30
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.8.0
-    created: "2025-07-10T14:44:32.632492335Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.valkeyEnabled
-      name: valkey
-      repository: https://charts.bitnami.com/bitnami
-      version: 3.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.6.4
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 1d5fcddc74961986ef5fe84fe94b922d45417a877cdb886944805c4c45bad8a4
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.23.0/penpot-0.23.0.tgz
-    version: 0.23.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bumped Penpot to 2.7.2
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.7.2
-    created: "2025-06-09T14:26:36.802008436Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: e786b03f699e974ee9d90268e41c9a22ced02c8163cc367e65d1b03df4822522
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.22.0/penpot-0.22.0.tgz
-    version: 0.22.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.7.1
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.7.1
-    created: "2025-05-26T13:07:50.794061343Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 9a2a79afaf75cca7b509893b0da05b81658c36931e8c0b44192033bc69f565f3
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.21.0/penpot-0.21.0.tgz
-    version: 0.21.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.7.0
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.7.0
-    created: "2025-05-26T05:28:06.765988657Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 614a99f781c179c456f389b02c484c6762453db3141e26d2db31501987ac7987
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.20.0/penpot-0.20.0.tgz
-    version: 0.20.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: Added annotations for Penpot services
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.6.2
-    created: "2025-05-23T08:22:24.046219435Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: d626aa7a128093108f001027e362e5ae619da6433180ecb0d290b41570a6ed6d
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.19.0/penpot-0.19.0.tgz
-    version: 0.19.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.6.2
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.6.2
-    created: "2025-04-30T08:14:58.483000919Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 97c4256fbbda62b5c2ef80f346557c653384ea7ad003c3962dbac9b4f02d4c03
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.18.0/penpot-0.18.0.tgz
-    version: 0.18.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.6.1
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.6.1
-    created: "2025-04-10T15:09:45.422280105Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 5f322d45aab09a3d51b91d467ac05190e60bbfdf980576eb792abbdb9f1efc64
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.17.0/penpot-0.17.0.tgz
-    version: 0.17.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.6.0
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.6.0
-    created: "2025-04-09T10:00:36.753035957Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 0652430292a3303a43995dcee8a95e499a6f60139cf99cca0a919bbd05b36f0d
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.16.0/penpot-0.16.0.tgz
-    version: 0.16.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: fixed
-          description: Fix issue with Redis configuration thanks to @amith55555
-          links:
-            - name: Github Issue 25
-              url: https://github.com/penpot/penpot-helm/issues/25
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.5.4
-    created: "2025-03-31T09:32:24.051069868Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 6743df3659358ac15f111f2a6331565eb835b48f339c66fed4c1af6f77a72b98
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.15.0/penpot-0.15.0.tgz
-    version: 0.15.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.5.4
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.5.4
-    created: "2025-03-20T16:33:35.575926275Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 7465f211d35b9dd66a8bbf2944e0a0fd1c36527c9d54aca99af20c0d20fdf1df
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.14.0/penpot-0.14.0.tgz
-    version: 0.14.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.5.3
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.5.3
-    created: "2025-03-13T10:09:38.400097037Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 36374047bc5c2523c2ef6d9274fa94ec1a322131e1e11493eabf2e8a464f7f29
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.13.0/penpot-0.13.0.tgz
-    version: 0.13.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.5.2
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.5.2
-    created: "2025-03-11T16:23:12.394673411Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 46e955405b819f22d8be6209b436010aa346e8cdfd55ba9106b2ffc452b5867b
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.12.0/penpot-0.12.0.tgz
-    version: 0.12.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: Allow to use secrets to define PENPOT_SECRET_KEY, PENPOT_DATABASE_URI and PENPOT_REDIS_URI
-          links:
-            - name: GitHub Issue 16
-              url: https://github.com/penpot/penpot-helm/issues/16
-        - kind: added
-          description: Allow to use secrets to define PENPOT_LDAP_BIND_PASSWORD. Thanks to @jdollar
-          links:
-            - name: GitHub PR 18
-              url: https://github.com/penpot/penpot-helm/pull/18
-        - kind: added
-          description: Allow to set up the url of Privacy Policy and Terms of Service
-        - kind: added
-          description: Allow to set up extra environments for all containers, specific and common. Thanks to @jdollar
-          links:
-            - name: GitHub PR 18
-              url: https://github.com/penpot/penpot-helm/pull/18
-        - kind: changed
-          description: The default Redis architecture will be standalone instead of replication
-          links:
-            - name: GitHub Issue 23
-              url: https://github.com/penpot/penpot-helm/issues/23
-        - kind: changed
-          description: Bump Penpot to 2.5.1
-        - kind: fixed
-          description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
-          links:
-            - name: GitHub PR 18
-              url: https://github.com/penpot/penpot-helm/pull/18
-        - kind: fixed
-          description: Fix documentation related to OpenID integration. Thanks to @danton721
-          links:
-            - name: GitHub PR 21
-              url: https://github.com/penpot/penpot-helm/pull/21
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.appto
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.5.1
-    created: "2025-03-03T16:23:00.028175178Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: a9cca2ee3701f68b78215ddee364a3f5d25f28e5704f0251b4c9f14751a271c7
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.11.0/penpot-0.11.0.tgz
-    version: 0.11.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot to 2.4.3
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.3
-    created: "2025-01-31T15:44:52.593277083Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: dd98697ea7f32906a2d4c0ae84d81a3d04ef147a0507bf845df86f03ab8e6083
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.10.0/penpot-0.10.0.tgz
-    version: 0.10.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: fixed
-          description: fixed conflicting telemetry configuration
-          links:
-            - name: GitHub Issue #17
-              url: https://github.com/penpot/penpot-helm/issues/17
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.2
-    created: "2025-01-31T08:22:54.090183456Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 8749a6c671213ce011c9ae85eaed42c4883358f84030b582b38ff3b6b96d82d6
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.9.1/penpot-0.9.1.tgz
-    version: 0.9.1
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: added telemetry referer configuration
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.2
-    created: "2025-01-30T06:57:09.124133701Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: fc685fe535d170d209e466491de93affaaa90c08429d8a2640943ea2f38a9b51
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.9.0/penpot-0.9.0.tgz
-    version: 0.9.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump penpot to 2.4.2
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.2
-    created: "2025-01-29T12:51:46.352326593Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 65039db9895014cd27e7e39aeb852d8e49a4892a625fe01a91ae402845cb6106
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.8.0/penpot-0.8.0.tgz
-    version: 0.8.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot images to 2.4.1.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.1
-    created: "2025-01-13T10:53:33.630491139Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 3e2853ff3934ccb3ca6bc188728c28626ae432abcfe17a2788800c171f409289
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.7.0/penpot-0.7.0.tgz
-    version: 0.7.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot images to 2.4.0.
-        - kind: changed
-          description: Change penpot-frontend service port to 8080.
-        - kind: added
-          description: Add autoFileSnapshot configuration
-        - kind: added
-          description: containsSecurityUpdates and podSecurityContext can be defined for penpot-frontend.
-        - kind: added
-          description: Allow to run in a Openshift Container Platform. Thanks to @alverad-katsuro.
-          links:
-            - name: GitHub PR #9
-              url: https://github.com/penpot/penpot-helm/pull/9
-        - kind: added
-          description: config.internalResolver sets PENPOT_INTERNAL_RESOLVER to the frontend deployment. Thanks to @vipinjn24.
-          links:
-            - name: Github Issue #12
-              url: https://github.com/penpot/penpot-helm/issues/12
-            - name: GitHub PR #13
-              url: https://github.com/penpot/penpot-helm/pull/13
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.4.0
-    created: "2025-01-08T12:06:26.944729674Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: fc20a05bd790653e154f09b3bdd195d7878de6e0f4e2a485fb82f9831ad5a057
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.6.0/penpot-0.6.0.tgz
-    version: 0.6.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot images to 2.3.3.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.3.3
-    created: "2024-11-15T19:48:06.231524421Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 1fb4cf8c1ad51f6ea3cf67002073dce2630d2e249419a37dff72c9bf2029584b
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.5.0/penpot-0.5.0.tgz
-    version: 0.5.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump Penpot images to 2.3.2.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.3.2
-    created: "2024-11-14T17:36:09.103060784Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 175283e1de3aa0026f10849ed9665a102b9d40d577873a28b12159f3c1b75d75
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.4.0/penpot-0.4.0.tgz
-    version: 0.4.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump penpot images to 2.3.1.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.3.1
-    created: "2024-11-08T10:31:50.277704228Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 8b586372a3a76bbbdd6cf69990dd6396b86c34c19d3158d0cc3d7b121ca477f4
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.3.0/penpot-0.3.0.tgz
-    version: 0.3.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump penpot images to 2.2.0.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.2.0
-    created: "2024-10-10T12:00:49.619234451Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: bb18fc89aedd24a4dac8e8db899d631110d2d99d1a319faed501c994ccf38d71
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.2.0/penpot-0.2.0.tgz
-    version: 0.2.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump to 0.1.0. Initial release.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.1.4
-    created: "2024-09-18T09:44:51.221758801Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: a9f89bc0fade74e22729225e4f842896bb077eeab19b5550252515b5d49899ba
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0/penpot-0.1.0.tgz
-    version: 0.1.0
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: Allow to define pod disruption budgets.
-        - kind: changed
-          description: Bump penpot to 2.1.4.
-        - kind: changed
-          description: Imporve documentation.
-        - kind: fixed
-          description: hostname example for ingress (by @Tchoupinax).
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-        - name: documentation
-          url: https://help.penpot.app/
-        - name: tutorials
-          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
-        - name: dev-diaries
-          url: https://penpot.app/dev-diaries.html
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.1.4
-    created: "2024-09-10T10:45:22.647587129Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: e15e485d854f65f250d1b49955e308c1ec2e8458f5392b09452ee5435d6d2d51
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-004/penpot-0.1.0-alpha-004.tgz
-    version: 0.1.0-alpha-004
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump penpot to 2.1.1.
-        - kind: fixed
-          description: homogenize and simplify container and pod security context and affinity.
-        - kind: fixed
-          description: Imporve documentation.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.1.1
-    created: "2024-08-01T16:59:00.902772399Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: 382a82203b36ee25cc9195d7de449a11e9dca6bb202e263cb743d409effbdddd
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-003/penpot-0.1.0-alpha-003.tgz
-    version: 0.1.0-alpha-003
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: changed
-          description: Bump penpot to 2.1.1.
-        - kind: fixed
-          description: homogenize and simplify container and pod security context and affinity.
-        - kind: fixed
-          description: Imporve documentation.
-      artifacthub.io/containsSecurityUpdates: "false"
-      artifacthub.io/links: |
-        - name: support
-          url: https://github.com/penpot/penpot-helm/issues
-        - name: community
-          url: https://community.penpot.app
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.1.1
-    created: "2024-08-01T16:16:41.595697078Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: fe695481dac20ba6797dab2764e69f529a32d989f175c123c3f240d16f90bb48
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-002/penpot-0.1.0-alpha-002.tgz
-    version: 0.1.0-alpha-002
-  - annotations:
-      artifacthub.io/signKey: |
-        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
-        url: https://helm.penpot.app/pubkey.asc
-    apiVersion: v2
-    appVersion: 2.1.0
-    created: "2024-07-24T11:21:38.321644383Z"
-    dependencies:
-    - condition: global.postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 15.x.x
-    - condition: global.redisEnabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 19.x.x
-    description: Helm chart for Penpot, the Open Source design and prototyping platform.
-    digest: f8c12752af485f412e6668200ef7571662004c77a8efe8fa4b83083869d12faa
-    home: https://penpot.app
-    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
-    keywords:
-    - kubernetes
-    - penpot
-    - penpotapp
-    - design
-    - designsystem
-    - opensource
-    - ux
-    - ui
-    maintainers:
-    - name: Kaleidos INC
-      url: https://kaleidos.net
-    name: penpot
-    sources:
-    - https://github.com/penpot/penpot/tree/main
-    - https://github.com/penpot/penpot-helm/tree/main
-    type: application
-    urls:
-    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
-    version: 0.1.0-alpha-001
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Adapt dependencies to Bitnami changes
+            links:
+              - name: Bitnami announcement
+                url: https://github.com/bitnami/containers/issues/83267
+          - kind: changed
+            description: Bump Penpot to 2.9.0
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.9.0
+      created: "2025-08-29T08:48:56.350208036Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: oci://registry-1.docker.io/bitnamicharts
+          version: 15.5.38
+        - condition: global.valkeyEnabled
+          name: valkey
+          repository: oci://registry-1.docker.io/bitnamicharts
+          version: 3.0.31
+        - condition: global.redisEnabled
+          name: redis
+          repository: oci://registry-1.docker.io/bitnamicharts
+          version: 19.6.4
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 190b461c4eb91847de62ef0a32cad070aec1203ae6929eb61ce0a7088e6e045d
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.26.0/penpot-0.26.0.tgz
+      version: 0.26.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.8.1
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.8.1
+      created: "2025-08-01T19:44:40.522115991Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.valkeyEnabled
+          name: valkey
+          repository: https://charts.bitnami.com/bitnami
+          version: 3.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.6.4
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 447bcb548f4433055f26874c03740845ec26631d3484b8fd8d63959f016481b0
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.25.0/penpot-0.25.0.tgz
+      version: 0.25.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Update documentation
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.8.0
+      created: "2025-07-22T08:34:40.059937767Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.valkeyEnabled
+          name: valkey
+          repository: https://charts.bitnami.com/bitnami
+          version: 3.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.6.4
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 97e3b1458eb15dc35bdce0d1b21b6df27e2a4ecee9e6a25bac00b109f6521811
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.24.0/penpot-0.24.0.tgz
+      version: 0.24.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: added
+            description: Now Valkey is the default key/value datastore instead of Redis
+          - kind: added
+            description: Support custom volume mounts in containers. Thanks to @rossigee
+            links:
+              - name: GitHub Issue 33
+                url: https://github.com/penpot/penpot-helm/issues/33
+              - name: GitHub PR 34
+                url: https://github.com/penpot/penpot-helm/pull/34
+          - kind: added
+            description: Add Healthchecks to the backedn to prevent premature handover. Thanks to @SIMULATAN
+            links:
+              - name: GitHub Issue 27
+                url: https://github.com/penpot/penpot-helm/issues/27
+              - name: GitHub PR 28
+                url: https://github.com/penpot/penpot-helm/pull/28
+          - kind: changed
+            description: Bump penpot to 2.8.0
+          - kind: changed
+            description: Make assets directory persistent by default. Thanks to @jonas-be
+            links:
+              - name: GitHub Issue 31
+                url: https://github.com/penpot/penpot-helm/issues/31
+              - name: GitHub PR 36
+                url: https://github.com/penpot/penpot-helm/pull/36
+          - kind: changed
+            description: Upgrade PostgreSQL and Redis dependencies
+          - kind: fixed
+            description: Avoid setting SMTP auth variables if not configured. Thanks to @DF-diego
+            links:
+              - name: GitHub PR 38
+                url: https://github.com/penpot/penpot-helm/pull/38
+          - kind: fixed
+            description: Typo on termsOfServicesUri parameter. Thanks to @smalot
+            links:
+              - name: GitHub PR 30
+                url: https://github.com/penpot/penpot-helm/pull/30
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.8.0
+      created: "2025-07-10T14:44:32.632492335Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.valkeyEnabled
+          name: valkey
+          repository: https://charts.bitnami.com/bitnami
+          version: 3.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.6.4
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 1d5fcddc74961986ef5fe84fe94b922d45417a877cdb886944805c4c45bad8a4
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.23.0/penpot-0.23.0.tgz
+      version: 0.23.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bumped Penpot to 2.7.2
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.7.2
+      created: "2025-06-09T14:26:36.802008436Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: e786b03f699e974ee9d90268e41c9a22ced02c8163cc367e65d1b03df4822522
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.22.0/penpot-0.22.0.tgz
+      version: 0.22.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.7.1
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.7.1
+      created: "2025-05-26T13:07:50.794061343Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 9a2a79afaf75cca7b509893b0da05b81658c36931e8c0b44192033bc69f565f3
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.21.0/penpot-0.21.0.tgz
+      version: 0.21.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.7.0
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.7.0
+      created: "2025-05-26T05:28:06.765988657Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 614a99f781c179c456f389b02c484c6762453db3141e26d2db31501987ac7987
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.20.0/penpot-0.20.0.tgz
+      version: 0.20.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: added
+            description: Added annotations for Penpot services
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.6.2
+      created: "2025-05-23T08:22:24.046219435Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: d626aa7a128093108f001027e362e5ae619da6433180ecb0d290b41570a6ed6d
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.19.0/penpot-0.19.0.tgz
+      version: 0.19.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.6.2
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.6.2
+      created: "2025-04-30T08:14:58.483000919Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 97c4256fbbda62b5c2ef80f346557c653384ea7ad003c3962dbac9b4f02d4c03
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.18.0/penpot-0.18.0.tgz
+      version: 0.18.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.6.1
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.6.1
+      created: "2025-04-10T15:09:45.422280105Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 5f322d45aab09a3d51b91d467ac05190e60bbfdf980576eb792abbdb9f1efc64
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.17.0/penpot-0.17.0.tgz
+      version: 0.17.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.6.0
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.6.0
+      created: "2025-04-09T10:00:36.753035957Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 0652430292a3303a43995dcee8a95e499a6f60139cf99cca0a919bbd05b36f0d
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.16.0/penpot-0.16.0.tgz
+      version: 0.16.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: fixed
+            description: Fix issue with Redis configuration thanks to @amith55555
+            links:
+              - name: Github Issue 25
+                url: https://github.com/penpot/penpot-helm/issues/25
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.5.4
+      created: "2025-03-31T09:32:24.051069868Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 6743df3659358ac15f111f2a6331565eb835b48f339c66fed4c1af6f77a72b98
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.15.0/penpot-0.15.0.tgz
+      version: 0.15.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.5.4
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.5.4
+      created: "2025-03-20T16:33:35.575926275Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 7465f211d35b9dd66a8bbf2944e0a0fd1c36527c9d54aca99af20c0d20fdf1df
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.14.0/penpot-0.14.0.tgz
+      version: 0.14.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.5.3
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.5.3
+      created: "2025-03-13T10:09:38.400097037Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 36374047bc5c2523c2ef6d9274fa94ec1a322131e1e11493eabf2e8a464f7f29
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.13.0/penpot-0.13.0.tgz
+      version: 0.13.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.5.2
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.5.2
+      created: "2025-03-11T16:23:12.394673411Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 46e955405b819f22d8be6209b436010aa346e8cdfd55ba9106b2ffc452b5867b
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.12.0/penpot-0.12.0.tgz
+      version: 0.12.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: added
+            description: Allow to use secrets to define PENPOT_SECRET_KEY, PENPOT_DATABASE_URI and PENPOT_REDIS_URI
+            links:
+              - name: GitHub Issue 16
+                url: https://github.com/penpot/penpot-helm/issues/16
+          - kind: added
+            description: Allow to use secrets to define PENPOT_LDAP_BIND_PASSWORD. Thanks to @jdollar
+            links:
+              - name: GitHub PR 18
+                url: https://github.com/penpot/penpot-helm/pull/18
+          - kind: added
+            description: Allow to set up the url of Privacy Policy and Terms of Service
+          - kind: added
+            description: Allow to set up extra environments for all containers, specific and common. Thanks to @jdollar
+            links:
+              - name: GitHub PR 18
+                url: https://github.com/penpot/penpot-helm/pull/18
+          - kind: changed
+            description: The default Redis architecture will be standalone instead of replication
+            links:
+              - name: GitHub Issue 23
+                url: https://github.com/penpot/penpot-helm/issues/23
+          - kind: changed
+            description: Bump Penpot to 2.5.1
+          - kind: fixed
+            description: Fix issue with default value for PENPOT_LDAP_BIND_DN. Thanks to @jdollar
+            links:
+              - name: GitHub PR 18
+                url: https://github.com/penpot/penpot-helm/pull/18
+          - kind: fixed
+            description: Fix documentation related to OpenID integration. Thanks to @danton721
+            links:
+              - name: GitHub PR 21
+                url: https://github.com/penpot/penpot-helm/pull/21
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.appto
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.5.1
+      created: "2025-03-03T16:23:00.028175178Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: a9cca2ee3701f68b78215ddee364a3f5d25f28e5704f0251b4c9f14751a271c7
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.11.0/penpot-0.11.0.tgz
+      version: 0.11.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot to 2.4.3
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.3
+      created: "2025-01-31T15:44:52.593277083Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: dd98697ea7f32906a2d4c0ae84d81a3d04ef147a0507bf845df86f03ab8e6083
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.10.0/penpot-0.10.0.tgz
+      version: 0.10.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: fixed
+            description: fixed conflicting telemetry configuration
+            links:
+              - name: GitHub Issue #17
+                url: https://github.com/penpot/penpot-helm/issues/17
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.2
+      created: "2025-01-31T08:22:54.090183456Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 8749a6c671213ce011c9ae85eaed42c4883358f84030b582b38ff3b6b96d82d6
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.9.1/penpot-0.9.1.tgz
+      version: 0.9.1
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: added
+            description: added telemetry referer configuration
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.2
+      created: "2025-01-30T06:57:09.124133701Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: fc685fe535d170d209e466491de93affaaa90c08429d8a2640943ea2f38a9b51
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.9.0/penpot-0.9.0.tgz
+      version: 0.9.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump penpot to 2.4.2
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.2
+      created: "2025-01-29T12:51:46.352326593Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 65039db9895014cd27e7e39aeb852d8e49a4892a625fe01a91ae402845cb6106
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.8.0/penpot-0.8.0.tgz
+      version: 0.8.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot images to 2.4.1.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.1
+      created: "2025-01-13T10:53:33.630491139Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 3e2853ff3934ccb3ca6bc188728c28626ae432abcfe17a2788800c171f409289
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.7.0/penpot-0.7.0.tgz
+      version: 0.7.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot images to 2.4.0.
+          - kind: changed
+            description: Change penpot-frontend service port to 8080.
+          - kind: added
+            description: Add autoFileSnapshot configuration
+          - kind: added
+            description: containsSecurityUpdates and podSecurityContext can be defined for penpot-frontend.
+          - kind: added
+            description: Allow to run in a Openshift Container Platform. Thanks to @alverad-katsuro.
+            links:
+              - name: GitHub PR #9
+                url: https://github.com/penpot/penpot-helm/pull/9
+          - kind: added
+            description: config.internalResolver sets PENPOT_INTERNAL_RESOLVER to the frontend deployment. Thanks to @vipinjn24.
+            links:
+              - name: Github Issue #12
+                url: https://github.com/penpot/penpot-helm/issues/12
+              - name: GitHub PR #13
+                url: https://github.com/penpot/penpot-helm/pull/13
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.4.0
+      created: "2025-01-08T12:06:26.944729674Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: fc20a05bd790653e154f09b3bdd195d7878de6e0f4e2a485fb82f9831ad5a057
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.6.0/penpot-0.6.0.tgz
+      version: 0.6.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot images to 2.3.3.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.3.3
+      created: "2024-11-15T19:48:06.231524421Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 1fb4cf8c1ad51f6ea3cf67002073dce2630d2e249419a37dff72c9bf2029584b
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.5.0/penpot-0.5.0.tgz
+      version: 0.5.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump Penpot images to 2.3.2.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.3.2
+      created: "2024-11-14T17:36:09.103060784Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 175283e1de3aa0026f10849ed9665a102b9d40d577873a28b12159f3c1b75d75
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.4.0/penpot-0.4.0.tgz
+      version: 0.4.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump penpot images to 2.3.1.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.3.1
+      created: "2024-11-08T10:31:50.277704228Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 8b586372a3a76bbbdd6cf69990dd6396b86c34c19d3158d0cc3d7b121ca477f4
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.3.0/penpot-0.3.0.tgz
+      version: 0.3.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump penpot images to 2.2.0.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.2.0
+      created: "2024-10-10T12:00:49.619234451Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: bb18fc89aedd24a4dac8e8db899d631110d2d99d1a319faed501c994ccf38d71
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.2.0/penpot-0.2.0.tgz
+      version: 0.2.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump to 0.1.0. Initial release.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.1.4
+      created: "2024-09-18T09:44:51.221758801Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: a9f89bc0fade74e22729225e4f842896bb077eeab19b5550252515b5d49899ba
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0/penpot-0.1.0.tgz
+      version: 0.1.0
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: added
+            description: Allow to define pod disruption budgets.
+          - kind: changed
+            description: Bump penpot to 2.1.4.
+          - kind: changed
+            description: Imporve documentation.
+          - kind: fixed
+            description: hostname example for ingress (by @Tchoupinax).
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+          - name: documentation
+            url: https://help.penpot.app/
+          - name: tutorials
+            url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+          - name: dev-diaries
+            url: https://penpot.app/dev-diaries.html
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.1.4
+      created: "2024-09-10T10:45:22.647587129Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: e15e485d854f65f250d1b49955e308c1ec2e8458f5392b09452ee5435d6d2d51
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-004/penpot-0.1.0-alpha-004.tgz
+      version: 0.1.0-alpha-004
+    - annotations:
+        artifacthub.io/changes: |
+          - kind: changed
+            description: Bump penpot to 2.1.1.
+          - kind: fixed
+            description: homogenize and simplify container and pod security context and affinity.
+          - kind: fixed
+            description: Imporve documentation.
+        artifacthub.io/containsSecurityUpdates: "false"
+        artifacthub.io/links: |
+          - name: support
+            url: https://github.com/penpot/penpot-helm/issues
+          - name: community
+            url: https://community.penpot.app
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.1.1
+      created: "2024-08-01T16:59:00.902772399Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: 382a82203b36ee25cc9195d7de449a11e9dca6bb202e263cb743d409effbdddd
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-003/penpot-0.1.0-alpha-003.tgz
+      version: 0.1.0-alpha-003
+    - annotations:
+        artifacthub.io/signKey: |
+          fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+          url: https://helm.penpot.app/pubkey.asc
+      apiVersion: v2
+      appVersion: 2.1.0
+      created: "2024-07-24T11:21:38.321644383Z"
+      dependencies:
+        - condition: global.postgresqlEnabled
+          name: postgresql
+          repository: https://charts.bitnami.com/bitnami
+          version: 15.x.x
+        - condition: global.redisEnabled
+          name: redis
+          repository: https://charts.bitnami.com/bitnami
+          version: 19.x.x
+      description: Helm chart for Penpot, the Open Source design and prototyping platform.
+      digest: f8c12752af485f412e6668200ef7571662004c77a8efe8fa4b83083869d12faa
+      home: https://penpot.app
+      icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+      keywords:
+        - kubernetes
+        - penpot
+        - penpotapp
+        - design
+        - designsystem
+        - opensource
+        - ux
+        - ui
+      maintainers:
+        - name: Kaleidos INC
+          url: https://kaleidos.net
+      name: penpot
+      sources:
+        - https://github.com/penpot/penpot/tree/main
+        - https://github.com/penpot/penpot-helm/tree/main
+      type: application
+      urls:
+        - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
+      version: 0.1.0-alpha-001
 generated: "2025-08-29T08:48:56.350446625Z"
