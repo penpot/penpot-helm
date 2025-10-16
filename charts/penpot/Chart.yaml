@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.28.0-unreleased # Chart version
+version: 0.28.0 # Chart version
 appVersion: "2.10.1"  # Penpot version
 type: application
 name: penpot
@@ -40,7 +40,7 @@ annotations:
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
     - kind: changed
-     description: Bump penpot to 2.10.1.
+      description: Bump penpot to 2.10.1.
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
