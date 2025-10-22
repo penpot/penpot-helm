@@ -118,10 +118,10 @@ config:
       # @section -- Configuration parameters
       redisUriKey: ""
 
-  assets:
-    # -- The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3.
+  objectsStorage:
+    # -- The storage backend for different objects (assets, old data...) to use. Use `fs` for filesystem, and `s3` for S3.
     # @section -- Configuration parameters
-    storageBackend: "assets-fs"
+    storageBackend: "fs"
     filesystem:
       # -- The storage directory to use if you chose the filesystem storage backend.
       # @section -- Configuration parameters
@@ -345,6 +345,7 @@ config:
     # -- If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
     timeout: "3h"
+
   # -- Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Configuration parameters
   extraEnvs: []
@@ -620,25 +621,25 @@ exporter:
 
 persistence:
   assets:
-    # -- Enable assets persistence using Persistent Volume Claims.
+    # -- Enable Penpot objects persistence using Persistent Volume Claims.
     # @section -- Persistence parameters
     enabled: true
-    # -- Assets persistent Volume storage class.
+    # -- Penpot objects persistent Volume storage class.
     # If defined, storageClassName: <storageClass>.
     # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
     # @section -- Persistence parameters
     storageClass: ""
-    # -- Assets persistent Volume size.
+    # -- Penpot objects persistent Volume size.
     # @section -- Persistence parameters
     size: 20Gi
-    # -- The name of an existing PVC to use for assets persistence.
+    # -- The name of an existing PVC to use for Penpot objects persistence.
     # @section -- Persistence parameters
     existingClaim: ""
-    # -- Assets persistent Volume access modes.
+    # -- Penpot objects persistent Volume access modes.
     # @section -- Persistence parameters
     accessModes:
       - ReadWriteOnce
-    # -- Assetsp ersistent Volume Claim annotations.
+    # -- Penpot objects persistent Volume Claim annotations.
     # @section -- Persistence parameters
     annotations: {}
   exporter:

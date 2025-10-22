@@ -39,6 +39,12 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: deprecated
+      description: Renamed from Values.config.assets to Values.config.objetsStorage.
+    - kind: deprecated
+      description: `assets-fs` and `assets-s3` now are `fs` and `s3` for Values.config.objetsStorage.storageBackend.
+    - kind: changed
+      description: Internal renaming for penpot environments variables, from PENPOT_STORAGE_ASSETS_* to PENPOT_OBJECTS_STORAGE_*
     - kind: added
       description: Define default values for masxmemory and maxmemory-policy in Valkey and redis.
 dependencies:
