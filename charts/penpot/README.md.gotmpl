@@ -236,6 +236,55 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 ## Upgrading
 
+### To 0.29.0
+
+Penpot 2.11 is implementing a more complex storage system (not just for store assets). To do this, it has changed the names of some environment variables, and we should to applied the same nomenclature.
+
+The changes to be made if you have modified `config.assets` are:
+
+- `config.assets` must be `config.objetsStorage`.
+- Value for `config.objetsStorage.storageBackend` must be changed from `assets-fs` or `assets-s3` to `fs` or `s3` respectively.
+
+For example, if you use this file to set up your penpot instance
+
+```yml
+# values.local.yaml
+# (...)
+
+config:
+  #(...)
+
+  assets:
+    storageBackend: "assets-s3"
+    s3:
+      accessKeyID: "my-access-key-id"
+      secretAccessKey: "my-secret-key"
+      region: "eu-west1"
+      bucket: "penpot-assets"
+
+# (...)
+```
+
+you must exchange it for this one:
+
+```yml
+# values.local.yaml
+# (...)
+
+config:
+  #(...)
+
+  objectsStorage:           # <- Changed
+    storageBackend: "s3"    # <- Changed
+    s3:
+      accessKeyID: "my-access-key-id"
+      secretAccessKey: "my-secret-key"
+      region: "eu-west1"
+      bucket: "penpot-assets"
+
+# (...)
+```
+
 ### To 0.23.0
 
 Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions for a long, long time. 

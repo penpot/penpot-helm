@@ -106,23 +106,23 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | config.apiSecretKey | string | `"kmZ96pAxhTgk3HZvvBkPeVTspGBneKVLEpO_3ecORs_gwACENZ77z05zCe7skvPsQ3jI3QgkULQOWCuLjmjQsg"` | A random secret key needed for persistent user sessions. Generate with `python3 -c "import secrets; print(secrets.token_urlsafe(64))"` for example. |
-| config.assets.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
-| config.assets.s3.accessKeyID | string | `""` | The S3 access key ID to use if you chose the S3 storage backend. |
-| config.assets.s3.bucket | string | `""` | The name of the S3 bucket to use if you chose the S3 storage backend. |
-| config.assets.s3.endpointURI | string | `""` | The S3 endpoint URI to use if you chose the S3 storage backend. |
-| config.assets.s3.existingSecret | string | `""` | The name of an existing secret. |
-| config.assets.s3.region | string | `""` | The S3 region to use if you chose the S3 storage backend. |
-| config.assets.s3.secretAccessKey | string | `""` | The S3 secret access key to use if you chose the S3 storage backend. |
-| config.assets.s3.secretKeys.accessKeyIDKey | string | `""` | The S3 access key ID to use from an existing secret. |
-| config.assets.s3.secretKeys.endpointURIKey | string | `""` | The S3 endpoint URI to use from an existing secret. |
-| config.assets.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
-| config.assets.storageBackend | string | `"assets-fs"` | The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3. |
 | config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
+| config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
+| config.objectsStorage.s3.accessKeyID | string | `""` | The S3 access key ID to use if you chose the S3 storage backend. |
+| config.objectsStorage.s3.bucket | string | `""` | The name of the S3 bucket to use if you chose the S3 storage backend. |
+| config.objectsStorage.s3.endpointURI | string | `""` | The S3 endpoint URI to use if you chose the S3 storage backend. |
+| config.objectsStorage.s3.existingSecret | string | `""` | The name of an existing secret. |
+| config.objectsStorage.s3.region | string | `""` | The S3 region to use if you chose the S3 storage backend. |
+| config.objectsStorage.s3.secretAccessKey | string | `""` | The S3 secret access key to use if you chose the S3 storage backend. |
+| config.objectsStorage.s3.secretKeys.accessKeyIDKey | string | `""` | The S3 access key ID to use from an existing secret. |
+| config.objectsStorage.s3.secretKeys.endpointURIKey | string | `""` | The S3 endpoint URI to use from an existing secret. |
+| config.objectsStorage.s3.secretKeys.secretAccessKey | string | `""` | The S3 secret access key to use from an existing secret. |
+| config.objectsStorage.storageBackend | string | `"fs"` | The storage backend for different objects (assets, old data...) to use. Use `fs` for filesystem, and `s3` for S3. |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |
 | config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
@@ -296,12 +296,12 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| persistence.assets.accessModes | list | `["ReadWriteOnce"]` | Assets persistent Volume access modes. |
-| persistence.assets.annotations | object | `{}` | Assetsp ersistent Volume Claim annotations. |
-| persistence.assets.enabled | bool | `true` | Enable assets persistence using Persistent Volume Claims. |
-| persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for assets persistence. |
-| persistence.assets.size | string | `"20Gi"` | Assets persistent Volume size. |
-| persistence.assets.storageClass | string | `""` | Assets persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
+| persistence.assets.accessModes | list | `["ReadWriteOnce"]` | Penpot objects persistent Volume access modes. |
+| persistence.assets.annotations | object | `{}` | Penpot objects persistent Volume Claim annotations. |
+| persistence.assets.enabled | bool | `true` | Enable Penpot objects persistence using Persistent Volume Claims. |
+| persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for Penpot objects persistence. |
+| persistence.assets.size | string | `"20Gi"` | Penpot objects persistent Volume size. |
+| persistence.assets.storageClass | string | `""` | Penpot objects persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
 | persistence.exporter.accessModes | list | `["ReadWriteOnce"]` | Exporter persistent Volume access modes. |
 | persistence.exporter.annotations | object | `{}` | Exporter persistent Volume Claim annotations. |
 | persistence.exporter.enabled | bool | `false` | Enable exporter persistence using Persistent Volume Claims. If exporter.replicaCount you have to enable it. |
@@ -374,6 +374,55 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
 ## Upgrading
+
+### To 0.29.0
+
+Penpot 2.11 is implementing a more complex storage system (not just for store assets). To do this, it has changed the names of some environment variables, and we should to applied the same nomenclature.
+
+The changes to be made if you have modified `config.assets` are:
+
+- `config.assets` must be `config.objetsStorage`.
+- Value for `config.objetsStorage.storageBackend` must be changed from `assets-fs` or `assets-s3` to `fs` or `s3` respectively.
+
+For example, if you use this file to set up your penpot instance
+
+```yml
+# values.local.yaml
+# (...)
+
+config:
+  #(...)
+
+  assets:
+    storageBackend: "assets-s3"
+    s3:
+      accessKeyID: "my-access-key-id"
+      secretAccessKey: "my-secret-key"
+      region: "eu-west1"
+      bucket: "penpot-assets"
+
+# (...)
+```
+
+you must exchange it for this one:
+
+```yml
+# values.local.yaml
+# (...)
+
+config:
+  #(...)
+
+  objectsStorage:           # <- Changed
+    storageBackend: "s3"    # <- Changed
+    s3:
+      accessKeyID: "my-access-key-id"
+      secretAccessKey: "my-secret-key"
+      region: "eu-west1"
+      bucket: "penpot-assets"
+
+# (...)
+```
 
 ### To 0.23.0
 

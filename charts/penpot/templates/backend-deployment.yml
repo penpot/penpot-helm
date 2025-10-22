@@ -118,43 +118,43 @@ spec:
                   name: {{ .Values.config.redis.existingSecret }}
                   key: {{ .Values.config.redis.secretKeys.redisUriKey }}
               {{- end }}
-            # Assets storage settings
-            - name: PENPOT_ASSETS_STORAGE_BACKEND
-              value: {{ .Values.config.assets.storageBackend | quote }}
-            {{- if eq .Values.config.assets.storageBackend "assets-fs" }}
-            - name: PENPOT_STORAGE_ASSETS_FS_DIRECTORY
-              value: {{ .Values.config.assets.filesystem.directory | quote }}
-            {{- else if eq .Values.config.assets.storageBackend "assets-s3" }}
-            - name: PENPOT_STORAGE_ASSETS_S3_REGION
-              value: {{ .Values.config.assets.s3.region | quote }}
-            - name: PENPOT_STORAGE_ASSETS_S3_BUCKET
-              value: {{ .Values.config.assets.s3.bucket | quote }}
+            # Objects Storage settings
+            - name: PENPOT_OBJECTS_STORAGE_BACKEND
+              value: {{ .Values.config.objectsStorage.storageBackend | quote }}
+            {{- if eq .Values.config.objectsStorage.storageBackend "fs" }}
+            - name: PENPOT_OBJECTS_STORAGE_FS_DIRECTORY
+              value: {{ .Values.config.objectsStorage.filesystem.directory | quote }}
+            {{- else if eq .Values.config.objectsStorage.storageBackend "s3" }}
+            - name: PENPOT_OBJECTS_STORAGE_S3_REGION
+              value: {{ .Values.config.objectsStorage.s3.region | quote }}
+            - name: PENPOT_OBJECTS_STORAGE_S3_BUCKET
+              value: {{ .Values.config.objectsStorage.s3.bucket | quote }}
             - name: AWS_ACCESS_KEY_ID
-              {{- if not .Values.config.assets.s3.secretKeys.accessKeyIDKey }}
-              value: {{ .Values.config.assets.s3.accessKeyID | quote }}
+              {{- if not .Values.config.objectsStorage.s3.secretKeys.accessKeyIDKey }}
+              value: {{ .Values.config.objectsStorage.s3.accessKeyID | quote }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.assets.s3.existingSecret }}
-                  key: {{ .Values.config.assets.s3.secretKeys.accessKeyIDKey }}
+                  name: {{ .Values.config.objectsStorage.s3.existingSecret }}
+                  key: {{ .Values.config.objectsStorage.s3.secretKeys.accessKeyIDKey }}
               {{- end }}
             - name: AWS_SECRET_ACCESS_KEY
-              {{- if not .Values.config.assets.s3.secretKeys.secretAccessKey }}
-              value: {{ .Values.config.assets.s3.secretAccessKey | quote }}
+              {{- if not .Values.config.objectsStorage.s3.secretKeys.secretAccessKey }}
+              value: {{ .Values.config.objectsStorage.s3.secretAccessKey | quote }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.assets.s3.existingSecret }}
-                  key: {{ .Values.config.assets.s3.secretKeys.secretAccessKey }}
+                  name: {{ .Values.config.objectsStorage.s3.existingSecret }}
+                  key: {{ .Values.config.objectsStorage.s3.secretKeys.secretAccessKey }}
               {{- end }}
-            - name: PENPOT_STORAGE_ASSETS_S3_ENDPOINT
-              {{- if not .Values.config.assets.s3.secretKeys.endpointURIKey }}
-              value: {{ .Values.config.assets.s3.endpointURI | quote }}
+            - name: PENPOT_OBJECTS_STORAGE_S3_ENDPOINT
+              {{- if not .Values.config.objectsStorage.s3.secretKeys.endpointURIKey }}
+              value: {{ .Values.config.objectsStorage.s3.endpointURI | quote }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.assets.s3.existingSecret }}
-                  key: {{ .Values.config.assets.s3.secretKeys.endpointURIKey }}
+                  name: {{ .Values.config.objectsStorage.s3.existingSecret }}
+                  key: {{ .Values.config.objectsStorage.s3.secretKeys.endpointURIKey }}
               {{- end }}
             {{- end }}
           {{- if .Values.config.smtp.enabled }}
@@ -410,7 +410,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - mountPath: /opt/data/assets
+            - mountPath: {{ .Values.config.objectsStorage.filesystem.directory | quote }}
               name: app-data
               readOnly: false
             {{- with .Values.backend.volumeMounts }}
