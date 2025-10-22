@@ -759,9 +759,27 @@ valkey:
   # -- Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies)
   # @section -- Valkey Dependencie parameters
   architecture: standalone
+  # -- Common configuration to be appended to valkey.conf (as a block of configuration lines).
+  # @section -- Valkey Dependencie parameters
+  commonConfiguration: |
+    ## Recommended values for most Penpot instances. 
+    ## You can modify this value to follow your policies.
+
+    # Set maximum memory Valkey will use.
+    # Accepted units: b, k, kb, m, mb, g, gb
+    maxmemory 128mb
+
+    # Choose an eviction policy (see Valkey docs:
+    # https://valkey.io/topics/memory-optimization/)
+    # Common choices:
+    #   noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random,
+    #   volatile-ttl, volatile-lfu, allkeys-lfu
+    #
+    # For Penpot, volatile-lfu is recommended
+    maxmemory-policy volatile-lfu
 
 # Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
-# DEPRECATION WARNING: Since penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions. 
+# DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions. 
 redis:
   image:
     repository: bitnamilegacy/redis
@@ -779,3 +797,21 @@ redis:
   # -- Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies)
   # @section -- Redis Dependencie parameters
   architecture: standalone
+  # -- Common configuration to be appended to redis.conf (as a block of configuration lines).
+  # @section -- Redis Dependencie parameters
+  commonConfiguration: |
+    ## Recommended values for most Penpot instances.
+    ## You can modify this value to follow your policies.
+
+    # Set maximum memory Redis will use.
+    # Accepted units: b, k, kb, m, mb, g, gb
+    maxmemory 128mb
+
+    # Choose an eviction policy (see Redis docs:
+    # https://redis.io/docs/latest/develop/reference/eviction/)
+    # Common choices:
+    #   noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random,
+    #   volatile-ttl, volatile-lfu, allkeys-lfu
+    #
+    # For Penpot, volatile-lfu is recommended
+    maxmemory-policy volatile-lfu
