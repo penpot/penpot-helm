@@ -157,6 +157,9 @@ spec:
                   key: {{ .Values.config.objectsStorage.s3.secretKeys.endpointURIKey }}
               {{- end }}
             {{- end }}
+            # File Data Store settings
+            - name: PENPOT_FILE_DATA_BACKEND
+              value: {{ .Values.config.fileDataBackend | quote }}
           {{- if .Values.config.smtp.enabled }}
             # SMTP settings
             {{- if .Values.config.smtp.defaultFrom }}

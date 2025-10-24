@@ -156,6 +156,10 @@ config:
         # @section -- Configuration parameters
         endpointURIKey: ""
 
+  # -- Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...)
+  # @section -- Configuration parameters
+  fileDataBackend: "legacy-db"
+
   smtp:
     # -- Whether to enable SMTP configuration. You also need to add the 'enable-smtp' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters
