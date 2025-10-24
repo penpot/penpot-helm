@@ -110,6 +110,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
+| config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
 | config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
@@ -377,7 +378,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 ### To 0.29.0
 
-Penpot 2.11 is implementing a more complex storage system (not just for store assets). To do this, it has changed the names of some environment variables, and we should to applied the same nomenclature.
+Penpot 2.11 is implementing a more complex storage system (not just for store assets). To do this, it has changed the names of some environment variables, and we should apply the same nomenclature.
 
 The changes to be made if you have modified `config.assets` are:
 
