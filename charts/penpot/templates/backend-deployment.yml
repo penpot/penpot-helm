@@ -68,55 +68,54 @@ spec:
               value: {{ .Values.config.telemetryEnabled | quote }}
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
-            # PosgreSQL connection settings
+            # PostgreSQL connection settings (CloudPirates compatible)
             - name: PENPOT_DATABASE_URI
-              {{- if not .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-                {{- if .Values.config.postgresql.host }}
-              value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-                {{- else }}
-              value: {{ print "postgresql://" (include "penpot.fullname" .) "-postgresql:" .Values.config.postgresql.port "/" .Values.config.postgresql.database }}
-                {{- end }}
-              {{- else }}
+              {{- if .Values.config.postgresql.secretKeys.postgresqlUriKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.postgresqlUriKey }}
+              {{- else if .Values.config.postgresql.host }}
+              value: "postgresql://{{ .Values.config.postgresql.username }}:{{ .Values.config.postgresql.password }}@{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
+              {{- else }}
+              # Using subchart PostgreSQL from CloudPirates
+              value: {{ printf "postgresql://%s:%s@%s-postgresql:%v/%s" .Values.config.postgresql.username .Values.config.postgresql.password (include "penpot.fullname" .) .Values.config.postgresql.port .Values.config.postgresql.database }}
               {{- end }}
             - name: PENPOT_DATABASE_USERNAME
-              {{- if not .Values.config.postgresql.secretKeys.usernameKey }}
-              value: {{ .Values.config.postgresql.username | quote }}
-              {{- else }}
+              {{- if .Values.config.postgresql.secretKeys.usernameKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.usernameKey }}
-              {{- end }}
-            - name: PENPOT_DATABASE_PASSWORD
-              {{- if not .Values.config.postgresql.secretKeys.passwordKey }}
-              value: {{ .Values.config.postgresql.password | quote }}
               {{- else }}
+              value: {{ .Values.config.postgresql.username | quote }}
+              {{- end }}
+
+            - name: PENPOT_DATABASE_PASSWORD
+              {{- if .Values.config.postgresql.secretKeys.passwordKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
-              {{- end }}
-            # Valkey/Redis connection settings
-            - name: PENPOT_REDIS_URI
-              {{- if not .Values.config.redis.secretKeys.redisUriKey }}
-                {{- if .Values.config.redis.host }}
-              value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-                {{- else }}
-                  {{- if .Values.global.valkeyEnabled }}
-              value: {{ print "redis://" (include "penpot.fullname" .) "-valkey-primary:" .Values.config.redis.port "/" .Values.config.redis.database }}
-                  {{- else }}
-              value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
-                  {{- end }}
-                {{- end }}
               {{- else }}
+              value: {{ .Values.config.postgresql.password | quote }}
+              {{- end }}
+            # Valkey connection settings (CloudPirates compatible)
+            - name: PENPOT_REDIS_URI
+              {{- if .Values.config.redis.secretKeys.redisUriKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.redis.existingSecret }}
                   key: {{ .Values.config.redis.secretKeys.redisUriKey }}
+              {{- else if .Values.config.redis.host }}
+              # External Valkey instance provided by user
+              value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
+              {{- else if .Values.global.valkeyEnabled }}
+              # Using CloudPirates Valkey subchart
+              value: {{ printf "redis://%s-valkey:%v/%s" (include "penpot.fullname" .) .Values.config.redis.port .Values.config.redis.database }}
+              {{- else }}
+              # Fallback: Redis subchart (deprecated)
+              value: {{ printf "redis://%s-redis-master:%v/%s" (include "penpot.fullname" .) .Values.config.redis.port .Values.config.redis.database }}
               {{- end }}
             # Objects Storage settings
             - name: PENPOT_OBJECTS_STORAGE_BACKEND

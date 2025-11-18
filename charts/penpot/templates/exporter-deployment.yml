@@ -53,8 +53,10 @@ spec:
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
                 {{- else }}
                   {{- if .Values.global.valkeyEnabled }}
-              value: {{ print "redis://" (include "penpot.fullname" .) "-valkey-primary:" .Values.config.redis.port "/" .Values.config.redis.database }}
+              # Using CloudPirates Valkey subchart
+              value: {{ printf "redis://%s-valkey:%v/%s" (include "penpot.fullname" .) .Values.config.redis.port .Values.config.redis.database }}
                   {{- else }}
+              # Fallback to Redis (Bitnami or external)
               value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
                   {{- end }}
                 {{- end }}
