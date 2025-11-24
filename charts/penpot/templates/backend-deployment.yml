@@ -69,37 +69,24 @@ spec:
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
             # PostgreSQL connection settings (CloudPirates compatible)
+
+            # PostgreSQL connection settings
             - name: PENPOT_DATABASE_URI
-              {{- if .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.postgresql.existingSecret }}
-                  key: {{ .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-              {{- else if .Values.config.postgresql.host }}
-              value: "postgresql://{{ .Values.config.postgresql.username }}:{{ .Values.config.postgresql.password }}@{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-              {{- else }}
-              # Using subchart PostgreSQL from CloudPirates
-              value: {{ printf "postgresql://%s:%s@%s-postgresql:%v/%s" .Values.config.postgresql.username .Values.config.postgresql.password (include "penpot.fullname" .) .Values.config.postgresql.port .Values.config.postgresql.database }}
-              {{- end }}
+              value: 'postgresql://{{ .Values.config.postgresql.username }}:{{ .Values.config.postgresql.password }}@{{ include "penpot.fullname" . }}-postgres:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}'
+
+            - name: PENPOT_DATABASE_PORT
+              value: '{{ .Values.config.postgresql.port }}'
+
             - name: PENPOT_DATABASE_USERNAME
-              {{- if .Values.config.postgresql.secretKeys.usernameKey }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.postgresql.existingSecret }}
-                  key: {{ .Values.config.postgresql.secretKeys.usernameKey }}
-              {{- else }}
-              value: {{ .Values.config.postgresql.username | quote }}
-              {{- end }}
+              value: '{{ .Values.config.postgresql.username }}'
 
             - name: PENPOT_DATABASE_PASSWORD
-              {{- if .Values.config.postgresql.secretKeys.passwordKey }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.postgresql.existingSecret }}
-                  key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
-              {{- else }}
-              value: {{ .Values.config.postgresql.password | quote }}
-              {{- end }}
+              value: '{{ .Values.config.postgresql.password }}'
+
+            - name: PENPOT_DATABASE_NAME
+              value: '{{ .Values.config.postgresql.database }}'
+
+
             # Valkey connection settings (CloudPirates compatible)
             - name: PENPOT_REDIS_URI
               {{- if .Values.config.redis.secretKeys.redisUriKey }}

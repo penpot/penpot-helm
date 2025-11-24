@@ -1,12 +1,12 @@
 dependencies:
-- name: postgresql
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 15.5.38
+- name: postgres
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.12.1
 - name: valkey
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 3.0.31
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.3.1
 - name: redis
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 19.6.4
-digest: sha256:71454dcb1929068aae3ef49a4ddee591dfce59fd77516db4880006c90e194d99
-generated: "2025-08-28T10:49:27.093376899+02:00"
+digest: sha256:8942e947d65b06b1171db743088b62eba2b11250d12f8feea74cc99788a4ee22
+generated: "2025-11-20T13:26:25.518709485+01:00"

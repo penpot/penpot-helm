@@ -42,7 +42,7 @@ annotations:
     - kind: changed
       description: Bump Penpot to 2.11.1
 dependencies:
-  - name: postgresql
+  - name: postgres
     version: 0.12.1 # default appVersion == 18.1.0
     repository: oci://registry-1.docker.io/cloudpirates
     condition: global.postgresqlEnabled
