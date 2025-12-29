@@ -19,6 +19,67 @@ The charts can be added using following command:
 ```
 helm repo add penpot https://helm.penpot.app/
 ```
+## Prerequisites
+
+This chart uses **CloudNativePG (CNPG)** to manage PostgreSQL clusters.
+
+Before installing Penpot, the CloudNativePG operator must be installed in the cluster:
+
+```bash
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm install cnpg-operator cnpg/cloudnative-pg \
+  --namespace cnpg-system \
+  --create-namespace
+```
+## Migration from existing installations
+
+This chart supports migrating existing Penpot installations, including legacy deployments such as Bitnami-based setups.
+
+A Penpot installation stores data in two different places:
+
+- **PostgreSQL database** (users, teams, projects, metadata)
+- **Filesystem assets** (thumbnails, previews, and file blobs)
+
+Migrating only the database is not sufficient.  
+If assets are not migrated, boards and dashboards may appear broken or show missing thumbnails after the migration.
+
+To address this, this repository includes a migration script that performs an **end-to-end migration**, ensuring data consistency across both layers.
+
+### What the migration process does
+
+The migration workflow:
+
+- Temporarily stops Penpot services to avoid writes
+- Creates a backup of the source PostgreSQL database
+- Restores the database into the target installation
+- Migrates filesystem assets stored under `/opt/data/assets`
+- Preserves existing PVCs and safely replaces their contents
+
+This approach prevents common migration issues such as missing thumbnails or partially rendered boards.
+
+### Migration script
+
+The migration helper script is located at:
+
+```bash
+scripts/migrate.sh
+```
+It is intended to be used when migrating existing Penpot installations to a new deployment.
+
+> 📌 **Note**
+> The migration tooling is intended for existing installations only.
+> For fresh deployments, no migration steps are required.
+
+By default, the script assumes the following namespaces:
+
+- Source namespace: penpot
+- Target namespace: penpot-migration
+
+> 📌 **Note**
+> The namespace names used in the script are examples.
+> Users should update them according to their own Kubernetes environment.
+
+This migration process is designed to be safe, repeatable, and suitable for production environments.
 
 ## Contributing ##
 

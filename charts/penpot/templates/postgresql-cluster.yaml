@@ -1,0 +1,19 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-postgresql
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: 1
+
+  imageName: ghcr.io/cloudnative-pg/postgresql:15
+
+  storage:
+    size: 8Gi
+
+  bootstrap:
+    initdb:
+      database: penpot
+      owner: {{ .Values.penpot.db.username }}
+      secret:
+        name: {{ .Release.Name }}-db-secret
