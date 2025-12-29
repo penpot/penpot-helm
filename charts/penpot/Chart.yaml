@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.31.0 # Chart version
+version: 0.32.0-unreleased # Chart version
 appVersion: "2.12.0"  # Penpot version
 type: application
 name: penpot
@@ -39,10 +39,6 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Add the secret key to the exporter service
-    - kind: changed
-      description: Bump Penpot to 2.12.0
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
