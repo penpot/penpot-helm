@@ -1,12 +1,6 @@
 dependencies:
-- name: postgresql
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 15.5.38
 - name: valkey
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 3.0.31
-- name: redis
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 19.6.4
-digest: sha256:71454dcb1929068aae3ef49a4ddee591dfce59fd77516db4880006c90e194d99
-generated: "2025-08-28T10:49:27.093376899+02:00"
+  repository: https://groundhog2k.github.io/helm-charts/
+  version: 2.2.3
+digest: sha256:2c3d9bcbc139a1ac543fdb944db598bca7816f4724a414603f75e208b02e5342
+generated: "2025-12-29T20:56:04.981434763+01:00"
