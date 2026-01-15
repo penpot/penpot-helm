@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.33.0-unreleased](https://img.shields.io/badge/Version-0.33.0--unreleased-informational?style=flat-square) ![AppVersion: 2.12.1](https://img.shields.io/badge/AppVersion-2.12.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.34.0-unreleased](https://img.shields.io/badge/Version-0.34.0--unreleased-informational?style=flat-square) ![AppVersion: 2.13.0](https://img.shields.io/badge/AppVersion-2.13.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -11,6 +11,24 @@ Penpot is the first **open-source** design tool for design and code collaboratio
 Penpot is available on browser and [self host](https://penpot.app/self-host). It’s web-based and works with open standards (SVG, CSS and HTML). And last but not least, it’s free!
 
 ## Installing the Chart
+
+### Prerequisite: CloudNativePG operator (required when using CNPG)
+
+To use CloudNativePG (CNPG) as PostgreSQL backend, your Kubernetes cluster must have the CloudNativePG operator installed (it provides the postgresql.cnpg.io CRDs). If it’s not installed, the chart will fail to create CNPG resources.
+
+Install CloudNativePG operator:
+
+```console
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm repo update
+```
+The following command installs the CloudNativePG operator and its required Custom Resource Definitions (CRDs):
+
+```consola
+helm upgrade --install cnpg cnpg/cloudnative-pg \
+  --namespace cnpg-system --create-namespace
+```
+### Install penpot
 
 To install the chart with the release name `my-release`:
 
@@ -23,7 +41,7 @@ You can customize the installation specify each parameter using the `--set key=v
 
 ```console
 helm install my-release \
-  --set global.postgresqlEnabled=true \
+  --set global.cnpg.enabled=true \
   --set global.valkeyEnabled=true \
   --set persistence.assets.enabled=true \
   penpot/penpot
@@ -108,6 +126,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.apiSecretKey | string | `"kmZ96pAxhTgk3HZvvBkPeVTspGBneKVLEpO_3ecORs_gwACENZ77z05zCe7skvPsQ3jI3QgkULQOWCuLjmjQsg"` | A random secret key needed for persistent user sessions. Generate with `python3 -c "import secrets; print(secrets.token_urlsafe(64))"` for example. |
 | config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
+| config.cnpg.enabled | bool | `false` | Enable CloudNativePG (CNPG) PostgreSQL cluster resources.::ex:Ex:E`:e` |
+| config.cnpg.useAsPrimary | bool | `false` | Use CNPG as the primary database for Penpot. When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret. When `false` and `global.cnpg.enabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL. |
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
@@ -212,7 +232,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
-| backend.image.tag | string | `"2.12.1"` | The image tag to use. |
+| backend.image.tag | string | `"2.13.0"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | backend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the backend pods. |
@@ -243,7 +263,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | frontend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
-| frontend.image.tag | string | `"2.12.1"` | The image tag to use. |
+| frontend.image.tag | string | `"2.13.0"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the frontend pods. |
@@ -273,7 +293,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
-| exporter.image.tag | string | `"2.12.1"` | The image tag to use. |
+| exporter.image.tag | string | `"2.13.0"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the exporter pods. |
@@ -375,6 +395,77 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
 ## Upgrading
+
+### To 1.0.0
+
+Bitnami is changing the way its Helm charts are maintained and distributed, which impacts how PostgreSQL is deployed and managed in Kubernetes environments. As a result, Penpot is moving away from the Bitnami PostgreSQL chart and adopting **CloudNativePG (CNPG)** as its PostgreSQL operator.
+
+This allows Penpot to rely on a Kubernetes-native, actively maintained solution for PostgreSQL lifecycle management, backups, and replication.
+
+This change introduces new configuration flags and **requires a manual data migration** if you are upgrading an existing installation that previously used Bitnami PostgreSQL.
+
+Depending on your current setup, follow **one of the scenarios below**.
+
+#### Migrating from Bitnami PostgreSQL to CloudNativePG
+
+If your Penpot installation was previously using the Bitnami PostgreSQL Helm chart, the database data must be migrated to a new CloudNativePG cluster.
+
+⚠️ **MIGRATION IS A MANUAL AND SAFE PROCESS AND WILL NOT BE PERFORMED AUTOMATICALLY.**
+
+##### Step 1: Enable CloudNativePG (migration mode)
+
+First, deploy CloudNativePG **while keeping Bitnami PostgreSQL enabled**:
+
+```console
+helm upgrade --install penpot . -n penpot \
+  --set global.cnpg.enabled=true \
+  --set global.postgresqlEnabled=true \
+  --set global.valkeyEnabled=true
+```
+
+##### Step 2: Run the migration script
+
+Once CloudNativePG is available, run the migration script:
+```console
+./scripts/upgrade/1.0.0/migrate-bitnami-to-cnpg.sh
+```
+
+This script will:
+
+* Connect to the existing Bitnami PostgreSQL instance
+
+* Dump the current database
+
+* Restore the data into the CloudNativePG cluster
+
+* Output the final Helm command required to complete the migration
+
+##### Step 3: Switch CloudNativePG as primary database
+
+After the migration finishes successfully, execute the command provided by the script, for example:
+```console
+helm upgrade --install penpot . -n penpot \
+  --set global.cnpg.enabled=true \
+  --set global.cnpg.useAsPrimary=true \
+  --set global.postgresqlEnabled=false \
+  --set global.valkeyEnabled=true
+```
+
+Once this step is completed:
+
+* CloudNativePG becomes the primary PostgreSQL backend
+
+* Bitnami PostgreSQL is disabled
+
+* Penpot runs fully on CloudNativePG
+
+##### Important notes
+
+* Migration is never automatic
+
+* Penpot will not switch databases unless global.cnpg.useAsPrimary=true
+
+* Bitnami PostgreSQL is supported only for **the next 3 chart releases**
 
 ### To 0.29.0
 

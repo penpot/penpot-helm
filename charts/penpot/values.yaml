@@ -99,7 +99,15 @@ config:
       # -- The password key to use from an existing secret.
       # @section -- Configuration parameters
       passwordKey: ""
-
+  cnpg:
+    # -- Enable CloudNativePG (CNPG) PostgreSQL cluster resources.::ex:Ex:E`:e`
+    # @section -- PostgreSQL
+    enabled: false
+    # -- Use CNPG as the primary database for Penpot.
+    # When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret.
+    # When `false` and `global.cnpg.enabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL.
+    # @section -- PostgreSQL
+    useAsPrimary: false
   redis:
     # -- The Valkey host to connect to. Empty to use dependencies
     # @section -- Configuration parameters
@@ -361,7 +369,7 @@ backend:
     repository: penpotapp/backend
     # -- The image tag to use.
     # @section -- Backend parameters
-    tag: 2.12.1
+    tag: 2.13.0
     # -- The image pull policy to use.
     # @section -- Backend parameters
     pullPolicy: IfNotPresent
@@ -456,7 +464,7 @@ frontend:
     repository: penpotapp/frontend
     # -- The image tag to use.
     # @section -- Frontend parameters
-    tag: 2.12.1
+    tag: 2.13.0
     # -- The image pull policy to use.
     # @section -- Frontend parameters
     pullPolicy: IfNotPresent
@@ -543,7 +551,7 @@ exporter:
     repository: penpotapp/exporter
     # -- The image tag to use.
     # @section -- Exporter parameters
-    tag: 2.12.1
+    tag: 2.13.0
     # -- The image pull policy to use.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent
