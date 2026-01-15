@@ -1,0 +1,20 @@
+{{- if .Values.migration.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-cnpg-postgresql
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: 8Gi
+  bootstrap:
+    initdb:
+      database: {{ .Values.config.postgresql.database | quote }}
+      owner: {{ .Values.config.postgresql.username | quote }}
+      secret:
+        name: {{ .Release.Name }}-cnpg-db-secret
+{{- end }}

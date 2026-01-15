@@ -745,6 +745,8 @@ postgresql:
     # -- Name for a custom database to create.
     # @section -- PostgreSQL Dependencie parameters
     database: "penpot"
+migration:
+  enabled: false
 
 # Valkey configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/valkey))
 valkey:
