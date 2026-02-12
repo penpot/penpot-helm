@@ -25,18 +25,60 @@
 
 {{- $global := .Values.global | default dict -}}
 {{- $cnpg := $global.cnpg | default dict -}}
-{{- $cnpgEnabled := default false $cnpg.enabled -}}
-{{- $cnpgUseAsPrimary := default false $cnpg.useAsPrimary -}}
-{{- $postgresqlEnabled := default true $global.postgresqlEnabled -}}
+
+{{- /* Coerce values to real booleans (avoid "false" string being truthy) */ -}}
+{{- $cnpgEnabled := eq (include "penpot.bool" (default false $cnpg.enabled)) "true" -}}
+{{- $cnpgUseAsPrimary := eq (include "penpot.bool" (default false $cnpg.useAsPrimary)) "true" -}}
+
+{{- /* Backward compatible: if global.postgresqlEnabled is not set, assume true */ -}}
+{{- $postgresqlEnabledRaw := ternary $global.postgresqlEnabled true (hasKey $global "postgresqlEnabled") -}}
+{{- $postgresqlEnabled := eq (include "penpot.bool" $postgresqlEnabledRaw) "true" -}}
 
 {{- $bitnamiSts := lookup "apps/v1" "StatefulSet" $ns (printf "%s-postgresql" $release) -}}
 {{- $cnpgCluster := lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release) -}}
+
+{{- /* invalid ONLY when user intent is contradictory */ -}}
+{{- $invalidConfig := and $postgresqlEnabled $cnpgUseAsPrimary -}}
+
+{{- /* --------------------------------------------------------------------- */ -}}
+{{- /* Invalid combination: Bitnami enabled + CNPG useAsPrimary=true          */ -}}
+{{- /* --------------------------------------------------------------------- */ -}}
+
+{{- if $invalidConfig }}
+
+🚫 INVALID CONFIGURATION
+
+You have enabled BOTH:
+- Bitnami PostgreSQL: global.postgresqlEnabled=true
+- CNPG primary switch: global.cnpg.useAsPrimary=true
+
+This combination is NOT supported.
+
+Choose ONE of these valid setups:
+
+✅ MIGRATION MODE (recommended first step):
+  --set global.cnpg.enabled=true \
+  --set global.postgresqlEnabled=true
+  (keep global.cnpg.useAsPrimary=false)
+
+✅ FINAL CUTOVER (after running the migration script):
+  --set global.cnpg.enabled=true \
+  --set global.postgresqlEnabled=false \
+  --set global.cnpg.useAsPrimary=true
+
+{{- end }}
+
+{{- /* --------------------------------------------------------------------- */ -}}
+{{- /* Normal messages (only if config is valid)                              */ -}}
+{{- /* --------------------------------------------------------------------- */ -}}
+
+{{- if not $invalidConfig }}
 
 {{- /* --------------------------------------------------------------------- */ -}}
 {{- /* Bitnami PostgreSQL ACTIVE (PRIMARY)                                    */ -}}
 {{- /* --------------------------------------------------------------------- */ -}}
 
-{{- if and $postgresqlEnabled (not $cnpgEnabled) }} 
+{{- if and $postgresqlEnabled (not $cnpgEnabled) }}
 
 ⚠️  POSTGRESQL (BITNAMI) DEPRECATION NOTICE
 
@@ -49,7 +91,7 @@ MIGRATION IS A MANUAL AND SAFE PROCESS AND WILL NOT BE PERFORMED AUTOMATICALLY.
 
 RECOMMENDED NEXT STEP (PREPARE MIGRATION):
 
-  helm upgrade --install {{ $release }} . -n {{ $ns }} --create-namespace \
+  helm upgrade --install {{ $release }} <chart> -n {{ $ns }} --create-namespace \
     --set global.cnpg.enabled=true \
     --set global.postgresqlEnabled=true
 
@@ -74,9 +116,11 @@ Both PostgreSQL backends are enabled:
 No data migration is performed automatically.
 
 Next steps:
-1) Run the Bitnami → CNPG migration process
+1) Run the Bitnami → CNPG migration script
 2) Switch CNPG as primary (FINAL CUTOVER):
-   --set global.postgresqlEnabled=false --set global.cnpg.useAsPrimary=true
+
+   --set global.postgresqlEnabled=false \
+   --set global.cnpg.useAsPrimary=true
 
 Migration guide:
   https://github.com/penpot/penpot-helm/blob/main/docs/migration/bitnami-to-cnpg.md
@@ -95,12 +139,13 @@ CloudNativePG (CNPG) is configured as the PRIMARY PostgreSQL backend
 for this Penpot installation.
 
 Penpot will use:
-  {{ printf "%s-cnpg-postgresql-rw" $release }}
+
+  {{ include "penpot.postgresqlHost" . }}
 
 {{- end }}
 
 {{- /* --------------------------------------------------------------------- */ -}}
-{{- /* CNPG-only install confirmation (no Bitnami resources)                 */ -}}
+{{- /* CNPG-only install confirmation (no Bitnami resources)                  */ -}}
 {{- /* --------------------------------------------------------------------- */ -}}
 
 {{- if and $cnpgEnabled (not $postgresqlEnabled) (not $bitnamiSts) }}
@@ -113,7 +158,7 @@ No Bitnami PostgreSQL components are present.
 {{- end }}
 
 {{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Legacy migration detection (resource-based, optional)                */ -}}
+{{- /* Legacy migration detection (resource-based, optional)                  */ -}}
 {{- /* --------------------------------------------------------------------- */ -}}
 
 {{- if and $bitnamiSts $cnpgCluster $postgresqlEnabled (not $cnpgUseAsPrimary) }}
@@ -126,5 +171,7 @@ Two PostgreSQL backends are present in the cluster:
 - CloudNativePG: {{ $cnpgCluster.metadata.name }}
 
 This is consistent with a migration-in-progress setup.
+
+{{- end }}
 
 {{- end }}

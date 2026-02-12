@@ -1,16 +1,4 @@
-{{- $ns := .Release.Namespace -}}
-{{- $release := .Release.Name -}}
-{{- $cnpgSupported := .Capabilities.APIVersions.Has "postgresql.cnpg.io/v1" -}}
-{{- $global := .Values.global | default dict -}}
-{{- $cnpg := $global.cnpg | default dict -}}
-{{- $cnpgEnabledRaw := default false $cnpg.enabled -}}
-{{- $cnpgUseAsPrimaryRaw := default false $cnpg.useAsPrimary -}}
-{{- $postgresqlEnabledRaw := ternary $global.postgresqlEnabled true (hasKey $global "postgresqlEnabled") -}}
-{{- $cnpgEnabled := eq (include "penpot.bool" $cnpgEnabledRaw) "true" -}}
-{{- $cnpgUseAsPrimary := eq (include "penpot.bool" $cnpgUseAsPrimaryRaw) "true" -}}
-{{- $postgresqlEnabled := eq (include "penpot.bool" $postgresqlEnabledRaw) "true" -}}
-{{- $cnpgExisting := ternary (lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release)) nil $cnpgSupported -}}
-{{- $cnpgPrimary := and $cnpgEnabled $cnpgUseAsPrimary (not $postgresqlEnabled) -}}
+{{- $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" -}}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -84,9 +72,7 @@ spec:
               value: kubernetes
             # PostgreSQL connection settings
             - name: PENPOT_DATABASE_URI
-              {{- if $cnpgPrimary }}
-              value: "postgresql://{{ printf "%s-cnpg-postgresql-rw" .Release.Name }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-              {{- else if .Values.config.postgresql.secretKeys.postgresqlUriKey }}
+              {{- if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.postgresqlUriKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -94,13 +80,14 @@ spec:
               {{- else }}
               value: "postgresql://{{ include "penpot.postgresqlHost" . }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
               {{- end }}
+
             - name: PENPOT_DATABASE_USERNAME
               {{- if $cnpgPrimary }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-cnpg-db-secret
                   key: username
-              {{- else if .Values.config.postgresql.secretKeys.usernameKey }}
+              {{- else if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.usernameKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -115,7 +102,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-cnpg-db-secret
                   key: password
-              {{- else if .Values.config.postgresql.secretKeys.passwordKey }}
+              {{- else if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.passwordKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -123,6 +110,7 @@ spec:
               {{- else }}
               value: {{ .Values.config.postgresql.password | quote }}
               {{- end }}
+
             # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if not .Values.config.redis.secretKeys.redisUriKey }}
