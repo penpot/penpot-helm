@@ -18,7 +18,14 @@ global:
   #   - myRegistryKeySecretName
   # @section -- Global parameters
   imagePullSecrets: []
-
+  # -- Enable CloudNativePG (CNPG) resources (new installations or migration mode).
+  # @section -- PostgreSQL
+  cnpgEnabled: false
+  # -- Use CNPG as the primary database for Penpot.
+  # When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret.
+  # When `false` and `global.cnpgEnabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL.
+  # @section -- PostgreSQL
+  cnpgUseAsPrimary: false
 # -- To partially override common.names.fullname
 # @section -- Common parameters
 nameOverride: ""
@@ -99,14 +106,6 @@ config:
       # -- The password key to use from an existing secret.
       # @section -- Configuration parameters
       passwordKey: ""
-  cnpg:
-    # -- Enable CloudNativePG (CNPG) PostgreSQL cluster resources.::ex:Ex:E`:e`
-    # @section -- PostgreSQL
-    enabled: false
-    # -- Use CNPG as the primary database for Penpot.
-    # When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret.
-    # When `false` and `global.cnpg.enabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL.
-    # @section -- PostgreSQL
     useAsPrimary: false
   redis:
     # -- The Valkey host to connect to. Empty to use dependencies

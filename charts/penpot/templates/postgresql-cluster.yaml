@@ -1,14 +1,15 @@
 {{- $ns := .Release.Namespace -}}
 {{- $release := .Release.Name -}}
-{{- $cnpgSupported := .Capabilities.APIVersions.Has "postgresql.cnpg.io/v1" -}}
-{{- $global := .Values.global | default dict -}}
-{{- $cnpg := $global.cnpg | default dict -}}
-{{- $cnpgEnabled := default false $cnpg.enabled -}}
-{{- $cnpgExisting := ternary (lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release)) nil $cnpgSupported -}}
-{{- if or $cnpgExisting $cnpgEnabled }}
-{{- $secretName := printf "%s-cnpg-db-secret" $release -}}
-{{- if and (or $cnpgExisting $cnpgEnabled) (not .Values.config.postgresql.existingSecret) }}
 
+{{- $cnpgSupported := eq (include "penpot.cnpgSupported" .) "true" -}}
+{{- $cnpgEnabled := eq (include "penpot.cnpgEnabled" .) "true" -}}
+
+{{- $cnpgExisting := ternary (lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release)) nil $cnpgSupported -}}
+
+{{- if and $cnpgSupported (or $cnpgExisting $cnpgEnabled) -}}
+{{- $secretName := printf "%s-cnpg-db-secret" $release -}}
+
+{{- if and (not $cnpgExisting) (not .Values.config.postgresql.existingSecret) -}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -24,7 +25,7 @@ stringData:
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{ .Release.Name }}-cnpg-postgresql
+  name: {{ $release }}-cnpg-postgresql
   namespace: {{ $ns }}
   annotations:
     "helm.sh/resource-policy": keep
@@ -40,4 +41,4 @@ spec:
       secret:
         name: {{ default $secretName .Values.config.postgresql.existingSecret | quote }}
 
-{{- end }}
+{{- end -}}

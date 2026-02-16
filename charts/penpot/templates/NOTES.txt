@@ -16,33 +16,14 @@
 
 {{- end }}
 
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* PostgreSQL detection                                                   */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
 {{- $ns := .Release.Namespace -}}
 {{- $release := .Release.Name -}}
 
-{{- $global := .Values.global | default dict -}}
-{{- $cnpg := $global.cnpg | default dict -}}
+{{- $cnpgEnabled := eq (include "penpot.cnpgEnabled" .) "true" -}}
+{{- $cnpgUseAsPrimary := eq (include "penpot.cnpgUseAsPrimary" .) "true" -}}
+{{- $postgresqlEnabled := eq (include "penpot.postgresqlEnabled" .) "true" -}}
 
-{{- /* Coerce values to real booleans (avoid "false" string being truthy) */ -}}
-{{- $cnpgEnabled := eq (include "penpot.bool" (default false $cnpg.enabled)) "true" -}}
-{{- $cnpgUseAsPrimary := eq (include "penpot.bool" (default false $cnpg.useAsPrimary)) "true" -}}
-
-{{- /* Backward compatible: if global.postgresqlEnabled is not set, assume true */ -}}
-{{- $postgresqlEnabledRaw := ternary $global.postgresqlEnabled true (hasKey $global "postgresqlEnabled") -}}
-{{- $postgresqlEnabled := eq (include "penpot.bool" $postgresqlEnabledRaw) "true" -}}
-
-{{- $bitnamiSts := lookup "apps/v1" "StatefulSet" $ns (printf "%s-postgresql" $release) -}}
-{{- $cnpgCluster := lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release) -}}
-
-{{- /* invalid ONLY when user intent is contradictory */ -}}
 {{- $invalidConfig := and $postgresqlEnabled $cnpgUseAsPrimary -}}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Invalid combination: Bitnami enabled + CNPG useAsPrimary=true          */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
 
 {{- if $invalidConfig }}
 
@@ -50,35 +31,23 @@
 
 You have enabled BOTH:
 - Bitnami PostgreSQL: global.postgresqlEnabled=true
-- CNPG primary switch: global.cnpg.useAsPrimary=true
+- CNPG primary switch: global.cnpgUseAsPrimary=true
 
 This combination is NOT supported.
 
 Choose ONE of these valid setups:
 
 ✅ MIGRATION MODE (recommended first step):
-  --set global.cnpg.enabled=true \
+  --set global.cnpgEnabled=true \
   --set global.postgresqlEnabled=true
-  (keep global.cnpg.useAsPrimary=false)
+  (keep global.cnpgUseAsPrimary=false)
 
 ✅ FINAL CUTOVER (after running the migration script):
-  --set global.cnpg.enabled=true \
+  --set global.cnpgEnabled=true \
   --set global.postgresqlEnabled=false \
-  --set global.cnpg.useAsPrimary=true
+  --set global.cnpgUseAsPrimary=true
 
-{{- end }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Normal messages (only if config is valid)                              */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if not $invalidConfig }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Bitnami PostgreSQL ACTIVE (PRIMARY)                                    */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if and $postgresqlEnabled (not $cnpgEnabled) }}
+{{- else if and $postgresqlEnabled (not $cnpgEnabled) }}
 
 ⚠️  POSTGRESQL (BITNAMI) DEPRECATION NOTICE
 
@@ -92,19 +61,13 @@ MIGRATION IS A MANUAL AND SAFE PROCESS AND WILL NOT BE PERFORMED AUTOMATICALLY.
 RECOMMENDED NEXT STEP (PREPARE MIGRATION):
 
   helm upgrade --install {{ $release }} <chart> -n {{ $ns }} --create-namespace \
-    --set global.cnpg.enabled=true \
+    --set global.cnpgEnabled=true \
     --set global.postgresqlEnabled=true
 
 MIGRATION GUIDE:
   https://github.com/penpot/penpot-helm/blob/main/docs/migration/bitnami-to-cnpg.md
 
-{{- end }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Migration mode (Bitnami + CNPG enabled)                                */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if and $cnpgEnabled $postgresqlEnabled }}
+{{- else if and $cnpgEnabled $postgresqlEnabled (not $cnpgUseAsPrimary) }}
 
 🟡 POSTGRESQL MIGRATION MODE (BITNAMI → CNPG)
 
@@ -120,18 +83,12 @@ Next steps:
 2) Switch CNPG as primary (FINAL CUTOVER):
 
    --set global.postgresqlEnabled=false \
-   --set global.cnpg.useAsPrimary=true
+   --set global.cnpgUseAsPrimary=true
 
 Migration guide:
   https://github.com/penpot/penpot-helm/blob/main/docs/migration/bitnami-to-cnpg.md
 
-{{- end }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* CloudNativePG ACTIVE (PRIMARY)                                         */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if and $cnpgEnabled $cnpgUseAsPrimary (not $postgresqlEnabled) }}
+{{- else if and $cnpgEnabled (not $postgresqlEnabled) }}
 
 🟢 CLOUDNATIVEPG ACTIVE (PRIMARY)
 
@@ -140,38 +97,6 @@ for this Penpot installation.
 
 Penpot will use:
 
-  {{ include "penpot.postgresqlHost" . }}
-
-{{- end }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* CNPG-only install confirmation (no Bitnami resources)                  */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if and $cnpgEnabled (not $postgresqlEnabled) (not $bitnamiSts) }}
-
-✅ CLOUDNATIVEPG-ONLY INSTALLATION CONFIRMED
-
-This Penpot installation is running with CloudNativePG ONLY.
-No Bitnami PostgreSQL components are present.
-
-{{- end }}
-
-{{- /* --------------------------------------------------------------------- */ -}}
-{{- /* Legacy migration detection (resource-based, optional)                  */ -}}
-{{- /* --------------------------------------------------------------------- */ -}}
-
-{{- if and $bitnamiSts $cnpgCluster $postgresqlEnabled (not $cnpgUseAsPrimary) }}
-
-ℹ️  POSTGRESQL MIGRATION RESOURCES DETECTED
-
-Two PostgreSQL backends are present in the cluster:
-
-- Bitnami PostgreSQL: {{ $bitnamiSts.metadata.name }}
-- CloudNativePG: {{ $cnpgCluster.metadata.name }}
-
-This is consistent with a migration-in-progress setup.
-
-{{- end }}
+  {{ printf "%s-cnpg-postgresql-rw" $release }}
 
 {{- end }}

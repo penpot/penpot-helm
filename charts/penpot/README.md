@@ -104,6 +104,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| global.cnpgEnabled | bool | `false` | Enable CloudNativePG (CNPG) resources (new installations or migration mode). |
+| global.cnpgUseAsPrimary | bool | `false` | Use CNPG as the primary database for Penpot. When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret. When `false` and `global.cnpgEnabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL. |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
 | global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
 | global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions.  |
@@ -126,8 +128,6 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.apiSecretKey | string | `"kmZ96pAxhTgk3HZvvBkPeVTspGBneKVLEpO_3ecORs_gwACENZ77z05zCe7skvPsQ3jI3QgkULQOWCuLjmjQsg"` | A random secret key needed for persistent user sessions. Generate with `python3 -c "import secrets; print(secrets.token_urlsafe(64))"` for example. |
 | config.autoFileSnapshot.every | int | `5` | How many changes before generating a new snapshot. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
 | config.autoFileSnapshot.timeout | string | `"3h"` | If there isn't a snapshot during this time, the system will generate one automatically. You also need to add the 'auto-file-snapshot' flag to the PENPOT_FLAGS variable. |
-| config.cnpg.enabled | bool | `false` | Enable CloudNativePG (CNPG) PostgreSQL cluster resources.::ex:Ex:E`:e` |
-| config.cnpg.useAsPrimary | bool | `false` | Use CNPG as the primary database for Penpot. When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret. When `false` and `global.cnpg.enabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL. |
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
@@ -152,6 +152,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
 | config.postgresql.secretKeys.postgresqlUriKey | string | `""` | The postgresql uri key to use from an existing secret. (postgresql://host:port/database). |
 | config.postgresql.secretKeys.usernameKey | string | `""` | The username key to use from an existing secret. |
+| config.postgresql.useAsPrimary | bool | `false` |  |
 | config.postgresql.username | string | `"penpot"` | The database username to use. |
 | config.privacyPolicyUri | string | `""` | Url adress to Privacy Policy (empty to hide the link) |
 | config.providers.existingSecret | string | `""` | The name of an existing secret to use. |

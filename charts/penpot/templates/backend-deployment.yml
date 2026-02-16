@@ -70,9 +70,12 @@ spec:
               value: {{ .Values.config.telemetryEnabled | quote }}
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
-            # PostgreSQL connection settings
+            # PostgreSQL connection settings  
+           {{- $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" -}}
             - name: PENPOT_DATABASE_URI
-              {{- if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.postgresqlUriKey }}
+              {{- if $cnpgPrimary }}
+              value: "postgresql://{{ include "penpot.postgresqlHost" . }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
+              {{- else if .Values.config.postgresql.secretKeys.postgresqlUriKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -87,7 +90,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-cnpg-db-secret
                   key: username
-              {{- else if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.usernameKey }}
+              {{- else if .Values.config.postgresql.secretKeys.usernameKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -102,7 +105,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-cnpg-db-secret
                   key: password
-              {{- else if and .Values.config.postgresql.existingSecret .Values.config.postgresql.secretKeys.passwordKey }}
+              {{- else if .Values.config.postgresql.secretKeys.passwordKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
@@ -110,6 +113,7 @@ spec:
               {{- else }}
               value: {{ .Values.config.postgresql.password | quote }}
               {{- end }}
+
 
             # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
