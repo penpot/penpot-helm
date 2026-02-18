@@ -87,8 +87,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
-| global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
-| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions.  |
+| global.postgresqlEnabled | bool | `false` | --------------------------------------------------------------------------- ⚠️ Deprecated in 1.0.0 – Use global.cnpgEnabled instead |
+| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. ⚠️ Deprecated in 1.0.0 – Use global.valkeyEnabled instead |
 | global.valkeyEnabled | bool | `false` | Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration. |
 
 ### General
