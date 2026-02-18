@@ -87,7 +87,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
-| global.postgresqlEnabled | bool | `false` | --------------------------------------------------------------------------- ⚠️ Deprecated in 1.0.0 – Use global.cnpgEnabled instead |
+| global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. ⚠️ DEPRECATION NOTICE (Chart 1.0.0)  Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated starting from chart version 1.0.0 and will no longer be maintained by the Infra team. ⚠️ Deprecated in 1.0.0 – Use global.cnpgEnabled instead |
 | global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. ⚠️ Deprecated in 1.0.0 – Use global.valkeyEnabled instead |
 | global.valkeyEnabled | bool | `false` | Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration. |
 
