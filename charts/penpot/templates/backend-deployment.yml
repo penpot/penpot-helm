@@ -1,5 +1,3 @@
-{{- $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -71,7 +69,7 @@ spec:
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
             # PostgreSQL connection settings  
-           {{- $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" -}}
+              {{ $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" }}
             - name: PENPOT_DATABASE_URI
               {{- if $cnpgPrimary }}
               value: "postgresql://{{ include "penpot.postgresqlHost" . }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
