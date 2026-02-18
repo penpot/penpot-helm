@@ -68,38 +68,51 @@ spec:
               value: {{ .Values.config.telemetryEnabled | quote }}
             - name: PENPOT_TELEMETRY_REFERER
               value: kubernetes
-            # PosgreSQL connection settings
+            # PostgreSQL connection settings  
+              {{ $cnpgPrimary := eq (include "penpot.cnpgIsPrimary" .) "true" }}
             - name: PENPOT_DATABASE_URI
-              {{- if not .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-                {{- if .Values.config.postgresql.host }}
-              value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-                {{- else }}
-              value: {{ print "postgresql://" (include "penpot.fullname" .) "-postgresql:" .Values.config.postgresql.port "/" .Values.config.postgresql.database }}
-                {{- end }}
-              {{- else }}
+              {{- if $cnpgPrimary }}
+              value: "postgresql://{{ include "penpot.postgresqlHost" . }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
+              {{- else if .Values.config.postgresql.secretKeys.postgresqlUriKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-              {{- end }}
-            - name: PENPOT_DATABASE_USERNAME
-              {{- if not .Values.config.postgresql.secretKeys.usernameKey }}
-              value: {{ .Values.config.postgresql.username | quote }}
               {{- else }}
+              value: "postgresql://{{ include "penpot.postgresqlHost" . }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
+              {{- end }}
+
+            - name: PENPOT_DATABASE_USERNAME
+              {{- if $cnpgPrimary }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-cnpg-db-secret
+                  key: username
+              {{- else if .Values.config.postgresql.secretKeys.usernameKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.usernameKey }}
-              {{- end }}
-            - name: PENPOT_DATABASE_PASSWORD
-              {{- if not .Values.config.postgresql.secretKeys.passwordKey }}
-              value: {{ .Values.config.postgresql.password | quote }}
               {{- else }}
+              value: {{ .Values.config.postgresql.username | quote }}
+              {{- end }}
+
+            - name: PENPOT_DATABASE_PASSWORD
+              {{- if $cnpgPrimary }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-cnpg-db-secret
+                  key: password
+              {{- else if .Values.config.postgresql.secretKeys.passwordKey }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
+              {{- else }}
+              value: {{ .Values.config.postgresql.password | quote }}
               {{- end }}
+
+
             # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if not .Values.config.redis.secretKeys.redisUriKey }}

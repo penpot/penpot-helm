@@ -39,6 +39,14 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Add support for CloudNativePG (CNPG) as a PostgreSQL backend.
+    - kind: added
+      description: Introduce new global configuration flags to control PostgreSQL backend selection (global.cnpg.enabled to deploy CNPG, global.cnpg.useAsPrimary to switch CNPG as primary, global.postgresqlEnabled to enable or disable Bitnami PostgreSQL).
+    - kind: changed
+      description: PostgreSQL backend selection logic now supports a migration mode where Bitnami PostgreSQL and CNPG can coexist before switching the primary database.
+    - kind: deprecated
+      description: Bitnami PostgreSQL is deprecated and will be supported for the next 3 chart releases only. Migration to CloudNativePG is manual and not performed automatically.
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0

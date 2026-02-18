@@ -3,16 +3,100 @@
   APP VERSION: {{ .Chart.AppVersion }}
   CHART VERSION: {{ .Chart.Version }}
   RELEASE NAME: {{ .Release.Name }}
-  
   To learn more about the release, try:
-  
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
-  
-  {{- if .Values.global.redisEnabled }}
 
-  DEPRECATION WARNING: 
-     Since Penpot 2.8, Penpot has migrated from Redis to Valkey. 
+{{- if .Values.global.redisEnabled }}
+
+  DEPRECATION WARNING:
+     Since Penpot 2.8, Penpot has migrated from Redis to Valkey.
      Although migration is recommended, Penpot will work seamlessly
      with compatible Redis versions.
-  {{- end }}
+
+{{- end }}
+
+{{- $ns := .Release.Namespace -}}
+{{- $release := .Release.Name -}}
+
+{{- $cnpgEnabled := eq (include "penpot.cnpgEnabled" .) "true" -}}
+{{- $cnpgUseAsPrimary := eq (include "penpot.cnpgUseAsPrimary" .) "true" -}}
+{{- $postgresqlEnabled := eq (include "penpot.postgresqlEnabled" .) "true" -}}
+
+{{- $invalidConfig := and $postgresqlEnabled $cnpgUseAsPrimary -}}
+
+{{- if $invalidConfig }}
+
+🚫 INVALID CONFIGURATION
+
+You have enabled BOTH:
+- Bitnami PostgreSQL: global.postgresqlEnabled=true
+- CNPG primary switch: global.cnpgUseAsPrimary=true
+
+This combination is NOT supported.
+
+Choose ONE of these valid setups:
+
+✅ MIGRATION MODE (recommended first step):
+  --set global.cnpgEnabled=true \
+  --set global.postgresqlEnabled=true
+  (keep global.cnpgUseAsPrimary=false)
+
+✅ FINAL CUTOVER (after running the migration script):
+  --set global.cnpgEnabled=true \
+  --set global.postgresqlEnabled=false \
+  --set global.cnpgUseAsPrimary=true
+
+{{- else if and $postgresqlEnabled (not $cnpgEnabled) }}
+
+⚠️  POSTGRESQL (BITNAMI) DEPRECATION NOTICE
+
+BITNAMI POSTGRESQL WILL BE SUPPORTED FOR THE NEXT 3 CHART RELEASES ONLY.
+AFTER THAT, IT WILL BE OFFICIALLY DEPRECATED AND REMOVED AS A SUPPORTED OPTION.
+
+WE STRONGLY RECOMMEND PLANNING A MIGRATION TO CLOUDNATIVEPG (CNPG).
+
+MIGRATION IS A MANUAL AND SAFE PROCESS AND WILL NOT BE PERFORMED AUTOMATICALLY.
+
+RECOMMENDED NEXT STEP (PREPARE MIGRATION):
+
+  helm upgrade --install {{ $release }} <chart> -n {{ $ns }} --create-namespace \
+    --set global.cnpgEnabled=true \
+    --set global.postgresqlEnabled=true
+
+MIGRATION GUIDE:
+  https://github.com/penpot/penpot-helm/blob/main/docs/migration/bitnami-to-cnpg.md
+
+{{- else if and $cnpgEnabled $postgresqlEnabled (not $cnpgUseAsPrimary) }}
+
+🟡 POSTGRESQL MIGRATION MODE (BITNAMI → CNPG)
+
+Both PostgreSQL backends are enabled:
+
+- ACTIVE (CURRENT): Bitnami PostgreSQL
+- DEPLOYED (FOR MIGRATION): CloudNativePG (CNPG)
+
+No data migration is performed automatically.
+
+Next steps:
+1) Run the Bitnami → CNPG migration script
+2) Switch CNPG as primary (FINAL CUTOVER):
+
+   --set global.postgresqlEnabled=false \
+   --set global.cnpgUseAsPrimary=true
+
+Migration guide:
+  https://github.com/penpot/penpot-helm/blob/main/docs/migration/bitnami-to-cnpg.md
+
+{{- else if and $cnpgEnabled (not $postgresqlEnabled) }}
+
+🟢 CLOUDNATIVEPG ACTIVE (PRIMARY)
+
+CloudNativePG (CNPG) is configured as the PRIMARY PostgreSQL backend
+for this Penpot installation.
+
+Penpot will use:
+
+  {{ printf "%s-cnpg-postgresql-rw" $release }}
+
+{{- end }}

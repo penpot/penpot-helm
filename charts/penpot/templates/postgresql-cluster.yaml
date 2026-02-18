@@ -1,0 +1,44 @@
+{{- $ns := .Release.Namespace -}}
+{{- $release := .Release.Name -}}
+
+{{- $cnpgSupported := eq (include "penpot.cnpgSupported" .) "true" -}}
+{{- $cnpgEnabled := eq (include "penpot.cnpgEnabled" .) "true" -}}
+
+{{- $cnpgExisting := ternary (lookup "postgresql.cnpg.io/v1" "Cluster" $ns (printf "%s-cnpg-postgresql" $release)) nil $cnpgSupported -}}
+
+{{- if and $cnpgSupported (or $cnpgExisting $cnpgEnabled) -}}
+{{- $secretName := printf "%s-cnpg-db-secret" $release -}}
+
+{{- if and (not $cnpgExisting) (not .Values.config.postgresql.existingSecret) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $secretName }}
+  namespace: {{ $ns }}
+type: Opaque
+stringData:
+  username: {{ .Values.config.postgresql.username | quote }}
+  password: {{ include "penpot.cnpgAppPassword" . | quote }}
+---
+{{- end }}
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ $release }}-cnpg-postgresql
+  namespace: {{ $ns }}
+  annotations:
+    "helm.sh/resource-policy": keep
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: 8Gi
+  bootstrap:
+    initdb:
+      database: {{ .Values.config.postgresql.database | quote }}
+      owner: {{ .Values.config.postgresql.username | quote }}
+      secret:
+        name: {{ default $secretName .Values.config.postgresql.existingSecret | quote }}
+
+{{- end -}}

@@ -12,6 +12,24 @@ Penpot is available on browser and [self host](https://penpot.app/self-host). It
 
 ## Installing the Chart
 
+### Prerequisite: CloudNativePG operator (required when using CNPG)
+
+To use CloudNativePG (CNPG) as PostgreSQL backend, your Kubernetes cluster must have the CloudNativePG operator installed (it provides the postgresql.cnpg.io CRDs). If it’s not installed, the chart will fail to create CNPG resources.
+
+Install CloudNativePG operator:
+
+```console
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm repo update
+```
+The following command installs the CloudNativePG operator and its required Custom Resource Definitions (CRDs):
+
+```consola
+helm upgrade --install cnpg cnpg/cloudnative-pg \
+  --namespace cnpg-system --create-namespace
+```
+### Install penpot
+
 To install the chart with the release name `my-release`:
 
 ```console
@@ -23,7 +41,7 @@ You can customize the installation specify each parameter using the `--set key=v
 
 ```console
 helm install my-release \
-  --set global.postgresqlEnabled=true \
+  --set global.cnpg.enabled=true \
   --set global.valkeyEnabled=true \
   --set persistence.assets.enabled=true \
   penpot/penpot
@@ -86,6 +104,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| global.cnpgEnabled | bool | `false` | Enable CloudNativePG (CNPG) resources (new installations or migration mode). |
+| global.cnpgUseAsPrimary | bool | `false` | Use CNPG as the primary database for Penpot. When `true`, the backend connects to CNPG and reads DB credentials from the internal CNPG secret. When `false` and `global.cnpgEnabled=true`, CNPG is deployed in parallel (migration mode) while Penpot keeps using Bitnami PostgreSQL. |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
 | global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
 | global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions.  |
@@ -132,6 +152,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
 | config.postgresql.secretKeys.postgresqlUriKey | string | `""` | The postgresql uri key to use from an existing secret. (postgresql://host:port/database). |
 | config.postgresql.secretKeys.usernameKey | string | `""` | The username key to use from an existing secret. |
+| config.postgresql.useAsPrimary | bool | `false` |  |
 | config.postgresql.username | string | `"penpot"` | The database username to use. |
 | config.privacyPolicyUri | string | `""` | Url adress to Privacy Policy (empty to hide the link) |
 | config.providers.existingSecret | string | `""` | The name of an existing secret to use. |
@@ -375,6 +396,77 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 > **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
 ## Upgrading
+
+### To 1.0.0
+
+Bitnami is changing the way its Helm charts are maintained and distributed, which impacts how PostgreSQL is deployed and managed in Kubernetes environments. As a result, Penpot is moving away from the Bitnami PostgreSQL chart and adopting **CloudNativePG (CNPG)** as its PostgreSQL operator.
+
+This allows Penpot to rely on a Kubernetes-native, actively maintained solution for PostgreSQL lifecycle management, backups, and replication.
+
+This change introduces new configuration flags and **requires a manual data migration** if you are upgrading an existing installation that previously used Bitnami PostgreSQL.
+
+Depending on your current setup, follow **one of the scenarios below**.
+
+#### Migrating from Bitnami PostgreSQL to CloudNativePG
+
+If your Penpot installation was previously using the Bitnami PostgreSQL Helm chart, the database data must be migrated to a new CloudNativePG cluster.
+
+⚠️ **MIGRATION IS A MANUAL AND SAFE PROCESS AND WILL NOT BE PERFORMED AUTOMATICALLY.**
+
+##### Step 1: Enable CloudNativePG (migration mode)
+
+First, deploy CloudNativePG **while keeping Bitnami PostgreSQL enabled**:
+
+```console
+helm upgrade --install penpot . -n penpot \
+  --set global.cnpg.enabled=true \
+  --set global.postgresqlEnabled=true \
+  --set global.valkeyEnabled=true
+```
+
+##### Step 2: Run the migration script
+
+Once CloudNativePG is available, run the migration script:
+```console
+./scripts/upgrade/1.0.0/migrate-bitnami-to-cnpg.sh
+```
+
+This script will:
+
+* Connect to the existing Bitnami PostgreSQL instance
+
+* Dump the current database
+
+* Restore the data into the CloudNativePG cluster
+
+* Output the final Helm command required to complete the migration
+
+##### Step 3: Switch CloudNativePG as primary database
+
+After the migration finishes successfully, execute the command provided by the script, for example:
+```console
+helm upgrade --install penpot . -n penpot \
+  --set global.cnpg.enabled=true \
+  --set global.cnpg.useAsPrimary=true \
+  --set global.postgresqlEnabled=false \
+  --set global.valkeyEnabled=true
+```
+
+Once this step is completed:
+
+* CloudNativePG becomes the primary PostgreSQL backend
+
+* Bitnami PostgreSQL is disabled
+
+* Penpot runs fully on CloudNativePG
+
+##### Important notes
+
+* Migration is never automatic
+
+* Penpot will not switch databases unless global.cnpg.useAsPrimary=true
+
+* Bitnami PostgreSQL is supported only for **the next 3 chart releases**
 
 ### To 0.29.0
 
