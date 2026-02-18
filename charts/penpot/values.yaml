@@ -4,13 +4,20 @@
 global:
   # -- Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
   # @section -- Global parameters
+  # ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+  #
+  # Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+  # starting from chart version 1.0.0 and will no longer be maintained
+  # by the Infra team.
+
+  # ⚠️ Deprecated in 1.0.0 – Use global.cnpgEnabled instead
   postgresqlEnabled: false
   # -- Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration.
   # @section -- Global parameters
   valkeyEnabled: false
   # -- Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.
-  # *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions. 
   # @section -- Global parameters
+  # ⚠️ Deprecated in 1.0.0 – Use global.valkeyEnabled instead
   redisEnabled: false
   # -- Global Docker registry secret names.
   # E.g.
