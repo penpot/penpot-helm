@@ -39,6 +39,10 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: changed
+      description: "Add deprecation warning for Bitnami PostgreSQL and Valkey. These options will be deprecated in 1.0.0."
+    - kind: added
+      description: "Improve the documentation with basic requirements necessary for Penpot setup" 
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
