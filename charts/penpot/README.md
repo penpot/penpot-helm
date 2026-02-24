@@ -10,6 +10,36 @@ Penpot is the first **open-source** design tool for design and code collaboratio
 
 Penpot is available on browser and [self host](https://penpot.app/self-host). It’s web-based and works with open standards (SVG, CSS and HTML). And last but not least, it’s free!
 
+## Prerequisites
+
+Penpot requires the following external services to be available before installing the chart:
+
+- **PostgreSQL** (v15 or higher recommended): Penpot uses PostgreSQL as its primary database for storing all application data (users, projects, files, etc.). You must have a running PostgreSQL instance accessible from the Kubernetes cluster.
+- **Valkey** (or a compatible Redis® instance): Penpot uses Valkey as an in-memory data store for caching, session management and real-time communication between components. You must have a running Valkey (or Redis®) instance accessible from the Kubernetes cluster.
+
+### How to provision PostgreSQL and Valkey
+
+Here are some recommended methods to set up these dependencies:
+
+#### PostgreSQL
+
+| Method | Description |
+|--------|-------------|
+| **Bitnami Helm Chart** | Deploy PostgreSQL in the same Kubernetes cluster using the [Bitnami PostgreSQL chart](https://artifacthub.io/packages/helm/bitnami/postgresql). Quick setup: `helm install my-postgresql oci://registry-1.docker.io/bitnamicharts/postgresql --set auth.username=penpot --set auth.password=penpot --set auth.database=penpot` |
+| **CloudNativePG Operator** | Use the [CloudNativePG](https://cloudnative-pg.io/) Kubernetes operator for production-grade PostgreSQL with automated failover, backups and high availability. |
+| **Managed cloud services** | Use a managed PostgreSQL service from your cloud provider: [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/), [Azure Database for PostgreSQL](https://azure.microsoft.com/products/postgresql/), [Google Cloud SQL for PostgreSQL](https://cloud.google.com/sql/docs/postgres), or [DigitalOcean Managed Databases](https://www.digitalocean.com/products/managed-databases-postgresql). |
+| **Docker / VM** | Run PostgreSQL on a separate server or VM outside of Kubernetes and expose it via a reachable hostname or IP. |
+
+#### Valkey
+
+| Method | Description |
+|--------|-------------|
+| **Bitnami Helm Chart** | Deploy Valkey in the same Kubernetes cluster using the [Bitnami Valkey chart](https://artifacthub.io/packages/helm/bitnami/valkey). Quick setup: `helm install my-valkey oci://registry-1.docker.io/bitnamicharts/valkey --set architecture=standalone --set auth.enabled=false` |
+| **Managed cloud services** | Use a managed Redis®-compatible service: [Amazon ElastiCache for Redis](https://aws.amazon.com/elasticache/redis/), [Azure Cache for Redis](https://azure.microsoft.com/products/cache/), [Google Cloud Memorystore](https://cloud.google.com/memorystore), or [DigitalOcean Managed Redis](https://www.digitalocean.com/products/managed-databases-redis). |
+| **Docker / VM** | Run Valkey (or Redis®) on a separate server or VM and expose it via a reachable hostname or IP. |
+
+> **Note**: Penpot only requires a standalone Valkey/Redis® instance. Cluster or replication mode is not necessary.
+
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
@@ -19,20 +49,47 @@ $ helm repo add penpot http://helm.penpot.app
 $ helm install my-release penpot/penpot
 ```
 
-You can customize the installation specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+To customize the installation, you can specify each parameter by passing the argument `--set key=value[,key=value]` in the `helm install` command.
 
-```console
+Provide the connection details of your PostgreSQL and Valkey instances during installation, For example,
+```
 helm install my-release \
-  --set global.postgresqlEnabled=true \
-  --set global.valkeyEnabled=true \
+  --set config.postgresql.host=<your-postgresql-host> \
+  --set config.postgresql.port=5432 \
+  --set config.postgresql.database=penpot \
+  --set config.postgresql.username=penpot \
+  --set config.postgresql.password=<your-postgresql-password> \
+  --set config.redis.host=<your-valkey-host> \
+  --set config.redis.port=6379 \
+  --set config.redis.database=0 \
   --set persistence.assets.enabled=true \
   penpot/penpot
 ```
+> **Note:** Replace `<your-postgresql-host>`, `<your-postgresql-password>` and `<your-valkey-host>` with the actual values of your instances.
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
 helm install my-release -f values.yaml penpot/penpot
+```
+An example values.yaml for external instances:
+
+```yml
+config:
+  postgresql:
+    host: "my-postgresql.example.com"
+    port: 5432
+    database: "penpot"
+    username: "penpot"
+    password: "my-secret-password"
+  redis:
+    host: "my-valkey.example.com"
+    port: 6379
+    database: "0"
+
+persistence:
+  assets:
+    enabled: true
 ```
 > **Tip**: You can use the default values.yaml
 
@@ -87,9 +144,6 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
-| global.postgresqlEnabled | bool | `false` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. |
-| global.redisEnabled | bool | `false` | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration. *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions.  |
-| global.valkeyEnabled | bool | `false` | Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration. |
 
 ### General
 
@@ -332,47 +386,6 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | route.path | string | `nil` | Define a path to use Path-based routes. |
 | route.tls | object | `{}` | A Map with TLS configuration for the route. E.g. tls:   terminationType: edge   terminationPolicy: Redirect |
 | route.wildcardPolicy | string | `"None"` | Define the wildcard policy (None, Subdomain, ...) |
-
-### PostgreSQL
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| postgresql.auth.database | string | `"penpot"` | Name for a custom database to create. |
-| postgresql.auth.password | string | `"penpot"` | Password for the custom user to create. |
-| postgresql.auth.username | string | `"penpot"` | Name for a custom user to create. |
-| postgresql.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
-| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
-| postgresql.image.tag | string | `"16.4.0-debian-12-r14"` |  |
-
-> **NOTE**: You can use more parameters according to the [PostgreSQL oficial documentation](https://artifacthub.io/packages/helm/bitnami/postgresql#parameters).
-
-### Valkey
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| valkey.architecture | string | `"standalone"` | Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies) |
-| valkey.auth.enabled | bool | `false` | Whether to enable password authentication. |
-| valkey.commonConfiguration | string | `"## Recommended values for most Penpot instances. \n## You can modify this value to follow your policies.\n\n# Set maximum memory Valkey will use.\n# Accepted units: b, k, kb, m, mb, g, gb\nmaxmemory 128mb\n\n# Choose an eviction policy (see Valkey docs:\n# https://valkey.io/topics/memory-optimization/)\n# Common choices:\n#   noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random,\n#   volatile-ttl, volatile-lfu, allkeys-lfu\n#\n# For Penpot, volatile-lfu is recommended\nmaxmemory-policy volatile-lfu\n"` | Common configuration to be appended to valkey.conf (as a block of configuration lines). |
-| valkey.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
-| valkey.image.repository | string | `"bitnamilegacy/valkey"` |  |
-| valkey.image.tag | string | `"8.1.3-debian-12-r3"` |  |
-
-> **NOTE**: You can use more parameters according to the [Valkey oficial documentation](https://artifacthub.io/packages/helm/bitnami/valkey#parameters).
-
-### Redis
-
-> **DEPRECATION WARNING:** Since penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions.
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| redis.architecture | string | `"standalone"` | Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies) |
-| redis.auth.enabled | bool | `false` | Whether to enable password authentication. |
-| redis.commonConfiguration | string | `"## Recommended values for most Penpot instances.\n## You can modify this value to follow your policies.\n\n# Set maximum memory Redis will use.\n# Accepted units: b, k, kb, m, mb, g, gb\nmaxmemory 128mb\n\n# Choose an eviction policy (see Redis docs:\n# https://redis.io/docs/latest/develop/reference/eviction/)\n# Common choices:\n#   noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random,\n#   volatile-ttl, volatile-lfu, allkeys-lfu\n#\n# For Penpot, volatile-lfu is recommended\nmaxmemory-policy volatile-lfu\n"` | Common configuration to be appended to redis.conf (as a block of configuration lines). |
-| redis.global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
-| redis.image.repository | string | `"bitnamilegacy/redis"` |  |
-| redis.image.tag | string | `"7.2.5-debian-12-r4"` |  |
-
-> **NOTE**: You can use more parameters according to the [Redis oficial documentation](https://artifacthub.io/packages/helm/bitnami/redis#parameters).
 
 ## Upgrading
 

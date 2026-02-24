@@ -2,15 +2,26 @@
 ## Default values for Penpot
 
 global:
-  # -- Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
-  # @section -- Global parameters
+  # Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
+  # ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+  # Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+  # starting from chart version 1.0.0 and will no longer be maintained
+  # by Penpot team
+  # @ignore
   postgresqlEnabled: false
-  # -- Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration.
-  # @section -- Global parameters
+  # Whether to deploy the Bitnami Valkey chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/valkey) for configuration.
+  # ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+  # Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+  # starting from chart version 1.0.0 and will no longer be maintained
+  # by Penpot team
+  # @ignore
   valkeyEnabled: false
-  # -- Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.
-  # *DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Valkey. Although migration is recommended, Penpot will work seamlessly with compatible Redis versions. 
-  # @section -- Global parameters
+  # Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.
+  # ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+  # Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+  # starting from chart version 1.0.0 and will no longer be maintained
+  # by Penpot team
+  # @ignore
   redisEnabled: false
   # -- Global Docker registry secret names.
   # E.g.
@@ -724,6 +735,10 @@ route:
   wildcardPolicy: None
 
 # PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql))
+# ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+# Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+# starting from chart version 1.0.0 and will no longer be maintained
+# by Penpot team
 postgresql:
   image:
     repository: bitnamilegacy/postgresql
@@ -731,22 +746,22 @@ postgresql:
   global:
     compatibility:
       openshift:
-        # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
-        # @section -- PostgreSQL Dependencie parameters
+        # Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         adaptSecurityContext: "auto"
 
   auth:
-    # -- Name for a custom user to create.
-    # @section -- PostgreSQL Dependencie parameters
+    # Name for a custom user to create.
     username: "penpot"
-    # -- Password for the custom user to create.
-    # @section -- PostgreSQL Dependencie parameters
+    # Password for the custom user to create.
     password: "penpot"
-    # -- Name for a custom database to create.
-    # @section -- PostgreSQL Dependencie parameters
+    # Name for a custom database to create.
     database: "penpot"
 
 # Valkey configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/valkey))
+# ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+# Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+# starting from chart version 1.0.0 and will no longer be maintained
+# by Penpot team
 valkey:
   image:
     repository: bitnamilegacy/valkey
@@ -754,18 +769,14 @@ valkey:
   global:
     compatibility:
       openshift:
-        # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
-        # @section -- Valkey Dependencie parameters
+        # Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         adaptSecurityContext: "auto"
   auth:
-    # -- Whether to enable password authentication.
-    # @section -- Valkey Dependencie parameters
+    # Whether to enable password authentication.
     enabled: false
-  # -- Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies)
-  # @section -- Valkey Dependencie parameters
+  # Valkey architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Valkey StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/vlakey#cluster-topologies)
   architecture: standalone
-  # -- Common configuration to be appended to valkey.conf (as a block of configuration lines).
-  # @section -- Valkey Dependencie parameters
+  # Common configuration to be appended to valkey.conf (as a block of configuration lines).
   commonConfiguration: |
     ## Recommended values for most Penpot instances. 
     ## You can modify this value to follow your policies.
@@ -785,6 +796,10 @@ valkey:
 
 # Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
 # DEPRECATION WARNING: Since Penpot 2.8, Penpot has migrated from Redis to Velkey. Although migration is recommended. Penpot will work seamlessly with compatible Redis versions. 
+# ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
+# Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated
+# starting from chart version 1.0.0 and will no longer be maintained
+# by Penpot team
 redis:
   image:
     repository: bitnamilegacy/redis
@@ -792,18 +807,14 @@ redis:
   global:
     compatibility:
       openshift:
-        # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
-        # @section -- Redis Dependencie parameters
+        # Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
         adaptSecurityContext: "auto"
   auth:
-    # -- Whether to enable password authentication.
-    # @section -- Redis Dependencie parameters
+    # Whether to enable password authentication.
     enabled: false
-  # -- Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies)
-  # @section -- Redis Dependencie parameters
+  # Redis® architecture. Allowed values: `standalone` or `replication`. Penpot only needs a standalone Redis® StatefulSet. Check for [more info here](https://artifacthub.io/packages/helm/bitnami/redis#cluster-topologies)
   architecture: standalone
-  # -- Common configuration to be appended to redis.conf (as a block of configuration lines).
-  # @section -- Redis Dependencie parameters
+  # Common configuration to be appended to redis.conf (as a block of configuration lines).
   commonConfiguration: |
     ## Recommended values for most Penpot instances.
     ## You can modify this value to follow your policies.

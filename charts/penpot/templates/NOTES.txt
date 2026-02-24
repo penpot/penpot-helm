@@ -9,10 +9,14 @@
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
   
-  {{- if .Values.global.redisEnabled }}
+  {{- if or .Values.global.postgresqlEnabled .Values.global.valkeyEnabled .Values.global.redisEnabled }}
 
-  DEPRECATION WARNING: 
-     Since Penpot 2.8, Penpot has migrated from Redis to Valkey. 
-     Although migration is recommended, Penpot will work seamlessly
-     with compatible Redis versions.
+
+  ⚠️  DEPRECATION WARNING: 
+     🚨 Bitnami-based dependencies are supported only until the last release prior to 1.0.0.
+
+     Starting from version 1.0.0, they will be officially deprecated and no longer maintained by Penpot team
+
+     👉 Please migrate to the supported architecture before upgrading to 1.0.0.
+
   {{- end }}
