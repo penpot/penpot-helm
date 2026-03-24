@@ -2,6 +2,67 @@ apiVersion: v1
 entries:
   penpot:
   - annotations:
+      artifacthub.io/changes: "- kind: changed\n  description: Bump Penpot to 2.14.0\n-
+        kind: changed\n  description: \"Add deprecation warning for Bitnami PostgreSQL
+        and Valkey. These options will be deprecated in 1.0.0.\"\n- kind: added\n
+        \ description: \"Improve the documentation with basic requirements necessary
+        for Penpot setup\" \n"
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.app
+        - name: documentation
+          url: https://help.penpot.app
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: 2.14.0
+    created: "2026-03-24T12:21:30.104370181Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 15.5.38
+    - condition: global.valkeyEnabled
+      name: valkey
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 3.0.31
+    - condition: global.redisEnabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 19.6.4
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: e827f04af188e5e0a59cca96d5b777e03df2f1b7b1ef9e338ae0e3419c2f20b6
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: Kaleidos INC
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-0.36.0/penpot-0.36.0.tgz
+    version: 0.36.0
+  - annotations:
       artifacthub.io/changes: |
         - kind: changed
           description: Bump Penpot to 2.13.3
@@ -2295,4 +2356,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2026-02-16T14:48:33.89480307Z"
+generated: "2026-03-24T12:21:30.104626329Z"
