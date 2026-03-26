@@ -450,6 +450,44 @@ backend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Backend parameters
     maxUnavailable:
+  # -- Configure autoscaling for the backend pods.
+  # @section -- Backend parameters
+  autoscaling:
+    hpa:
+      # -- Enable Horizontal Pod Autoscaler for the backend. When enabled, replicaCount is ignored.
+      # @section -- Backend parameters
+      enabled: false
+      # -- Minimum number of backend replicas.
+      # @section -- Backend parameters
+      minReplicas: 1
+      # -- Maximum number of backend replicas.
+      # @section -- Backend parameters
+      maxReplicas: 5
+      # -- Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+      # @section -- Backend parameters
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+    vpa:
+      # -- Enable Vertical Pod Autoscaler for the backend. Requires VPA operator installed in the cluster.
+      # @section -- Backend parameters
+      enabled: false
+      # -- VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
+      # @section -- Backend parameters
+      updateMode: "Auto"
+      # -- VPA resource policy for the backend containers.
+      # @section -- Backend parameters
+      resourcePolicy: {}
   # -- Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Backend parameters
   extraEnvs: []
@@ -537,6 +575,44 @@ frontend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Frontend parameters
     maxUnavailable:
+  # -- Configure autoscaling for the frontend pods.
+  # @section -- Frontend parameters
+  autoscaling:
+    hpa:
+      # -- Enable Horizontal Pod Autoscaler for the frontend. When enabled, replicaCount is ignored.
+      # @section -- Frontend parameters
+      enabled: false
+      # -- Minimum number of frontend replicas.
+      # @section -- Frontend parameters
+      minReplicas: 1
+      # -- Maximum number of frontend replicas.
+      # @section -- Frontend parameters
+      maxReplicas: 5
+      # -- Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+      # @section -- Frontend parameters
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+    vpa:
+      # -- Enable Vertical Pod Autoscaler for the frontend. Requires VPA operator installed in the cluster.
+      # @section -- Frontend parameters
+      enabled: false
+      # -- VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
+      # @section -- Frontend parameters
+      updateMode: "Auto"
+      # -- VPA resource policy for the frontend containers.
+      # @section -- Frontend parameters
+      resourcePolicy: {}
   # -- Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Frontend parameters
   extraEnvs: []
@@ -624,6 +700,44 @@ exporter:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Exporter parameters
     maxUnavailable:
+  # -- Configure autoscaling for the exporter pods.
+  # @section -- Exporter parameters
+  autoscaling:
+    hpa:
+      # -- Enable Horizontal Pod Autoscaler for the exporter. When enabled, replicaCount is ignored.
+      # @section -- Exporter parameters
+      enabled: false
+      # -- Minimum number of exporter replicas.
+      # @section -- Exporter parameters
+      minReplicas: 1
+      # -- Maximum number of exporter replicas.
+      # @section -- Exporter parameters
+      maxReplicas: 5
+      # -- Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+      # @section -- Exporter parameters
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+    vpa:
+      # -- Enable Vertical Pod Autoscaler for the exporter. Requires VPA operator installed in the cluster.
+      # @section -- Exporter parameters
+      enabled: false
+      # -- VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
+      # @section -- Exporter parameters
+      updateMode: "Auto"
+      # -- VPA resource policy for the exporter containers.
+      # @section -- Exporter parameters
+      resourcePolicy: {}
   # -- Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
   # @section -- Exporter parameters
   extraEnvs: []

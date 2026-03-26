@@ -10,7 +10,9 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if not .Values.exporter.autoscaling.hpa.enabled }}
   replicas: {{ .Values.exporter.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "penpot.exporterSelectorLabels" . | nindent 6 }}
