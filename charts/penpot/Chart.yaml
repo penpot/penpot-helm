@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.36.0  # Chart version
+version: 0.37.0-unreleased  # Chart version
 appVersion: "2.14.0"  # Penpot version
 type: application
 name: penpot
@@ -39,12 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.14.0
-    - kind: changed
-      description: "Add deprecation warning for Bitnami PostgreSQL and Valkey. These options will be deprecated in 1.0.0."
     - kind: added
-      description: "Improve the documentation with basic requirements necessary for Penpot setup" 
+      description: Add HPA and VPA support for backend, frontend and exporter 
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0

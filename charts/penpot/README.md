@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.36.0](https://img.shields.io/badge/Version-0.36.0-informational?style=flat-square) ![AppVersion: 2.14.0](https://img.shields.io/badge/AppVersion-2.14.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.37.0-unreleased](https://img.shields.io/badge/Version-0.37.0--unreleased-informational?style=flat-square) ![AppVersion: 2.14.0](https://img.shields.io/badge/AppVersion-2.14.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -261,6 +261,14 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| backend.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the backend pods. |
+| backend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the backend. When enabled, replicaCount is ignored. |
+| backend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of backend replicas. |
+| backend.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| backend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of backend replicas. |
+| backend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the backend. Requires VPA operator installed in the cluster. |
+| backend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the backend containers. |
+| backend.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | backend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
@@ -292,6 +300,14 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| frontend.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the frontend pods. |
+| frontend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the frontend. When enabled, replicaCount is ignored. |
+| frontend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of frontend replicas. |
+| frontend.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| frontend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of frontend replicas. |
+| frontend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the frontend. Requires VPA operator installed in the cluster. |
+| frontend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the frontend containers. |
+| frontend.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | frontend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | frontend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
@@ -322,6 +338,14 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | exporter.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| exporter.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the exporter pods. |
+| exporter.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the exporter. When enabled, replicaCount is ignored. |
+| exporter.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of exporter replicas. |
+| exporter.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| exporter.autoscaling.hpa.minReplicas | int | `1` | Minimum number of exporter replicas. |
+| exporter.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the exporter. Requires VPA operator installed in the cluster. |
+| exporter.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the exporter containers. |
+| exporter.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
