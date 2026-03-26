@@ -1,0 +1,18 @@
+{{- if .Values.backend.autoscaling.hpa.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "penpot.fullname" . }}-backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "penpot.fullname" . }}-backend
+  minReplicas: {{ .Values.backend.autoscaling.hpa.minReplicas }}
+  maxReplicas: {{ .Values.backend.autoscaling.hpa.maxReplicas }}
+  metrics:
+    {{- toYaml .Values.backend.autoscaling.hpa.metrics | nindent 4 }}
+{{- end }}

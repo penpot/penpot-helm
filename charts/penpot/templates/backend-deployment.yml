@@ -13,7 +13,9 @@ spec:
   selector:
     matchLabels:
       {{- include "penpot.backendSelectorLabels" . | nindent 6 }}
+  {{- if not .Values.backend.autoscaling.hpa.enabled }}
   replicas: {{ .Values.backend.replicaCount }}
+  {{- end }}
   template:
     metadata:
       labels:
