@@ -381,12 +381,6 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | persistence.assets.existingClaim | string | `""` | The name of an existing PVC to use for Penpot objects persistence. |
 | persistence.assets.size | string | `"20Gi"` | Penpot objects persistent Volume size. |
 | persistence.assets.storageClass | string | `""` | Penpot objects persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
-| persistence.exporter.accessModes | list | `["ReadWriteOnce"]` | Exporter persistent Volume access modes. |
-| persistence.exporter.annotations | object | `{}` | Exporter persistent Volume Claim annotations. |
-| persistence.exporter.enabled | bool | `false` | Enable exporter persistence using Persistent Volume Claims. If exporter.replicaCount you have to enable it. |
-| persistence.exporter.existingClaim | string | `""` | The name of an existing PVC to use for persistence. |
-| persistence.exporter.size | string | `"10Gi"` | Exporter persistent Volume size. |
-| persistence.exporter.storageClass | string | `""` | Exporter persistent Volume storage class. Empty is choosing the default provisioner by the provider. |
 
 ### Ingress
 
