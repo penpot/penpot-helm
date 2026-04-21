@@ -379,6 +379,10 @@ backend:
   # -- The number of replicas to deploy.
   # @section -- Backend parameters
   replicaCount: 1
+  # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+  # @section -- Backend parameters
+  updateStrategy:
+    type: RollingUpdate
   service:
     # -- The http service type to create.
     # @section -- Backend parameters
@@ -512,6 +516,10 @@ frontend:
   # -- The number of replicas to deploy.
   # @section -- Frontend parameters
   replicaCount: 1
+  # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+  # @section -- Frontend parameters
+  updateStrategy:
+    type: RollingUpdate
   service:
     # -- The service type to create.
     # @section -- Frontend parameters
@@ -637,6 +645,10 @@ exporter:
   # -- The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount
   # @section -- Exporter parameters
   replicaCount: 1
+  # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+  # @section -- Exporter parameters
+  updateStrategy:
+    type: RollingUpdate
   service:
     # -- The service type to create.
     # @section -- Exporter parameters

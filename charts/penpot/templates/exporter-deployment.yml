@@ -13,6 +13,8 @@ spec:
   {{- if not .Values.exporter.autoscaling.hpa.enabled }}
   replicas: {{ .Values.exporter.replicaCount }}
   {{- end }}
+  strategy:
+    {{- toYaml .Values.exporter.updateStrategy | nindent 4 }}
   selector:
     matchLabels:
       {{- include "penpot.exporterSelectorLabels" . | nindent 6 }}
