@@ -39,6 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Add support for updateStrategy customization
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0

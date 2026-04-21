@@ -16,6 +16,8 @@ spec:
   {{- if not .Values.frontend.autoscaling.hpa.enabled }}
   replicas: {{ .Values.frontend.replicaCount }}
   {{- end }}
+  strategy:
+    {{- toYaml .Values.frontend.updateStrategy | nindent 4 }}
   template:
     metadata:
       labels:
