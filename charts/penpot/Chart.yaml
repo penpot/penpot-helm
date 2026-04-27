@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 0.40.0-unreleased  # Chart version
-appVersion: "2.14.3"  # Penpot version
+appVersion: "2.14.4"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -39,8 +39,10 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: changed
+      description: Bump penpot to 2.14.4.
     - kind: added
-      description: Add support for updateStrategy customization
+      description: Add support for updateStrategy customization.
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
