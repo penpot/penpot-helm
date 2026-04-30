@@ -41,16 +41,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Add support for updateStrategy customization
-dependencies:
-  - name: postgresql
-    version: 15.5.38 # default appVersion 16.4.0
-    repository: oci://registry-1.docker.io/bitnamicharts
-    condition: global.postgresqlEnabled
-  - name: valkey
-    version: 3.0.31 # default appVersion 8.1.3
-    repository: oci://registry-1.docker.io/bitnamicharts
-    condition: global.valkeyEnabled
-  - name: redis
-    version: 19.6.4 # default appVersion == 7.2.5
-    repository: oci://registry-1.docker.io/bitnamicharts
-    condition: global.redisEnabled

@@ -95,7 +95,7 @@ persistence:
 
 ### 🔐 OpenShift Requirements
 
-If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
+If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC).
 You can do this with the following command:
 
 ```console
@@ -180,7 +180,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.objectsStorage.storageBackend | string | `"fs"` | The storage backend for different objects (assets, old data...) to use. Use `fs` for filesystem, and `s3` for S3. |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |
-| config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
+| config.postgresql.host | string | `"penpot-postgresql"` | The PostgreSQL host to connect to. |
 | config.postgresql.password | string | `"penpot"` | The database password to use. |
 | config.postgresql.port | int | `5432` | The PostgreSQL host port to use. |
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
@@ -236,7 +236,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
 | config.redis.database | string | `"0"` | The Valkey database to connect to. |
 | config.redis.existingSecret | string | `""` | The name of an existing secret. |
-| config.redis.host | string | `""` | The Valkey host to connect to. Empty to use dependencies |
+| config.redis.host | string | `"redis-master"` | The Valkey host to connect to. |
 | config.redis.port | int | `6379` | The Valkey host port to use. |
 | config.redis.secretKeys.redisUriKey | string | `""` | The redis uri key to use from an existing secret. (redis://:password@host:port/database). |
 | config.registrationDomainWhitelist | string | `""` | Comma separated list of allowed domains to register. Empty to allow all domains. |
@@ -296,7 +296,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | backend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
-### Penpot Frontend
+### Penpot frontend
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -410,6 +410,56 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 ## Upgrading
 
+### To 1.0.0
+
+As announced, Penpot is no longer supporting the Bitnami charts. This affects to those installations that are using Postgresql or Redis or Valkey with the provided charts. From this version on, you cannot install nor upgrade Penpot if you're still using those charts.
+
+There are two steps to take to continue using the Penpot service and access updates:
+- Detach affected services from the Penpot's Helm chart management. This is mandatory.
+- Additionally, a Bitnami chart can be created that adopts these services. This step is optional and does not affect the service, although it is recommended to ensure proper management in the future.
+
+**Detach affected services**
+
+Follow the [official tip](https://helm.sh/docs/howto/charts_tips_and_tricks/#tell-helm-not-to-uninstall-a-resource) and add an annotation in affected services. The example is with Redis; if you are using Valkey, you need to change the targets. Let's start with the statefulsets:
+
+```
+kubectl get statefulset -o wide
+# find the statefulsets related to the Penpot installation: Postgres and Redis or Valkey.
+kubectl edit statefulset.apps/penpot-postgresql
+# add a new annotation: helm.sh/resource-policy: keep
+kubectl edit statefulset.apps/penpot-redis-master
+# add a new annotation: helm.sh/resource-policy: keep
+```
+
+Then, we edit the services:
+
+```
+kubectl get services -o wide
+# find the services related to the Penpot installation: Postgres and Redis or Valkey.
+kubectl edit service/penpot-postgresql
+# add a new annotation: helm.sh/resource-policy: keep
+kubectl edit service/penpot-redis-master
+# add a new annotation: helm.sh/resource-policy: keep
+```
+
+From now on, Penpot's chart is no longer managing these services, so, a command like "helm uninstall" won't affect them.
+
+To finish this, you should remove the following lines from your local-values.yaml:
+
+```
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+```
+
+and then, you can properly upgrade Penpot:
+
+```
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+```
+
 ### To 0.29.0
 
 Penpot 2.11 is implementing a more complex storage system (not just for store assets). To do this, it has changed the names of some environment variables, and we should apply the same nomenclature.
@@ -458,6 +508,10 @@ config:
 
 # (...)
 ```
+
+**New management for Postgres, Redis and Valkey**
+
+TODO / TBD
 
 ### To 0.23.0
 

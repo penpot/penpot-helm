@@ -1,0 +1,3 @@
+{{- if or .Values.global.postgresqlEnabled .Values.global.valkeyEnabled .Values.global.redisEnabled }}
+{{ fail "\n❌ This update is blocked. Penpot no longer supports Bitnami charts, so you need to remove Helm's management of those services.\nYou can find instructions on how to do this at this link: https://artifacthub.io/packages/helm/penpot/penpot#to-1-0-0\nIf you continue the update without following these steps, your PostgreSQL, Valkey, and/or Redis pods will be deleted." }}
+{{- end }}

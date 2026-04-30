@@ -3,20 +3,8 @@
   APP VERSION: {{ .Chart.AppVersion }}
   CHART VERSION: {{ .Chart.Version }}
   RELEASE NAME: {{ .Release.Name }}
-  
+
   To learn more about the release, try:
-  
+
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
-  
-  {{- if or .Values.global.postgresqlEnabled .Values.global.valkeyEnabled .Values.global.redisEnabled }}
-
-
-  ⚠️  DEPRECATION WARNING: 
-     🚨 Bitnami-based dependencies are supported only until the last release prior to 1.0.0.
-
-     Starting from version 1.0.0, they will be officially deprecated and no longer maintained by Penpot team
-
-     👉 Please migrate to the supported architecture before upgrading to 1.0.0.
-
-  {{- end }}
