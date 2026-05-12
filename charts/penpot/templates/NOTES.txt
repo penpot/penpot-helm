@@ -8,6 +8,14 @@
   
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
+
+
+  ⚠️  MCP WARNING:
+     Starting with Penpot 2.15, Penpot MCP integration does not currently
+     support high-availability deployments.
+
+     If you are using MCP, keep frontend, backend and exporter as single replicas
+     and do not enable HPA for those workloads.
   
   {{- if or .Values.global.postgresqlEnabled .Values.global.valkeyEnabled .Values.global.redisEnabled }}
 

@@ -93,6 +93,12 @@ persistence:
 ```
 > **Tip**: You can use the default values.yaml
 
+### MCP Limitation
+
+> **Warning**
+> Starting with Penpot 2.15, the MCP integration does not currently support high-availability deployments.
+> Keep Penpot components as single replicas and do not enable HPA for frontend, backend or exporter while MCP is in use.
+
 ### 🔐 OpenShift Requirements
 
 If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC).  

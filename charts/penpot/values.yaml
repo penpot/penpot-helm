@@ -376,7 +376,7 @@ backend:
     # -- The image pull policy to use.
     # @section -- Backend parameters
     pullPolicy: IfNotPresent
-  # -- The number of replicas to deploy.
+  # -- The number of replicas to deploy. If you enable the Penpot MCP integration, keep this value at 1 because high availability is not currently supported.
   # @section -- Backend parameters
   replicaCount: 1
   # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
@@ -454,7 +454,7 @@ backend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Backend parameters
     maxUnavailable:
-  # -- Configure autoscaling for the backend pods.
+  # -- Configure autoscaling for the backend pods. Do not enable HPA when using the Penpot MCP integration because high availability is not currently supported.
   # @section -- Backend parameters
   autoscaling:
     hpa:
@@ -513,7 +513,7 @@ frontend:
     # -- The image pull policy to use.
     # @section -- Frontend parameters
     pullPolicy: IfNotPresent
-  # -- The number of replicas to deploy.
+  # -- The number of replicas to deploy. If you enable the Penpot MCP integration, keep this value at 1 because high availability is not currently supported.
   # @section -- Frontend parameters
   replicaCount: 1
   # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
@@ -583,7 +583,7 @@ frontend:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Frontend parameters
     maxUnavailable:
-  # -- Configure autoscaling for the frontend pods.
+  # -- Configure autoscaling for the frontend pods. Do not enable HPA when using the Penpot MCP integration because high availability is not currently supported.
   # @section -- Frontend parameters
   autoscaling:
     hpa:
@@ -642,7 +642,7 @@ exporter:
     # -- The image pull policy to use.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent
-  # -- The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount
+  # -- The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount. If you enable the Penpot MCP integration, keep this value at 1 because high availability is not currently supported.
   # @section -- Exporter parameters
   replicaCount: 1
   # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
@@ -712,7 +712,7 @@ exporter:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- Exporter parameters
     maxUnavailable:
-  # -- Configure autoscaling for the exporter pods.
+  # -- Configure autoscaling for the exporter pods. Do not enable HPA when using the Penpot MCP integration because high availability is not currently supported.
   # @section -- Exporter parameters
   autoscaling:
     hpa:
