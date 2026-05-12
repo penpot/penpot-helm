@@ -1,0 +1,20 @@
+{{- if .Values.mcp.pdb.enabled -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "penpot.fullname" . }}-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.mcp.pdb.minAvailable }}
+  minAvailable: {{ .Values.mcp.pdb.minAvailable }}
+  {{- else if .Values.mcp.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.mcp.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      app: penpot-mcp
+{{- end -}}

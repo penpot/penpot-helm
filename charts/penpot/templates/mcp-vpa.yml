@@ -1,0 +1,20 @@
+{{- if .Values.mcp.autoscaling.vpa.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "penpot.fullname" . }}-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "penpot.fullname" . }}-mcp
+  updatePolicy:
+    updateMode: {{ .Values.mcp.autoscaling.vpa.updateMode | quote }}
+  {{- with .Values.mcp.autoscaling.vpa.resourcePolicy }}
+  resourcePolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "penpot.fullname" . }}-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+  {{- with .Values.mcp.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if not .Values.mcp.autoscaling.hpa.enabled }}
+  replicas: {{ .Values.mcp.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- toYaml .Values.mcp.updateStrategy | nindent 4 }}
+  selector:
+    matchLabels:
+      {{- include "penpot.mcpSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: penpot-mcp
+        {{- include "penpot.mcpSelectorLabels" . | nindent 8 }}
+        {{- with .Values.mcp.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.mcp.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "penpot.serviceAccountName" . }}
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mcp.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-mcp
+          image: "{{ .Values.mcp.image.repository }}:{{ .Values.mcp.image.tag }}"
+          imagePullPolicy: {{ .Values.mcp.image.imagePullPolicy }}
+          {{- with .Values.mcp.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: PENPOT_MCP_SERVER_PORT
+              value: {{ .Values.mcp.service.httpPort | quote }}
+            - name: PENPOT_MCP_WEBSOCKET_PORT
+              value: {{ .Values.mcp.service.wsPort | quote }}
+            - name: PENPOT_MCP_REMOTE_MODE
+              value: "true"
+            # Extra environments
+          {{- with .Values.config.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.mcp.extraEnvs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            {{- with .Values.mcp.volumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.mcp.service.httpPort }}
+              protocol: TCP
+            - name: ws
+              containerPort: {{ .Values.mcp.service.wsPort }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.mcp.resources | nindent 12 }}
+      {{- with .Values.mcp.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mcp.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mcp.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      {{- with .Values.mcp.volumes }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
