@@ -54,7 +54,7 @@ config:
   publicUri: "http://penpot.example.com"
   # -- The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info.
   # @section -- Configuration parameters
-  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"
   # -- A random secret key needed for persistent user sessions. Generate with `python3 -c "import secrets; print(secrets.token_urlsafe(64))"` for example.
   # @section -- Configuration parameters
   apiSecretKey: "kmZ96pAxhTgk3HZvvBkPeVTspGBneKVLEpO_3ecORs_gwACENZ77z05zCe7skvPsQ3jI3QgkULQOWCuLjmjQsg"
@@ -758,6 +758,138 @@ exporter:
   volumes: []
   # -- Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
   # @section -- Exporter parameters
+  volumeMounts: []
+
+mcp:
+  image:
+    # -- The Docker repository to pull the image from.
+    # @section -- MCP parameters
+    repository: penpotapp/mcp
+    # -- The image tag to use.
+    # @section -- MCP parameters
+    tag: 2.15
+    # -- The image pull policy to use.
+    # @section -- MCP parameters
+    imagePullPolicy: IfNotPresent
+  # -- The number of replicas to deploy. High availability is NOT currently supported; keep this value at 1.
+  # @section -- MCP parameters
+  replicaCount: 1
+  # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+  # @section -- MCP parameters
+  updateStrategy:
+    type: RollingUpdate
+  service:
+    # -- The service type to create.
+    # @section -- MCP parameters
+    type: ClusterIP
+    # -- The HTTP/SSE port for AI clients (e.g. Claude).
+    # @section -- MCP parameters
+    httpPort: 4401
+    # -- The WebSocket port for the Penpot MCP plugin.
+    # @section -- MCP parameters
+    wsPort: 4402
+    # -- Mapped annotations for the MCP service.
+    # @section -- MCP parameters
+    annotations: {}
+  # -- An optional map of annotations to be applied to the controller Deployment
+  # @section -- MCP parameters
+  deploymentAnnotations: {}
+  # -- An optional map of labels to be applied to the controller Pods
+  # @section -- MCP parameters
+  podLabels: {}
+  # -- An optional map of annotations to be applied to the controller Pods
+  # @section -- MCP parameters
+  podAnnotations: {}
+  # -- Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+  # @section -- MCP parameters
+  podSecurityContext:
+    fsGroup: 1001
+  # -- Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+  # @section -- MCP parameters
+  containerSecurityContext:
+    runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - all
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+  # -- Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+  # @section -- MCP parameters
+  affinity: {}
+  # -- Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/)
+  # @section -- MCP parameters
+  nodeSelector: {}
+  # -- Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+  # @section -- MCP parameters
+  tolerations: []
+  # -- Penpot MCP server resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/)
+  # @section -- MCP parameters
+  resources:
+    # -- The resources limits for the Penpot MCP server containers
+    # @section -- MCP parameters
+    limits: {}
+    # -- The requested resources for the Penpot MCP server containers
+    # @section -- MCP parameters
+    requests: {}
+  # -- Configure Pod Disruption Budget for the MCP server pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+  # @section -- MCP parameters
+  pdb:
+    # -- Enable Pod Disruption Budget for the MCP server pods.
+    # @section -- MCP parameters
+    enabled: false
+    # -- (int,string) The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%").
+    # @section -- MCP parameters
+    minAvailable:
+    # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
+    # @section -- MCP parameters
+    maxUnavailable:
+  # -- Configure autoscaling for the MCP server pods. High availability is NOT currently supported; do not enable HPA.
+  # @section -- MCP parameters
+  autoscaling:
+    hpa:
+      # -- Enable Horizontal Pod Autoscaler for the MCP server. High availability is NOT currently supported; keep this disabled.
+      # @section -- MCP parameters
+      enabled: false
+      # -- Minimum number of MCP server replicas.
+      # @section -- MCP parameters
+      minReplicas: 1
+      # -- Maximum number of MCP server replicas.
+      # @section -- MCP parameters
+      maxReplicas: 1
+      # -- Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+      # @section -- MCP parameters
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+    vpa:
+      # -- Enable Vertical Pod Autoscaler for the MCP server. Requires VPA operator installed in the cluster.
+      # @section -- MCP parameters
+      enabled: false
+      # -- VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
+      # @section -- MCP parameters
+      updateMode: "Auto"
+      # -- VPA resource policy for the MCP server containers.
+      # @section -- MCP parameters
+      resourcePolicy: {}
+  # -- Specify any additional environment values you want to provide to the MCP server container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
+  # @section -- MCP parameters
+  extraEnvs: []
+  # -- Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- MCP parameters
+  volumes: []
+  # -- Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)
+  # @section -- MCP parameters
   volumeMounts: []
 
 persistence:

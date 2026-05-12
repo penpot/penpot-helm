@@ -61,6 +61,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/name: {{ include "penpot.name" . }}-exporter
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
+{{- define "penpot.mcpSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "penpot.name" . }}-mcp
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
 
 {{/*
 Create the name of the service account to use

@@ -156,6 +156,41 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | fullnameOverride | string | `""` | To fully override common.names.fullname |
+| mcp.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":1,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. High availability is NOT currently supported; do not enable HPA. |
+| mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the MCP server. High availability is NOT currently supported; keep this disabled. |
+| mcp.autoscaling.hpa.maxReplicas | int | `1` | Maximum number of MCP server replicas. |
+| mcp.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| mcp.autoscaling.hpa.minReplicas | int | `1` | Minimum number of MCP server replicas. |
+| mcp.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the MCP server. Requires VPA operator installed in the cluster. |
+| mcp.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the MCP server containers. |
+| mcp.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
+| mcp.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| mcp.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
+| mcp.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the MCP server container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
+| mcp.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
+| mcp.image.repository | string | `"penpotapp/mcp"` | The Docker repository to pull the image from. |
+| mcp.image.tag | float | `2.15` | The image tag to use. |
+| mcp.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| mcp.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the MCP server pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
+| mcp.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the MCP server pods. |
+| mcp.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
+| mcp.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
+| mcp.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| mcp.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
+| mcp.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| mcp.replicaCount | int | `1` | The number of replicas to deploy. High availability is NOT currently supported; keep this value at 1. |
+| mcp.resources | object | `{"limits":{},"requests":{}}` | Penpot MCP server resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
+| mcp.resources.limits | object | `{}` | The resources limits for the Penpot MCP server containers |
+| mcp.resources.requests | object | `{}` | The requested resources for the Penpot MCP server containers |
+| mcp.service.annotations | object | `{}` | Mapped annotations for the MCP service. |
+| mcp.service.httpPort | int | `4401` | The HTTP/SSE port for AI clients (e.g. Claude). |
+| mcp.service.type | string | `"ClusterIP"` | The service type to create. |
+| mcp.service.wsPort | int | `4402` | The WebSocket port for the Penpot MCP plugin. |
+| mcp.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| mcp.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) |
+| mcp.volumeMounts | list | `[]` | Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| mcp.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | nameOverride | string | `""` | To partially override common.names.fullname |
 | serviceAccount.annotations | object | `{}` | Annotations for service account. Evaluated as a template. |
 | serviceAccount.enabled | bool | `true` | Specifies whether a ServiceAccount should be created. |
@@ -171,7 +206,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
-| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
+| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
 | config.objectsStorage.s3.accessKeyID | string | `""` | The S3 access key ID to use if you chose the S3 storage backend. |
