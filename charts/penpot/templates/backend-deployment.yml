@@ -36,17 +36,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.backend.podSecurityContext }}
+      {{- with (include "penpot.podSecurityContext" (dict "ctx" . "values" .Values.backend.podSecurityContext)) }}
       securityContext:
-        {{- toYaml . | nindent 8 }}
+        {{- . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          {{- with .Values.backend.containerSecurityContext }}
+          {{- with (include "penpot.containerSecurityContext" (dict "ctx" . "values" .Values.backend.containerSecurityContext)) }}
           securityContext:
-            {{- toYaml . | nindent 12 }}
+            {{- . | nindent 12 }}
           {{- end }}
           env:
             # General settings

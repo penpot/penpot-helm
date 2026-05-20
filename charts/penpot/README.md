@@ -101,7 +101,20 @@ persistence:
 
 ### 🔐 OpenShift Requirements
 
-If you are deploying on OpenShift, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
+Penpot workloads use fixed `runAsUser` and `fsGroup` values by default. OpenShift `restricted-v2` rejects those IDs unless they belong to the namespace-assigned range.
+
+The chart can adapt automatically on OpenShift by omitting `runAsUser`, `runAsGroup`, and `fsGroup` from Penpot workloads and letting the platform assign allowed IDs:
+
+```console
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: auto
+```
+
+This is the default behavior. You can also set it to `force` to apply the adaptation outside OpenShift, or `disabled` to keep the fixed IDs.
+
+If you explicitly need fixed IDs, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
 You can do this with the following command:
 
 ```console
@@ -110,7 +123,7 @@ oc adm policy add-scc-to-group anyuid system:serviceaccounts:<your-namespace>
 
 Replace <your-namespace> with the actual namespace, e.g. penpot.
 
-Alternatively, if you do not want to relax this security constraint, you can configure the container to use a specific UID allowed by OpenShift by setting it explicitly in the values file.
+Alternatively, if you do not want to relax this security constraint, you can configure the chart with a UID and GID from the namespace-assigned range.
 First, get the UID range assigned to your namespace:
 
 ```console
@@ -122,23 +135,35 @@ This will return a value like:
 ```console
 1000700000/10000
 ```
-From that range, you can pick a UID (e.g., 1000700000) and set it in your `values.yaml` like this:
+From that range, you can pick a UID/GID (e.g., `1000700000`) and set it in your `values.yaml` like this:
 
 ```console
 backend:
-  securityContext:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
     runAsUser: 1000700000
 
 frontend:
-  securityContext:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
     runAsUser: 1000700000
 
 exporter:
-  securityContext:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
+    runAsUser: 1000700000
+
+mcp:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
     runAsUser: 1000700000
 ```
 
-Replace `1000700000` with a valid UID from your namespace range.
+Replace `1000700000` with a valid UID/GID from your namespace range.
 This allows running the chart securely in OpenShift without granting anyuid permissions.
 
 </details>
@@ -149,6 +174,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| global.compatibility.openshift.adaptSecurityContext | string | `"auto"` |  |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
 
 ### General

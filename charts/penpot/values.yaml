@@ -2,6 +2,11 @@
 ## Default values for Penpot
 
 global:
+  compatibility:
+    openshift:
+      # Adapt Penpot workload securityContext sections to OpenShift restricted-v2 SCC by omitting runAsUser, runAsGroup and fsGroup and letting the platform assign allowed IDs. Possible values: auto (apply when an OpenShift Route API is detected), force (perform the adaptation always), disabled (do not perform adaptation)
+      # @section -- Global parameters
+      adaptSecurityContext: "auto"
   # Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
   # ⚠️ DEPRECATION NOTICE (Chart 1.0.0)
   # Bitnami-based dependencies (PostgreSQL and Valkey) will be deprecated

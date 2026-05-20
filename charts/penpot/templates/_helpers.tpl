@@ -77,3 +77,56 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Whether Penpot workloads should adapt their securityContext for OpenShift.
+*/}}
+{{- define "penpot.openshift.adaptSecurityContext" -}}
+{{- $mode := default "auto" .Values.global.compatibility.openshift.adaptSecurityContext -}}
+{{- if eq $mode "force" -}}
+true
+{{- else if eq $mode "disabled" -}}
+false
+{{- else if or (.Capabilities.APIVersions.Has "route.openshift.io/v1") (.Capabilities.APIVersions.Has "route.openshift.io/v1/Route") -}}
+true
+{{- else -}}
+false
+{{- end -}}
+{{- end }}
+
+{{/*
+Render a pod securityContext, omitting only OpenShift-managed user/group IDs.
+Keep fsGroup because stateful workloads may still require it for writable PVCs.
+*/}}
+{{- define "penpot.podSecurityContext" -}}
+{{- $ctx := .ctx -}}
+{{- $values := .values -}}
+{{- if $values -}}
+  {{- $adapt := eq (include "penpot.openshift.adaptSecurityContext" $ctx) "true" -}}
+  {{- $render := $values -}}
+  {{- if $adapt -}}
+    {{- $render = omit $values "runAsGroup" -}}
+  {{- end -}}
+  {{- if gt (len $render) 0 -}}
+{{ toYaml $render }}
+  {{- end -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Render a container securityContext, omitting OpenShift-managed IDs and
+runtime user checks when requested.
+*/}}
+{{- define "penpot.containerSecurityContext" -}}
+{{- $ctx := .ctx -}}
+{{- $values := .values -}}
+{{- if $values -}}
+  {{- $adapt := eq (include "penpot.openshift.adaptSecurityContext" $ctx) "true" -}}
+  {{- $render := $values -}}
+  {{- if $adapt -}}
+    {{- $render = omit $values "runAsUser" "runAsGroup" "runAsNonRoot" -}}
+  {{- end -}}
+  {{- if gt (len $render) 0 -}}
+{{ toYaml $render }}
+  {{- end -}}
+{{- end -}}
+{{- end }}
