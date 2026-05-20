@@ -36,17 +36,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.exporter.podSecurityContext }}
+      {{- with (include "penpot.podSecurityContext" (dict "ctx" . "values" .Values.exporter.podSecurityContext)) }}
       securityContext:
-        {{- toYaml . | nindent 8 }}
+        {{- . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
           imagePullPolicy: {{ .Values.exporter.image.imagePullPolicy }}
-          {{- with .Values.exporter.containerSecurityContext }}
+          {{- with (include "penpot.containerSecurityContext" (dict "ctx" . "values" .Values.exporter.containerSecurityContext)) }}
           securityContext:
-            {{- toYaml . | nindent 12 }}
+            {{- . | nindent 12 }}
           {{- end }}
           env:
             - name: PENPOT_PUBLIC_URI
