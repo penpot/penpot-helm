@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 0.43.0-unreleased # Chart version
+version: 0.43.0 # Chart version
 appVersion: "2.15"  # Penpot version
 type: application
 name: penpot
@@ -39,6 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Add automatic OpenShift securityContext adaptation for Penpot workloads
 dependencies:
   - name: postgresql
     version: 15.5.38 # default appVersion 16.4.0
