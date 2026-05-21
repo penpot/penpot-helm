@@ -75,11 +75,7 @@ spec:
             # PosgreSQL connection settings
             - name: PENPOT_DATABASE_URI
               {{- if not .Values.config.postgresql.secretKeys.postgresqlUriKey }}
-                {{- if .Values.config.postgresql.host }}
               value: "postgresql://{{ .Values.config.postgresql.host }}:{{ .Values.config.postgresql.port }}/{{ .Values.config.postgresql.database }}"
-                {{- else }}
-              value: {{ print "postgresql://" (include "penpot.fullname" .) "-postgresql:" .Values.config.postgresql.port "/" .Values.config.postgresql.database }}
-                {{- end }}
               {{- else }}
               valueFrom:
                 secretKeyRef:
@@ -107,15 +103,7 @@ spec:
             # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if not .Values.config.redis.secretKeys.redisUriKey }}
-                {{- if .Values.config.redis.host }}
               value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-                {{- else }}
-                  {{- if .Values.global.valkeyEnabled }}
-              value: {{ print "redis://" (include "penpot.fullname" .) "-valkey-primary:" .Values.config.redis.port "/" .Values.config.redis.database }}
-                  {{- else }}
-              value: {{ print "redis://" (include "penpot.fullname" .) "-redis-master:" .Values.config.redis.port "/" .Values.config.redis.database }}
-                  {{- end }}
-                {{- end }}
               {{- else }}
               valueFrom:
                 secretKeyRef:

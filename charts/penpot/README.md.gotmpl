@@ -3,7 +3,6 @@
 
 {{ template "chart.description" . }}
 
-
 ## What is Penpot
 
 Penpot is the first **open-source** design tool for design and code collaboration. Designers can create stunning designs, interactive prototypes, design systems at scale, while developers enjoy ready-to-use code and make their workflow easy and fast. And all of this with no handoff drama.
@@ -49,7 +48,7 @@ $ helm repo add penpot http://helm.penpot.app
 $ helm install my-release penpot/{{ template "chart.name" . }}
 ```
 
-To customize the installation, you can specify each parameter by passing the argument `--set key=value[,key=value]` in the `helm install` command. 
+To customize the installation, you can specify each parameter by passing the argument `--set key=value[,key=value]` in the `helm install` command.
 
 Provide the connection details of your PostgreSQL and Valkey instances during installation, For example,
 ```
@@ -114,8 +113,7 @@ global:
 
 This is the default behavior. You can also set it to `force` to apply the adaptation outside OpenShift, or `disabled` to keep the fixed IDs.
 
-If you explicitly need fixed IDs, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC).  
-You can do this with the following command:
+If you explicitly need fixed IDs, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). You can do this with the following command:
 
 ```console
 oc adm policy add-scc-to-group anyuid system:serviceaccounts:<your-namespace>
@@ -226,7 +224,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 {{- end }}
 
 
-### Penpot Frontend
+### Penpot frontend
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -281,6 +279,22 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 
 ## Upgrading
+
+### To 1.0.0
+
+As announced, Penpot is no longer supporting the Bitnami charts. This affects to those installations that are using Postgresql or Redis or Valkey with the provided charts. From this version on, you cannot install nor upgrade Penpot if you're still using those charts.
+
+**You have to migrate data and configuration before removing the dependencies to prevent Helm from deleting the resources**.
+
+To finish this, you should remove the following lines from your local-values.yaml:
+
+```
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+```
+
+and then, you can properly upgrade Penpot.
 
 ### To 0.29.0
 
