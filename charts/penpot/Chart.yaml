@@ -41,3 +41,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: removed
       description: Removed support for Bitnami charts
+    - kind: fixed
+      description: Correction of documentation regarding MCP parameters

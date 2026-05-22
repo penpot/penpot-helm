@@ -190,12 +190,10 @@ This allows running the chart securely in OpenShift without granting anyuid perm
     (hasPrefix "backend" .Key)
     (hasPrefix "frontend" .Key)
     (hasPrefix "exporter" .Key)
+    (hasPrefix "mcp" .Key)
     (hasPrefix "persistence" .Key)
     (hasPrefix "ingress" .Key)
     (hasPrefix "route" .Key)
-    (hasPrefix "postgresql" .Key)
-    (hasPrefix "valkey" .Key)
-    (hasPrefix "redis" .Key)
   ) }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
@@ -244,6 +242,18 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}
+
+
+### Penpot MCP
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "mcp" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
 
 ### Persistence
 
