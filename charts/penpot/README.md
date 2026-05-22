@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 0.44.0-unreleased](https://img.shields.io/badge/Version-0.44.0--unreleased-informational?style=flat-square) ![AppVersion: 2.15](https://img.shields.io/badge/AppVersion-2.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 1.0.0-unreleased](https://img.shields.io/badge/Version-1.0.0--unreleased-informational?style=flat-square) ![AppVersion: 2.15](https://img.shields.io/badge/AppVersion-2.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -114,8 +114,7 @@ global:
 
 This is the default behavior. You can also set it to `force` to apply the adaptation outside OpenShift, or `disabled` to keep the fixed IDs.
 
-If you explicitly need fixed IDs, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). 
-You can do this with the following command:
+If you explicitly need fixed IDs, you may need to allow the pods to run with the `anyuid` Security Context Constraint (SCC). You can do this with the following command:
 
 ```console
 oc adm policy add-scc-to-group anyuid system:serviceaccounts:<your-namespace>
@@ -247,7 +246,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.objectsStorage.storageBackend | string | `"fs"` | The storage backend for different objects (assets, old data...) to use. Use `fs` for filesystem, and `s3` for S3. |
 | config.postgresql.database | string | `"penpot"` | The PostgreSQL database to use. |
 | config.postgresql.existingSecret | string | `""` | The name of an existing secret. |
-| config.postgresql.host | string | `""` | The PostgreSQL host to connect to. Empty to use dependencies. |
+| config.postgresql.host | string | `""` | The PostgreSQL host to connect to. |
 | config.postgresql.password | string | `"penpot"` | The database password to use. |
 | config.postgresql.port | int | `5432` | The PostgreSQL host port to use. |
 | config.postgresql.secretKeys.passwordKey | string | `""` | The password key to use from an existing secret. |
@@ -303,7 +302,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.publicUri | string | `"http://penpot.example.com"` | The public domain to serve Penpot on. **IMPORTANT:** Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain. |
 | config.redis.database | string | `"0"` | The Valkey database to connect to. |
 | config.redis.existingSecret | string | `""` | The name of an existing secret. |
-| config.redis.host | string | `""` | The Valkey host to connect to. Empty to use dependencies |
+| config.redis.host | string | `""` | The Valkey host to connect to. |
 | config.redis.port | int | `6379` | The Valkey host port to use. |
 | config.redis.secretKeys.redisUriKey | string | `""` | The redis uri key to use from an existing secret. (redis://:password@host:port/database). |
 | config.registrationDomainWhitelist | string | `""` | Comma separated list of allowed domains to register. Empty to allow all domains. |
@@ -363,7 +362,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | backend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
-### Penpot Frontend
+### Penpot frontend
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -476,6 +475,22 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | route.wildcardPolicy | string | `"None"` | Define the wildcard policy (None, Subdomain, ...) |
 
 ## Upgrading
+
+### To 1.0.0
+
+As announced, Penpot is no longer supporting the Bitnami charts. This affects to those installations that are using Postgresql or Redis or Valkey with the provided charts. From this version on, you cannot install nor upgrade Penpot if you're still using those charts.
+
+**You have to migrate data and configuration before removing the dependencies to prevent Helm from deleting the resources**.
+
+To finish this, you should remove the following lines from your local-values.yaml:
+
+```
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+```
+
+and then, you can properly upgrade Penpot.
 
 ### To 0.29.0
 

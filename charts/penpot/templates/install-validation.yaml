@@ -1,0 +1,3 @@
+{{- if or .Values.global.postgresqlEnabled .Values.global.valkeyEnabled .Values.global.redisEnabled }}
+{{ fail "\n❌ This update is blocked. Penpot no longer supports Bitnami charts, so you need to remove Helm's management of those services.\nMigrate them before removing or Helm will delete the services." }}
+{{- end }}
