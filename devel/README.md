@@ -1,6 +1,6 @@
-# Penpot Helm Chart: Devel doc
+# Penpot Helm Chart: local development with kind
 
-### Requirements:
+## Requirements
 
 - [docker](https://docs.docker.com/engine/install/)
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
@@ -9,66 +9,108 @@
 - [helm-doc](https://github.com/norwoodj/helm-docs/tree/master)
 - [pre-commit](https://pre-commit.com/)
 
-### Set the environment:
+## Set the environment
 
 ```shell
-# Enable  precommit in the repository
 pre-commit install --install-hooks -f
 ```
 
-### Usage:
+## Usage
 
-- Create the cluster `penpot-cluster` with a namespace `penpot`:
+- Create the local cluster, namespace, ingress and local dependencies:
   ```shell
-  ./scripts/cluster_create.sh
+  ./scripts/create_cluster.sh
   ```
 
-- Download dependencies (only the first time or for an upgrade).
-  ```shell
-  helm repo add bitnami https://charts.bitnami.com/bitnami
-  helm dependency build ./charts/penpot
-  ```
-
-- Create a local copy of the custom settings file.
+- Create a local copy of the chart values:
   ```shell
   cp devel/penpot.values.yaml local.penpot.values.yaml
   ```
-  You can edit and customize your copy as your wish.
 
-- Install the chart.
+- Install the chart:
   ```shell
-  helm install penpot ./charts/penpot -f local.penpot.values.yaml
-  ```
-  Use `upgrade` to install a new version or applay changes in the settings file.
-
-- Check status.
-  ```shell
-  kubectl get all,pvc,ingress,pdb -o wide
+  helm install penpot ./charts/penpot -n penpot -f local.penpot.values.yaml
   ```
 
-- Access to [http://penpot.example.com/](http://penpot.example.com/).
+- Upgrade after changing local values:
+  ```shell
+  helm upgrade --install penpot ./charts/penpot -n penpot -f local.penpot.values.yaml
+  ```
+
+- Check status:
+  ```shell
+  kubectl get all,pvc,ingress,pdb -n penpot -o wide
+  ```
+
+- Access the application at [http://penpot.example.com/](http://penpot.example.com/)
 
 > [!NOTE]
-> You need to add `127.0.1.1  penpot.example.com` to `/etc/hosts`
-
-> [!TIP]
-> if you disable ingress, you can exposing the app in the port 8888 with:
-> ```shell
-> kubectl port-forward service/penpot 8888:8080
+> Add the following entry to `/etc/hosts`:
+>
+> ```text
+> 127.0.1.1 penpot.example.com
 > ```
 
-- Stop and delete cluster.
-  ```shell
-  ./scripts/cluster_delete.sh
-  ```
+> [!TIP]
+> If you disable ingress, you can expose the app on port 8888 with:
+>
+> ```shell
+> kubectl port-forward service/penpot 8888:8080 -n penpot
+> ```
 
-### Troubleshooting:
+#### Local development dependencies
 
-- ```
-  Error: INSTALLATION FAILED: 1 error occurred:
-  	  * Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": dial tcp 10.96.81.208:443: connect: connection refused
-  ```
-  This error appears after install penpot helm. To ignore it, run:
-  ```
-  kubectl delete ValidatingWebhookCOnfiguration ingress-nginx-admission
-  ```
+The local setup (using `create_cluster.sh` script) installs the following services inside the `penpot` namespace:
+
+- PostgreSQL
+- Valkey
+
+Default service discovery names:
+
+- PostgreSQL: `postgresql.penpot.svc.cluster.local`
+- Valkey: `valkey.penpot.svc.cluster.local`
+
+Default development credentials:
+
+- PostgreSQL
+  * database: `penpot`
+  * username: `penpot`
+  * password: `penpot`
+- Valkey
+  * database: `0`
+
+These values are intended for local development only.
+
+
+If needed, you can re-apply local dependencies manually:
+
+```shell
+./scripts/setup_dependencies.sh
+```
+
+### Delete the cluster
+
+```shell
+./scripts/delete_cluster.sh
+```
+
+### Troubleshooting
+
+If ingress-nginx admission webhook is not ready yet, you may see an error like:
+
+```text
+Error: INSTALLATION FAILED: 1 error occurred:
+      * Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": dial tcp <ip>:443: connect: connection refused
+```
+
+Wait a few seconds and try again, or delete the validating webhook in local development:
+
+```shell
+kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
+```
+
+Check dependency resources with:
+
+```shell
+kubectl get pods,svc,pvc -n penpot
+```
