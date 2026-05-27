@@ -155,6 +155,11 @@ config:
   # @section -- Configuration parameters
   fileDataBackend: "legacy-db"
 
+  # -- Defines the maximum size of HTTP request bodies (in bytes) that penpot will accept from clients. It controls how large files or data payloads can be when uploading files, submitting forms, or making API requests. It also helps protect against denial-of-service attacks by rejecting oversized requests.
+  # Default value for Penpot is 367001600 bytes (~350 MB). See [Nginx documentation]( https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size).
+  # @section -- Configuration parameters
+  httpServerMaxBodySize: "367001600" 
+
   smtp:
     # -- Whether to enable SMTP configuration. You also need to add the 'enable-smtp' flag to the PENPOT_FLAGS variable.
     # @section -- Configuration parameters

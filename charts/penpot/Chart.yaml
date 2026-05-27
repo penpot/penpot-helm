@@ -39,6 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Allow assing value to PENPOT_HTTP_SERVER_MAX_BODY_SIZE via an attribute
     - kind: removed
       description: Removed support for Bitnami charts
     - kind: fixed

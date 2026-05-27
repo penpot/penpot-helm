@@ -73,6 +73,8 @@ spec:
               value: {{ .Values.config.termsOfServicesUri | quote }}
             - name: PENPOT_PRIVACY_POLICY_URI
               value: {{ .Values.config.privacyPolicyUri | quote }}
+            - name: PENPOT_HTTP_SERVER_MAX_BODY_SIZE
+              value: {{ .Values.config.httpServerMaxBodySize | quote  }}
             # Extra environments
           {{- with .Values.config.extraEnvs }}
             {{- toYaml . | nindent 12 }}
