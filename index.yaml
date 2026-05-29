@@ -4,6 +4,56 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Allow assing value to PENPOT_HTTP_SERVER_MAX_BODY_SIZE via an attribute
+        - kind: fixed
+          description: Correction of documentation regarding MCP parameters
+        - kind: removed
+          description: Removed support for Bitnami charts
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.app
+        - name: documentation
+          url: https://help.penpot.app
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: "2.15"
+    created: "2026-05-29T08:51:43.456564565Z"
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: ddbc83c153a07e71e8f2f3269d1270ac627cbefd5d4837d64bad2cdd9161c6b7
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: KALEIDOS INC Sucursal en España SL
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-1.0.0/penpot-1.0.0.tgz
+    version: 1.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add automatic OpenShift securityContext adaptation for Penpot workloads
       artifacthub.io/containsSecurityUpdates: "false"
       artifacthub.io/links: |
@@ -2831,4 +2881,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2026-05-20T09:45:46.675356901Z"
+generated: "2026-05-29T08:51:43.456972281Z"
