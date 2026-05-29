@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.0.0 # Chart version
+version: 1.1.0-unreleased # Chart version
 appVersion: "2.15"  # Penpot version
 type: application
 name: penpot
@@ -39,9 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Allow assing value to PENPOT_HTTP_SERVER_MAX_BODY_SIZE via an attribute
-    - kind: fixed
-      description: Correction of documentation regarding MCP parameters
-    - kind: removed
-      description: Removed support for Bitnami charts
