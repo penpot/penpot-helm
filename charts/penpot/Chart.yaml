@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 1.2.0-unreleased # Chart version
-appVersion: "2.15.3"  # Penpot version
+appVersion: "2.15.4"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -40,4 +40,4 @@ annotations:
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump to Penpot 2.15.3
+      description: Bump to Penpot 2.15.4
