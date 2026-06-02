@@ -39,5 +39,7 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Allow disabling the MCP
     - kind: changed
       description: Bump to Penpot 2.15.4

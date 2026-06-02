@@ -1,4 +1,4 @@
-{{- if .Values.mcp.autoscaling.vpa.enabled }}
+{{- if and (eq (include "penpot.mcpEnabled" .) "true") .Values.mcp.autoscaling.vpa.enabled }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:

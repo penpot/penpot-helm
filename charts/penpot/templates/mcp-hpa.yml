@@ -1,4 +1,4 @@
-{{- if .Values.mcp.autoscaling.hpa.enabled }}
+{{- if and (eq (include "penpot.mcpEnabled" .) "true") .Values.mcp.autoscaling.hpa.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

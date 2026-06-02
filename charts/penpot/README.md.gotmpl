@@ -92,11 +92,23 @@ persistence:
 ```
 > **Tip**: You can use the default values.yaml
 
-### MCP Limitation
+### MCP Server
 
 > **Warning**
 > Starting with Penpot 2.15, the MCP integration does not currently support high-availability deployments.
 > Keep Penpot components as single replicas and do not enable HPA for frontend, backend or exporter while MCP is in use.
+
+The MCP server is only deployed when `config.flags` contains `enable-mcp`.
+
+The chart default flags currently include `enable-mcp`, so the MCP server remains enabled by default.
+If you want to disable it, remove `enable-mcp` from the `config.flags` string.
+
+Example:
+
+```yml
+config:
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
+```
 
 ### 🔐 OpenShift Requirements
 

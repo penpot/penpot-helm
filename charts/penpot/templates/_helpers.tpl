@@ -130,3 +130,10 @@ runtime user checks when requested.
   {{- end -}}
 {{- end -}}
 {{- end }}
+
+{{/*
+Check if MCP is enabled or not.
+*/}}
+{{- define "penpot.mcpEnabled" -}}
+{{- has "enable-mcp" (splitList " " (default "" .Values.config.flags)) -}}
+{{- end -}}

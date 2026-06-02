@@ -1,4 +1,4 @@
-{{- if .Values.mcp.pdb.enabled -}}
+{{- if and (eq (include "penpot.mcpEnabled" .) "true") .Values.mcp.pdb.enabled -}}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
