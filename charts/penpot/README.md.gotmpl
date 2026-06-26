@@ -204,6 +204,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
     (hasPrefix "exporter" .Key)
     (hasPrefix "mcp" .Key)
     (hasPrefix "persistence" .Key)
+    (hasPrefix "gateway" .Key)
     (hasPrefix "ingress" .Key)
     (hasPrefix "route" .Key)
   ) }}
@@ -273,6 +274,17 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "persistence" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+
+### Gateway API
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "gateway" .Key }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}

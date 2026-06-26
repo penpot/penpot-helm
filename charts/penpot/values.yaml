@@ -905,6 +905,49 @@ persistence:
     # @section -- Persistence parameters
     annotations: {}
 
+gateway:
+  # -- Enable Gateway API HTTPRoute support.
+  # @section -- Gateway API parameters
+  enabled: false
+
+  # -- Extra annotations for the HTTPRoute.
+  # @section -- Gateway API parameters
+  annotations: {}
+
+  # -- Hostnames exposed by the HTTPRoute.
+  # @section -- Gateway API parameters
+  hostnames:
+    - penpot.example.com
+
+  # -- ParentRefs for attaching the HTTPRoute to one or more Gateways.
+  # Example:
+  # parentRefs:
+  #   - name: shared-gateway
+  #     namespace: infra
+  #     sectionName: http
+  # @section -- Gateway API parameters
+  parentRefs: []
+
+  # -- Path match type for the HTTPRoute.
+  # Common values: PathPrefix, Exact
+  # @section -- Gateway API parameters
+  pathMatchType: PathPrefix
+
+  # -- Path value for the HTTPRoute match.
+  # @section -- Gateway API parameters
+  path: /
+
+  # -- Optional filters for the HTTPRoute rules.
+  # Example:
+  # filters:
+  #   - type: RequestHeaderModifier
+  #     requestHeaderModifier:
+  #       set:
+  #         - name: X-Forwarded-Proto
+  #           value: https
+  # @section -- Gateway API parameters
+  filters: []
+
 ingress:
   # -- Enable (frontend) Ingress Controller.
   # @section -- Ingress parameters

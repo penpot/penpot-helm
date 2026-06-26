@@ -1,0 +1,36 @@
+{{- if and .Values.gateway.enabled (empty .Values.gateway.parentRefs) -}}
+{{- fail "gateway.enabled=true requires gateway.parentRefs to be set" -}}
+{{- end -}}
+{{- if .Values.gateway.enabled -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "penpot.fullname" . }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+  {{- with .Values.gateway.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.gateway.parentRefs }}
+  parentRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.gateway.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    - matches:
+        - path:
+            type: {{ .Values.gateway.pathMatchType }}
+            value: {{ .Values.gateway.path | quote }}
+      {{- with .Values.gateway.filters }}
+      filters:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      backendRefs:
+        - name: {{ include "penpot.fullname" . }}
+          port: {{ .Values.frontend.service.port }}
+{{- end }}

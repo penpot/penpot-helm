@@ -1,9 +1,4 @@
 ---
-## Default values for Penpot (local setup for development purpose)
-global:
-  postgresqlEnabled: true
-  redisEnabled: true
-
 config:
   publicUri: "http://penpot.example.com"
   apiSecretKey: "my-secret-key"
@@ -40,7 +35,29 @@ persistence:
 #  exporter:
 #    enabled: true
 
+
+## Tesr with ingress
+# Enable this block for Ingress-based local access
+#
+#ingress:
+#  enabled: true
+#  hosts:
+#    - "penpot.example.com"
+#gateway:
+#  enabled: false
+
+## Tesr with gateway
+# Enable this block for Gateway API-based local access
+# When gateway.enabled=true, set ingress.enabled=false unless you explicitly want both.
 ingress:
+  enabled: false
+gateway:
   enabled: true
-  hosts:
+  parentRefs:
+    - name: penpot
+      namespace: penpot
+      sectionName: http
+  hostnames:
     - "penpot.example.com"
+  path: /
+  pathMatchType: PathPrefix
