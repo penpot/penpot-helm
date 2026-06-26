@@ -469,6 +469,18 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | persistence.assets.size | string | `"20Gi"` | Penpot objects persistent Volume size. |
 | persistence.assets.storageClass | string | `""` | Penpot objects persistent Volume storage class. If defined, storageClassName: <storageClass>. If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner. |
 
+### Gateway API
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| gateway.annotations | object | `{}` | Extra annotations for the HTTPRoute. |
+| gateway.enabled | bool | `false` | Enable Gateway API HTTPRoute support. |
+| gateway.filters | list | `[]` | Optional filters for the HTTPRoute rules. Example: filters:   - type: RequestHeaderModifier     requestHeaderModifier:       set:         - name: X-Forwarded-Proto           value: https |
+| gateway.hostnames | list | `["penpot.example.com"]` | Hostnames exposed by the HTTPRoute. |
+| gateway.parentRefs | list | `[]` | ParentRefs for attaching the HTTPRoute to one or more Gateways. Example: parentRefs:   - name: shared-gateway     namespace: infra     sectionName: http |
+| gateway.path | string | `"/"` | Path value for the HTTPRoute match. |
+| gateway.pathMatchType | string | `"PathPrefix"` | Path match type for the HTTPRoute. Common values: PathPrefix, Exact |
+
 ### Ingress
 
 | Key | Type | Default | Description |

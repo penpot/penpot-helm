@@ -39,5 +39,8 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.16.1
+    - kind: added
+      description: Add optional Gateway API HTTPRoute support
+      links:
+        - name: GitHub Issue 48
+          url: https://github.com/penpot/penpot-helm/issues/48

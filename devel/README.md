@@ -17,7 +17,15 @@ pre-commit install --install-hooks -f
 
 ## Usage
 
-- Create the local cluster, namespace, ingress and local dependencies:
+Create the local cluster, namespace and local dependencies.
+
+Choose one exposure mode:
+- `ingress` (default)
+- `gateway`
+
+### Using Ingress (default)
+
+- Create the local cluster with ingress support:
   ```shell
   ./scripts/create_cluster.sh
   ```
@@ -25,6 +33,14 @@ pre-commit install --install-hooks -f
 - Create a local copy of the chart values:
   ```shell
   cp devel/penpot.values.yaml local.penpot.values.yaml
+  ```
+
+- Ensure the local values use:
+  ```yaml
+  ingress:
+    enabled: true
+  gateway:
+    enabled: false
   ```
 
 - Install the chart:
@@ -44,6 +60,43 @@ pre-commit install --install-hooks -f
 
 - Access the application at [http://penpot.example.com/](http://penpot.example.com/)
 
+### Using Gateway API
+
+- Create the local cluster with Gateway API support:
+  ```shell
+  EXPOSURE_MODE=gateway ./scripts/create_cluster.sh
+  ```
+
+- Create a local copy of the chart values:
+  ```shell
+  cp devel/penpot.values.yaml local.penpot.values.yaml
+  ```
+
+- Ensure the local values use:
+  ```yaml
+  ingress:
+    enabled: false
+  gateway:
+    enabled: true
+  ```
+
+- Install the chart:
+  ```shell
+  helm install penpot ./charts/penpot -n penpot -f local.penpot.values.yaml
+  ```
+
+- Upgrade after changing local values:
+  ```shell
+  helm upgrade --install penpot ./charts/penpot -n penpot -f local.penpot.values.yaml
+  ```
+
+- Check Gateway resources:
+  ```shell
+  kubectl get gateway,httproute -n penpot
+  ```
+
+- Access the application at [http://penpot.example.com/](http://penpot.example.com/)
+
 > [!NOTE]
 > Add the following entry to `/etc/hosts`:
 >
@@ -52,7 +105,7 @@ pre-commit install --install-hooks -f
 > ```
 
 > [!TIP]
-> If you disable ingress, you can expose the app on port 8888 with:
+> If you disable ingress and gateway, you can expose the app on port 8888 with:
 >
 > ```shell
 > kubectl port-forward service/penpot 8888:8080 -n penpot
@@ -96,6 +149,8 @@ If needed, you can re-apply local dependencies manually:
 
 ### Troubleshooting
 
+#### Ingress
+
 If ingress-nginx admission webhook is not ready yet, you may see an error like:
 
 ```text
@@ -107,6 +162,28 @@ Wait a few seconds and try again, or delete the validating webhook in local deve
 
 ```shell
 kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
+```
+
+Check dependency resources with:
+
+```shell
+kubectl get pods,svc,pvc -n penpot
+```
+
+#### Gateway API
+
+If you are using `EXPOSURE_MODE=gateway`, verify that Envoy Gateway is ready:
+
+```shell
+kubectl get pods -n envoy-gateway-system
+kubectl rollout status deployment/envoy-gateway -n envoy-gateway-system
+```
+
+Then verify the Gateway API resources:
+
+```shell
+kubectl get gatewayclass
+kubectl get gateway,httproute -n penpot
 ```
 
 Check dependency resources with:
