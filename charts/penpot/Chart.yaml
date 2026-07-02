@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.5.0 # Chart version
+version: 1.6.0-unreleased # Chart version
 appVersion: "2.16.2"  # Penpot version
 type: application
 name: penpot
@@ -39,7 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.16.2
-    - kind: fixed
-      description: Now it's possible to launch more than one replica with MCP server enabled
