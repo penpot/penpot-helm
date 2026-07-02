@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.6.1 # Chart version
+version: 1.7.0-unreleased # Chart version
 appVersion: "2.16.2"  # Penpot version
 type: application
 name: penpot
@@ -39,5 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - name: fixed
-      description: Improve documentation
