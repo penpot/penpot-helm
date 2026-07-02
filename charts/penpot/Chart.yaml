@@ -41,3 +41,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Bump Penpot to 2.16.2
+    - kind: fixed
+      description: Now it's possible to launch more than one replica with MCP server enabled
