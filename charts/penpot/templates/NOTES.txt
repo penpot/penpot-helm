@@ -8,13 +8,3 @@
 
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
-
-{{- if eq (include "penpot.mcpEnabled" .) "true" }}
-
-  ⚠️ MCP WARNING:
-     Starting with Penpot 2.15, Penpot MCP integration does not currently
-     support high-availability deployments.
-
-     If you are using MCP, keep frontend, backend and exporter as single replicas
-     and do not enable HPA for those workloads.
-{{- end }}
