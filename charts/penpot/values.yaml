@@ -760,7 +760,7 @@ mcp:
     # -- The image pull policy to use.
     # @section -- MCP parameters
     imagePullPolicy: IfNotPresent
-  # -- The number of replicas to deploy. High availability is NOT currently supported; keep this value at 1.
+  # -- The number of replicas to deploy.
   # @section -- MCP parameters
   replicaCount: 1
   # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
@@ -833,11 +833,11 @@ mcp:
     # -- (int,string) The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%").
     # @section -- MCP parameters
     maxUnavailable:
-  # -- Configure autoscaling for the MCP server pods. High availability is NOT currently supported; do not enable HPA.
+  # -- Configure autoscaling for the MCP server pods.
   # @section -- MCP parameters
   autoscaling:
     hpa:
-      # -- Enable Horizontal Pod Autoscaler for the MCP server. High availability is NOT currently supported; keep this disabled.
+      # -- Enable Horizontal Pod Autoscaler for the MCP server.
       # @section -- MCP parameters
       enabled: false
       # -- Minimum number of MCP server replicas.

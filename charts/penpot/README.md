@@ -95,10 +95,6 @@ persistence:
 
 ### MCP Server
 
-> **Warning**
-> Starting with Penpot 2.15, the MCP integration does not currently support high-availability deployments.
-> Keep Penpot components as single replicas and do not enable HPA for frontend, backend or exporter while MCP is in use.
-
 The MCP server is only deployed when `config.flags` contains `enable-mcp`.
 
 The chart default flags currently include `enable-mcp`, so the MCP server remains enabled by default.
@@ -423,8 +419,8 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | mcp.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":1,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. High availability is NOT currently supported; do not enable HPA. |
-| mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the MCP server. High availability is NOT currently supported; keep this disabled. |
+| mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":1,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. |
+| mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the MCP server. |
 | mcp.autoscaling.hpa.maxReplicas | int | `1` | Maximum number of MCP server replicas. |
 | mcp.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | mcp.autoscaling.hpa.minReplicas | int | `1` | Minimum number of MCP server replicas. |
@@ -445,7 +441,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | mcp.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | mcp.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| mcp.replicaCount | int | `1` | The number of replicas to deploy. High availability is NOT currently supported; keep this value at 1. |
+| mcp.replicaCount | int | `1` | The number of replicas to deploy. |
 | mcp.resources | object | `{"limits":{},"requests":{}}` | Penpot MCP server resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | mcp.resources.limits | object | `{}` | The resources limits for the Penpot MCP server containers |
 | mcp.resources.requests | object | `{}` | The requested resources for the Penpot MCP server containers |

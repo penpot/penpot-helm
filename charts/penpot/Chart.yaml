@@ -39,3 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - name: fixed
+      description: Improve documentation
