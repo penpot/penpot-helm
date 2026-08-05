@@ -39,5 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.17.0
+    - kind: added
+      description: Add optional Gateway API HTTPRoute support
