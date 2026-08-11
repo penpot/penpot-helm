@@ -960,3 +960,34 @@ route:
   # -- Define the wildcard policy (None, Subdomain, ...)
   # @section -- Route parameters
   wildcardPolicy: None
+
+# -- Enable (frontend) HTTPRoute.
+# Requires a Gateway API compatible controller.
+# @section -- HTTPRoute parameters
+httpRoute:
+  enabled: false
+  # -- Array style parentRefs for the (frontend) HTTPRoute.
+  # E.g.
+  # parentRefs:
+  # - name: gateway
+  #   namespace: gateway-system
+  # @section -- HTTPRoute parameters
+  parentRefs:
+    - name: my-gateway
+      namespace: gateway-system
+  # -- Array style hostnames for the (frontend) HTTPRoute.
+  # E.g.
+  # hosts:
+  # - penpot.example.com
+  # @section -- HTTPRoute parameters
+  hosts:
+    - "penpot.example.com"
+  # -- Root path for every hosts.
+  # @section -- HTTPRoute parameters
+  path: "/"
+  # -- Mapped annotations for the HTTPRoute.
+  # E.g.
+  # annotations:
+  #   example.com/key: value
+  # @section -- HTTPRoute parameters
+  annotations: {}
