@@ -34,12 +34,6 @@ example: security bugs), consider first send an email to
 
 ## Pull requests
 
-> [!CAUTION]
-> This repository is a **work in progress**. We are not able to aacept
-> Pull Requests We cannot accept Pull Requests with new functionality
-> until the repository with the first functional version is officially
-> released.
-
 If you want propose a change or bug fix with the Pull-Request system
 firstly you should carefully read the **DCO** section and format your
 commits accordingly.
