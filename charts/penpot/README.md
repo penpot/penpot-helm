@@ -391,7 +391,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | exporter.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
-| exporter.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
+| exporter.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
 | exporter.image.tag | string | `"2.17.1"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
@@ -430,7 +430,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | mcp.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
 | mcp.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the MCP server container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
-| mcp.image.imagePullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
+| mcp.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | mcp.image.repository | string | `"penpotapp/mcp"` | The Docker repository to pull the image from. |
 | mcp.image.tag | string | `"2.17.1"` | The image tag to use. |
 | mcp.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |

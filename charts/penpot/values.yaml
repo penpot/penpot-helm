@@ -628,7 +628,7 @@ exporter:
     # -- The image tag to use.
     # @section -- Exporter parameters
     tag: 2.17.1
-    # -- The image pull policy to use.
+    # -- Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent
   # -- The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount.
@@ -757,7 +757,7 @@ mcp:
     # -- The image tag to use.
     # @section -- MCP parameters
     tag: 2.17.1
-    # -- The image pull policy to use.
+    # -- Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version.
     # @section -- MCP parameters
     imagePullPolicy: IfNotPresent
   # -- The number of replicas to deploy.
