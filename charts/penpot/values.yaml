@@ -845,7 +845,7 @@ mcp:
       minReplicas: 1
       # -- Maximum number of MCP server replicas.
       # @section -- MCP parameters
-      maxReplicas: 1
+      maxReplicas: 5
       # -- Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
       # @section -- MCP parameters
       metrics:
