@@ -419,9 +419,9 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | mcp.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":1,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. |
+| mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. |
 | mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the MCP server. |
-| mcp.autoscaling.hpa.maxReplicas | int | `1` | Maximum number of MCP server replicas. |
+| mcp.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of MCP server replicas. |
 | mcp.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | mcp.autoscaling.hpa.minReplicas | int | `1` | Minimum number of MCP server replicas. |
 | mcp.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the MCP server. Requires VPA operator installed in the cluster. |
