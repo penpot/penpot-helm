@@ -41,3 +41,7 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Default mcp.autoscaling.hpa.maxReplicas raised to 5, matching the other components
+    - kind: added
+      description: Accept image.pullPolicy on the exporter and mcp components, aligning them with the backend and frontend
+    - kind: deprecated
+      description: image.imagePullPolicy on the exporter and mcp components, superseded by image.pullPolicy

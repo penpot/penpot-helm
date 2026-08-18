@@ -43,7 +43,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
-          imagePullPolicy: {{ .Values.exporter.image.imagePullPolicy }}
+          imagePullPolicy: {{ .Values.exporter.image.pullPolicy | default .Values.exporter.image.imagePullPolicy }}
           {{- with (include "penpot.containerSecurityContext" (dict "ctx" . "values" .Values.exporter.containerSecurityContext)) }}
           securityContext:
             {{- . | nindent 12 }}

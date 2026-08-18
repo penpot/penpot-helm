@@ -44,7 +44,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}-mcp
           image: "{{ .Values.mcp.image.repository }}:{{ .Values.mcp.image.tag }}"
-          imagePullPolicy: {{ .Values.mcp.image.imagePullPolicy }}
+          imagePullPolicy: {{ .Values.mcp.image.pullPolicy | default .Values.mcp.image.imagePullPolicy }}
           {{- with (include "penpot.containerSecurityContext" (dict "ctx" . "values" .Values.mcp.containerSecurityContext)) }}
           securityContext:
             {{- . | nindent 12 }}
