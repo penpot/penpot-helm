@@ -1,0 +1,5 @@
+# adaptSecurityContext is one of auto, force, disabled.
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: "yes"

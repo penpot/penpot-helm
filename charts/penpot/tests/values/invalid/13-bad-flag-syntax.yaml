@@ -1,0 +1,3 @@
+# Flags must all carry the enable-/disable- prefix; Penpot ignores the rest.
+config:
+  flags: "enable-smtp mcp disable-onboarding"

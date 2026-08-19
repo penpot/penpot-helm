@@ -1,0 +1,14 @@
+# pullPolicy now works on every component. exporter and mcp still accept the
+# deprecated imagePullPolicy for backwards compatibility.
+backend:
+  image:
+    pullPolicy: Always
+frontend:
+  image:
+    pullPolicy: Always
+exporter:
+  image:
+    pullPolicy: Always
+mcp:
+  image:
+    imagePullPolicy: Always

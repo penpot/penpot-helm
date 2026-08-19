@@ -1,0 +1,32 @@
+# HPA, PDB and resource limits on every component.
+backend:
+  autoscaling:
+    hpa:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 8
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: "2"
+      memory: 4Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+frontend:
+  replicaCount: 3
+  pdb:
+    enabled: true
+    maxUnavailable: "25%"
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+exporter:
+  autoscaling:
+    vpa:
+      enabled: true
+      updateMode: "Off"

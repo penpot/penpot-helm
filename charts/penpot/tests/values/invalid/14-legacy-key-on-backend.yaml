@@ -1,0 +1,5 @@
+# imagePullPolicy was never read by the backend or frontend templates, so it
+# must not be silently accepted there.
+backend:
+  image:
+    imagePullPolicy: Always

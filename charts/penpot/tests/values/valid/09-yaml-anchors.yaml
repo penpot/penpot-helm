@@ -1,0 +1,17 @@
+# YAML anchors and keys consumed by external tooling live under the x- prefix,
+# which the schema accepts and the chart ignores.
+x-node-selector: &nodeSelector
+  kubernetes.io/os: linux
+
+x-tolerations: &tolerations
+  - key: workload
+    operator: Equal
+    value: penpot
+    effect: NoSchedule
+
+backend:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations
+frontend:
+  nodeSelector: *nodeSelector
+  tolerations: *tolerations

@@ -1,0 +1,17 @@
+# Gateway API HTTPRoute attached to a shared gateway.
+gateway:
+  enabled: true
+  hostnames:
+    - design.example.com
+  parentRefs:
+    - name: shared-gateway
+      namespace: infra
+      sectionName: http
+  pathMatchType: PathPrefix
+  path: /
+  filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        set:
+          - name: X-Forwarded-Proto
+            value: https

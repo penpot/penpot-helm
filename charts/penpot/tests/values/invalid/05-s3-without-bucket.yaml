@@ -1,0 +1,6 @@
+# storageBackend s3 requires a bucket name.
+config:
+  objectsStorage:
+    storageBackend: s3
+    s3:
+      region: eu-west-1

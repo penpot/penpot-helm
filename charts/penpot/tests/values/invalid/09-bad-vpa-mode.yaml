@@ -1,0 +1,6 @@
+# updateMode is one of Off, Initial, Recreate, Auto.
+mcp:
+  autoscaling:
+    vpa:
+      enabled: true
+      updateMode: auto

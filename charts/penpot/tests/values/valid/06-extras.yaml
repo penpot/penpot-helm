@@ -1,0 +1,42 @@
+# Extra env vars, volumes, SMTP, OIDC and image pull secrets.
+global:
+  imagePullSecrets:
+    - myRegistryKeySecretName
+config:
+  flags: "disable-registration enable-login-with-oidc enable-smtp"
+  smtp:
+    enabled: true
+    host: smtp.example.com
+    port: 587
+    tls: true
+    defaultFrom: "no-reply@example.com"
+    existingSecret: penpot-smtp
+    secretKeys:
+      usernameKey: username
+      passwordKey: password
+  providers:
+    oidc:
+      enabled: true
+      baseURI: "https://keycloak.example.com/realms/main"
+      clientID: penpot
+      roles: "designer developer"
+  autoFileSnapshot:
+    every: 10
+    timeout: 90m
+  extraEnvs:
+    - name: PENPOT_HTTP_SERVER_MAX_MULTIPART_BODY_SIZE
+      value: "367001600"
+backend:
+  volumes:
+    - name: custom-tmp
+      emptyDir: {}
+  volumeMounts:
+    - name: custom-tmp
+      mountPath: /tmp/custom
+      readOnly: false
+  extraEnvs:
+    - name: JAVA_OPTS
+      valueFrom:
+        configMapKeyRef:
+          name: penpot-tuning
+          key: java-opts

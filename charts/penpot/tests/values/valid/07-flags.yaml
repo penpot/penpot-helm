@@ -1,0 +1,16 @@
+# A flag set exercising several documented features at once.
+config:
+  flags: >-
+    disable-registration
+    enable-login-with-oidc
+    enable-oidc-registration
+    enable-smtp
+    enable-webhooks
+    enable-access-tokens
+    enable-auto-file-snapshot
+    disable-dashboard-templates-section
+    enable-air-gapped-conf
+  providers:
+    oidc:
+      enabled: true
+      baseURI: "https://sso.example.com/realms/main"

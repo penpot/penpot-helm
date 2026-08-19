@@ -1,0 +1,4 @@
+# An enabled ingress needs at least one host.
+ingress:
+  enabled: true
+  hosts: []

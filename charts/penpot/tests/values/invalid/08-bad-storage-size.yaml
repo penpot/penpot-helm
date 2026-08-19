@@ -1,0 +1,4 @@
+# Not a valid Kubernetes quantity.
+persistence:
+  assets:
+    size: "20 gigas"
