@@ -1,0 +1,40 @@
+---
+# Bootstrap stub. Its only purpose is to exist on the default branch so the
+# "Run workflow" button appears, which lets the real workflow be dispatched
+# against the branch that is still in review.
+#
+# Dispatching against a branch runs that branch's version of this file, so this
+# placeholder is only ever executed if someone dispatches it against develop.
+# It is replaced wholesale when the smoke test PR merges; nothing to clean up.
+#
+# The inputs are declared here as well as in the real file: the dispatch form is
+# rendered from the default branch, so without them the fields would not appear.
+name: Smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: >-
+          Branch, tag or SHA to test. Leave empty to use the branch selected
+          above.
+        required: false
+        type: string
+      exposure_mode:
+        description: How to expose Penpot in the test cluster.
+        required: false
+        default: gateway
+        type: choice
+        options:
+          - gateway
+          - ingress
+
+jobs:
+  placeholder:
+    name: Not implemented yet
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "This is the bootstrap stub on the default branch."
+          echo "Dispatch this workflow against the smoke test branch instead."
+          exit 1
