@@ -107,6 +107,51 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
+### Running more than one replica
+
+Every component can be scaled with `replicaCount`, or automatically through
+`autoscaling.hpa`. Before raising either, check how assets are stored.
+
+With the default `persistence.assets.enabled: true`, the chart creates one
+PersistentVolumeClaim with `accessModes: [ReadWriteOnce]`, and **both the backend
+and the frontend mount it**. A ReadWriteOnce volume can only be attached to a
+single node, so on a cluster with more than one node a second replica of either
+component may be scheduled elsewhere and stay `Pending` indefinitely, waiting for
+a volume it cannot get. The exporter and the MCP server do not mount it and scale
+freely.
+
+Pick one of these before scaling the backend or the frontend:
+
+- **Object storage (recommended).** Move assets out of the cluster entirely and
+  the constraint disappears:
+
+  ```yml
+  config:
+    objectsStorage:
+      storageBackend: s3
+      s3:
+        bucket: your-bucket
+        region: your-region
+  persistence:
+    assets:
+      enabled: false
+  ```
+
+- **A ReadWriteMany volume**, if your storage provisioner supports it (NFS,
+  CephFS, Azure Files, EFS, …):
+
+  ```yml
+  persistence:
+    assets:
+      accessModes:
+        - ReadWriteMany
+      storageClass: your-rwx-storage-class
+  ```
+
+Scaling with the default ReadWriteOnce volume can appear to work on a
+single-node cluster, where every replica lands on the same node. It stops working
+as soon as a second node exists.
+
 ### 🔐 OpenShift Requirements
 
 Penpot workloads use fixed `runAsUser` and `fsGroup` values by default. OpenShift `restricted-v2` rejects those IDs unless they belong to the namespace-assigned range.
@@ -181,7 +226,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| global.compatibility.openshift.adaptSecurityContext | string | `"auto"` |  |
+| global.compatibility.openshift.adaptSecurityContext | string | `"auto"` | Adapt Penpot workload securityContext sections to OpenShift restricted-v2 SCC by omitting runAsUser, runAsGroup and fsGroup and letting the platform assign allowed IDs. Possible values: auto (apply when an OpenShift Route API is detected), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names. E.g. imagePullSecrets:   - myRegistryKeySecretName |
 
 ### General
@@ -204,7 +249,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
-| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"` | The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info. |
+| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"` | The feature flags to enable. Every entry must be prefixed with `enable-` or `disable-`: any other token is silently ignored, and unknown flag names are accepted without complaint, so a typo is a no-op rather than an error. The available flags change between Penpot versions, check [the official docs](https://help.penpot.app/technical-guide/configuration/) for the list matching your appVersion. |
 | config.httpServerMaxBodySize | string | `"367001600"` | Defines the maximum size of HTTP request bodies (in bytes) that penpot will accept from clients. It controls how large files or data payloads can be when uploading files, submitting forms, or making API requests. It also helps protect against denial-of-service attacks by rejecting oversized requests. Default value for Penpot is 367001600 bytes (~350 MB). See [Nginx documentation]( https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size). |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
@@ -302,12 +347,12 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 | backend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | backend.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the backend pods. |
-| backend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the backend. When enabled, replicaCount is ignored. |
-| backend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of backend replicas. |
+| backend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler. When enabled, replicaCount is ignored. |
+| backend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of replicas. |
 | backend.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| backend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of backend replicas. |
-| backend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the backend. Requires VPA operator installed in the cluster. |
-| backend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the backend containers. |
+| backend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas. |
+| backend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler. Requires VPA operator installed in the cluster. |
+| backend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the containers. |
 | backend.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | backend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
@@ -317,7 +362,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.image.tag | string | `"2.17.2"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
-| backend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the backend pods. |
+| backend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
 | backend.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
 | backend.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | backend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
@@ -325,14 +370,14 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | backend.replicaCount | int | `1` | The number of replicas to deploy. |
 | backend.resources | object | `{"limits":{},"requests":{}}` | Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| backend.resources.limits | object | `{}` | The resources limits for the Penpot backend containers |
-| backend.resources.requests | object | `{}` | The requested resources for the Penpot backend containers |
-| backend.service.annotations | object | `{}` | Mapped annotations for the backend service |
-| backend.service.port | int | `6060` | The http service port to use. |
-| backend.service.type | string | `"ClusterIP"` | The http service type to create. |
+| backend.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
+| backend.resources.requests | object | `{}` | The requested resources for the Penpot containers. |
+| backend.service.annotations | object | `{}` | Mapped annotations for the service. |
+| backend.service.port | int | `6060` | The service port to use. |
+| backend.service.type | string | `"ClusterIP"` | The service type to create. |
 | backend.startupProbe | object | `{"failureThreshold":30,"httpGet":{"path":"/readyz","port":"http"},"periodSeconds":10}` | Startup probe for the Penpot backend containers. Tolerates up to 30 * 10 = 300 seconds = 5 Minutes. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes) |
 | backend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-| backend.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) |
+| backend.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
 | backend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | backend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
@@ -342,12 +387,12 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 | frontend.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | frontend.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the frontend pods. |
-| frontend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the frontend. When enabled, replicaCount is ignored. |
-| frontend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of frontend replicas. |
+| frontend.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler. When enabled, replicaCount is ignored. |
+| frontend.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of replicas. |
 | frontend.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| frontend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of frontend replicas. |
-| frontend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the frontend. Requires VPA operator installed in the cluster. |
-| frontend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the frontend containers. |
+| frontend.autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas. |
+| frontend.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler. Requires VPA operator installed in the cluster. |
+| frontend.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the containers. |
 | frontend.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | frontend.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
@@ -357,7 +402,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | frontend.image.tag | string | `"2.17.2"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
-| frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the frontend pods. |
+| frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
 | frontend.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
 | frontend.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | frontend.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
@@ -365,13 +410,13 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | frontend.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | frontend.replicaCount | int | `1` | The number of replicas to deploy. |
 | frontend.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| frontend.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
-| frontend.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
-| frontend.service.annotations | object | `{}` | Mapped annotations for the frontend service |
+| frontend.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
+| frontend.resources.requests | object | `{}` | The requested resources for the Penpot containers. |
+| frontend.service.annotations | object | `{}` | Mapped annotations for the service. |
 | frontend.service.port | int | `8080` | The service port to use. |
 | frontend.service.type | string | `"ClusterIP"` | The service type to create. |
 | frontend.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-| frontend.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) |
+| frontend.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
 | frontend.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | frontend.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
@@ -381,12 +426,12 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 | exporter.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | exporter.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the exporter pods. |
-| exporter.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the exporter. When enabled, replicaCount is ignored. |
-| exporter.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of exporter replicas. |
+| exporter.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler. When enabled, replicaCount is ignored. |
+| exporter.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of replicas. |
 | exporter.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| exporter.autoscaling.hpa.minReplicas | int | `1` | Minimum number of exporter replicas. |
-| exporter.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the exporter. Requires VPA operator installed in the cluster. |
-| exporter.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the exporter containers. |
+| exporter.autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas. |
+| exporter.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler. Requires VPA operator installed in the cluster. |
+| exporter.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the containers. |
 | exporter.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | exporter.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
@@ -396,7 +441,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.image.tag | string | `"2.17.2"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
-| exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the exporter pods. |
+| exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
 | exporter.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
 | exporter.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
@@ -404,13 +449,13 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | exporter.replicaCount | int | `1` | The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount. |
 | exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| exporter.resources.limits | object | `{}` | The resources limits for the Penpot frontend containers |
-| exporter.resources.requests | object | `{}` | The requested resources for the Penpot frontend containers |
-| exporter.service.annotations | object | `{}` | Mapped annotations for the exporter service |
+| exporter.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
+| exporter.resources.requests | object | `{}` | The requested resources for the Penpot containers. |
+| exporter.service.annotations | object | `{}` | Mapped annotations for the service. |
 | exporter.service.port | int | `6061` | The service port to use. |
 | exporter.service.type | string | `"ClusterIP"` | The service type to create. |
 | exporter.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-| exporter.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) |
+| exporter.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
 | exporter.volumeMounts | list | `[]` | Extra volumes to be mounted in the countainer. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | exporter.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
@@ -420,12 +465,12 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 | mcp.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | mcp.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the MCP server pods. |
-| mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler for the MCP server. |
-| mcp.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of MCP server replicas. |
+| mcp.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler. When enabled, replicaCount is ignored. |
+| mcp.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of replicas. |
 | mcp.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| mcp.autoscaling.hpa.minReplicas | int | `1` | Minimum number of MCP server replicas. |
-| mcp.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler for the MCP server. Requires VPA operator installed in the cluster. |
-| mcp.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the MCP server containers. |
+| mcp.autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas. |
+| mcp.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler. Requires VPA operator installed in the cluster. |
+| mcp.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the containers. |
 | mcp.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
 | mcp.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | mcp.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
@@ -435,7 +480,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.image.tag | string | `"2.17.2"` | The image tag to use. |
 | mcp.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | mcp.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the MCP server pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
-| mcp.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the MCP server pods. |
+| mcp.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
 | mcp.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
 | mcp.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
 | mcp.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
@@ -443,14 +488,14 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | mcp.replicaCount | int | `1` | The number of replicas to deploy. |
 | mcp.resources | object | `{"limits":{},"requests":{}}` | Penpot MCP server resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
-| mcp.resources.limits | object | `{}` | The resources limits for the Penpot MCP server containers |
-| mcp.resources.requests | object | `{}` | The requested resources for the Penpot MCP server containers |
-| mcp.service.annotations | object | `{}` | Mapped annotations for the MCP service. |
+| mcp.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
+| mcp.resources.requests | object | `{}` | The requested resources for the Penpot containers. |
+| mcp.service.annotations | object | `{}` | Mapped annotations for the service. |
 | mcp.service.httpPort | int | `4401` | The HTTP/SSE port for AI clients (e.g. Claude). |
 | mcp.service.type | string | `"ClusterIP"` | The service type to create. |
 | mcp.service.wsPort | int | `4402` | The WebSocket port for the Penpot MCP plugin. |
 | mcp.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-| mcp.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) |
+| mcp.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
 | mcp.volumeMounts | list | `[]` | Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | mcp.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 

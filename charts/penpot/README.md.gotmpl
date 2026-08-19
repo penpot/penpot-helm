@@ -106,6 +106,51 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
+### Running more than one replica
+
+Every component can be scaled with `replicaCount`, or automatically through
+`autoscaling.hpa`. Before raising either, check how assets are stored.
+
+With the default `persistence.assets.enabled: true`, the chart creates one
+PersistentVolumeClaim with `accessModes: [ReadWriteOnce]`, and **both the backend
+and the frontend mount it**. A ReadWriteOnce volume can only be attached to a
+single node, so on a cluster with more than one node a second replica of either
+component may be scheduled elsewhere and stay `Pending` indefinitely, waiting for
+a volume it cannot get. The exporter and the MCP server do not mount it and scale
+freely.
+
+Pick one of these before scaling the backend or the frontend:
+
+- **Object storage (recommended).** Move assets out of the cluster entirely and
+  the constraint disappears:
+
+  ```yml
+  config:
+    objectsStorage:
+      storageBackend: s3
+      s3:
+        bucket: your-bucket
+        region: your-region
+  persistence:
+    assets:
+      enabled: false
+  ```
+
+- **A ReadWriteMany volume**, if your storage provisioner supports it (NFS,
+  CephFS, Azure Files, EFS, …):
+
+  ```yml
+  persistence:
+    assets:
+      accessModes:
+        - ReadWriteMany
+      storageClass: your-rwx-storage-class
+  ```
+
+Scaling with the default ReadWriteOnce volume can appear to work on a
+single-node cluster, where every replica lands on the same node. It stops working
+as soon as a second node exists.
+
 ### 🔐 OpenShift Requirements
 
 Penpot workloads use fixed `runAsUser` and `fsGroup` values by default. OpenShift `restricted-v2` rejects those IDs unless they belong to the namespace-assigned range.
