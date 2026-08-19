@@ -8,3 +8,47 @@
 
     $ helm status {{ .Release.Name }}
     $ helm get all {{ .Release.Name }}
+{{- /*
+Warn only when the combination actually bites: assets kept on a chart-managed
+ReadWriteOnce volume, the filesystem backend in use, and the backend or the
+frontend asked to run more than one pod. An existingClaim is left alone, since
+its access mode belongs to whoever created it.
+*/}}
+{{- $assetsOnRwo := and .Values.persistence.assets.enabled
+                       (not .Values.persistence.assets.existingClaim)
+                       (has "ReadWriteOnce" .Values.persistence.assets.accessModes)
+                       (eq .Values.config.objectsStorage.storageBackend "fs") }}
+{{- $scaledBackend := or (gt (int .Values.backend.replicaCount) 1) .Values.backend.autoscaling.hpa.enabled }}
+{{- $scaledFrontend := or (gt (int .Values.frontend.replicaCount) 1) .Values.frontend.autoscaling.hpa.enabled }}
+{{- if and $assetsOnRwo (or $scaledBackend $scaledFrontend) }}
+
+  WARNING: more than one replica with a ReadWriteOnce assets volume
+
+  The backend and the frontend both mount the assets PersistentVolumeClaim, and
+  it is ReadWriteOnce, so it can only attach to one node at a time. A second
+  replica scheduled onto another node will stay Pending, waiting for a volume it
+  cannot get. On a single-node cluster this works, and breaks the moment a
+  second node appears.
+
+  Either move the assets out of the cluster:
+
+    config:
+      objectsStorage:
+        storageBackend: s3
+        s3:
+          bucket: your-bucket
+          region: your-region
+    persistence:
+      assets:
+        enabled: false
+
+  or use a volume that several nodes can mount at once:
+
+    persistence:
+      assets:
+        accessModes:
+          - ReadWriteMany
+        storageClass: your-rwx-storage-class
+
+  See "Running more than one replica" in the chart README.
+{{- end }}
