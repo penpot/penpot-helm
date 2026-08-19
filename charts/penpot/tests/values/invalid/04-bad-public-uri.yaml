@@ -1,0 +1,3 @@
+# publicUri must include the http/https scheme.
+config:
+  publicUri: "design.example.com"

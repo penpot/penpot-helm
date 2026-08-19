@@ -1,0 +1,3 @@
+# Typo inside a known section.
+backend:
+  replicaCounts: 3

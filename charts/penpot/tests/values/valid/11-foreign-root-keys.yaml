@@ -1,0 +1,8 @@
+# Unknown top-level keys are accepted on purpose: values files carried over from
+# 0.x, YAML anchors and keys read by external tooling must not break the install.
+# Keys inside a known section are still validated (see invalid/02).
+postgresql:
+  auth:
+    database: penpot
+my-gitops-tool:
+  syncWave: "3"

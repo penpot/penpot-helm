@@ -1,0 +1,8 @@
+# Minimal production-ish override: everything else comes from the chart defaults.
+config:
+  publicUri: "https://design.example.com"
+  apiSecretKey: "aVeryLongRandomSecretKeyUsedOnlyForTestingPurposes0123456789"
+  postgresql:
+    host: "penpot-postgresql.penpot.svc.cluster.local"
+  redis:
+    host: "penpot-valkey-master.penpot.svc.cluster.local"

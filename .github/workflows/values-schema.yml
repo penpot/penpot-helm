@@ -1,0 +1,198 @@
+---
+name: Values schema
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - charts/penpot/**
+      - scripts/*.py
+      - .github/workflows/values-schema.yml
+  pull_request:
+    paths:
+      - charts/penpot/**
+      - scripts/*.py
+      - .github/workflows/values-schema.yml
+  workflow_dispatch:
+
+jobs:
+  # The repository may grow more charts, so the list is discovered rather than
+  # written down. Every job below runs once per chart.
+  discover:
+    name: Find charts
+    runs-on: ubuntu-latest
+    outputs:
+      charts: ${{ steps.find.outputs.charts }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: find
+        run: |
+          charts=$(find charts -mindepth 1 -maxdepth 1 -type d \
+            -exec test -f '{}/Chart.yaml' ';' -print | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "charts=$charts" >> "$GITHUB_OUTPUT"
+          echo "found: $charts"
+
+  metaschema:
+    name: Schema is well formed (${{ matrix.chart }})
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJson(needs.discover.outputs.charts) }}
+    env:
+      CHART: ${{ matrix.chart }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install check-jsonschema
+        run: pip install --disable-pip-version-check check-jsonschema
+
+      - name: Validate values.schema.json against the JSON Schema metaschema
+        run: check-jsonschema --check-metaschema "$CHART/values.schema.json"
+
+      - name: Validate the default values.yaml against the schema
+        run: check-jsonschema --schemafile "$CHART/values.schema.json" "$CHART/values.yaml"
+
+      # The schema accepts unknown top-level keys at runtime so that a user's
+      # values file never fails the install over a stray key. That leniency is
+      # for users, not for us: this fails if values.yaml grows a key the schema
+      # does not describe.
+      - name: Every values.yaml key must be described
+        run: |
+          pip install --disable-pip-version-check --quiet pyyaml
+          scripts/check-schema-coverage.py --chart "$CHART"
+
+      # values.yaml owns the descriptions (helm-docs renders them into README.md)
+      # and the schema copies them so editors show the same text on hover. This
+      # fails if the two drift apart.
+      - name: Descriptions must match values.yaml
+        run: |
+          pip install --disable-pip-version-check --quiet pyyaml
+          scripts/sync-descriptions.py --chart "$CHART" --check
+
+  fixtures:
+    name: Fixtures (${{ matrix.chart }}, helm ${{ matrix.helm }})
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJson(needs.discover.outputs.charts) }}
+        # Oldest supported release plus the current one: Helm switched its JSON
+        # Schema library in 3.13, so both code paths are exercised.
+        helm: [v3.12.3, latest]
+    env:
+      CHART: ${{ matrix.chart }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-helm@v4
+        with:
+          version: ${{ matrix.helm }}
+
+      - name: Default values must pass
+        run: helm lint "$CHART"
+
+      - name: Valid fixtures must pass lint and render
+        run: |
+          set -euo pipefail
+          for f in "$CHART"/tests/values/valid/*.yaml; do
+            echo "::group::$f"
+            helm lint "$CHART" --values "$f"
+            helm template schema-test "$CHART" --values "$f" >/dev/null
+            echo "::endgroup::"
+          done
+
+      # Helm validates values.schema.json before rendering templates, so a schema
+      # that rejected these keys would shadow the migration message in
+      # install-validation.yaml. That is why `global` is left open in the schema,
+      # and this asserts it stays that way.
+      - name: The 1.0.0 migration gate must still be what fires
+        run: |
+          set -uo pipefail
+          if out=$(helm template guard "$CHART" --set global.postgresqlEnabled=true 2>&1); then
+            echo "::error::expected install-validation.yaml to block this install"
+            exit 1
+          fi
+          if ! grep -q "no longer supports Bitnami" <<<"$out"; then
+            echo "::error::blocked, but not by the migration gate"
+            echo "$out"
+            exit 1
+          fi
+          echo "ok: the migration message is what the user sees"
+
+      # Same reasoning: httproute.yml already fails with a written explanation, so
+      # the schema stays quiet here rather than pre-empting it with a generic
+      # "[] should be non-empty".
+      - name: The gateway guard must still be what fires
+        run: |
+          set -uo pipefail
+          if out=$(helm template guard "$CHART" --set gateway.enabled=true 2>&1); then
+            echo "::error::expected httproute.yml to reject an empty parentRefs"
+            exit 1
+          fi
+          if ! grep -q "requires gateway.parentRefs" <<<"$out"; then
+            echo "::error::blocked, but not by the gateway guard"
+            echo "$out"
+            exit 1
+          fi
+          echo "ok: the gateway message is what the user sees"
+
+      - name: Invalid fixtures must be rejected by the schema
+        run: |
+          set -uo pipefail
+          failed=0
+          for f in "$CHART"/tests/values/invalid/*.yaml; do
+            if out=$(helm lint "$CHART" --values "$f" 2>&1); then
+              echo "::error file=$f::expected the schema to reject this file, but it passed"
+              failed=1
+            elif ! grep -q "meet the specifications" <<<"$out"; then
+              echo "::error file=$f::rejected, but not by the values schema"
+              echo "$out"
+              failed=1
+            else
+              echo "ok: $f rejected as expected"
+            fi
+          done
+          exit "$failed"
+
+  upstream:
+    name: Consistency with upstream (${{ matrix.chart }})
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJson(needs.discover.outputs.charts) }}
+    env:
+      CHART: ${{ matrix.chart }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check pyyaml
+
+      - name: Component image tags must match appVersion
+        run: scripts/check-image-tags.py --chart "$CHART"
+
+      # The schema only checks the enable-/disable- syntax of config.flags.
+      # Penpot accepts unknown flag names without complaining, so a typo is
+      # silently a no-op. This compares against the list in the penpot repo,
+      # pinned to the appVersion this chart deploys.
+      #
+      # Warnings only, by design: flags come and go between versions, some real
+      # ones never reach the parser (enable-air-gapped-conf is read by the nginx
+      # entrypoint), and the appVersion may not be tagged yet. A mismatch is
+      # worth a note on the PR, not a red build. Add --strict to enforce it.
+      - name: Cross-check flags against upstream (advisory)
+        run: scripts/check-flags.py --chart "$CHART"

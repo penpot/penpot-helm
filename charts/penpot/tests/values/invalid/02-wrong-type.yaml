@@ -1,0 +1,3 @@
+# replicaCount must be an integer, not a string.
+frontend:
+  replicaCount: "3"

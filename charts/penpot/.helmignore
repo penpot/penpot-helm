@@ -23,3 +23,7 @@
 .vscode/
 # Doc templates
 README.md.gotmpl
+# Schema fixtures: they belong to the chart but must not ship inside the package.
+# Anchored with a leading slash on purpose: a bare `tests/` would also match
+# templates/tests/, which holds the helm test hook and must be packaged.
+/tests/

@@ -1,0 +1,6 @@
+# pullPolicy and service type are case sensitive enums.
+backend:
+  image:
+    pullPolicy: always
+  service:
+    type: ClusterIp

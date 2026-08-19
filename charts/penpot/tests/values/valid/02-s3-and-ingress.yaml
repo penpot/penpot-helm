@@ -1,0 +1,27 @@
+# S3 object storage behind an nginx ingress with TLS.
+config:
+  publicUri: "https://design.example.com"
+  objectsStorage:
+    storageBackend: s3
+    s3:
+      bucket: penpot-assets
+      region: eu-west-1
+      endpointURI: "https://minio.example.com"
+      existingSecret: penpot-s3
+      secretKeys:
+        accessKeyIDKey: access-key-id
+        secretAccessKey: secret-access-key
+persistence:
+  assets:
+    enabled: false
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - design.example.com
+  tls:
+    - secretName: design-example-com-tls
+      hosts:
+        - design.example.com

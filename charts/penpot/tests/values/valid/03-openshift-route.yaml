@@ -1,0 +1,31 @@
+# OpenShift: securityContext IDs nulled out and a Route instead of an Ingress.
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: force
+backend:
+  podSecurityContext:
+    fsGroup: null
+  containerSecurityContext:
+    runAsUser: null
+    runAsNonRoot: false
+frontend:
+  podSecurityContext:
+    fsGroup: null
+  containerSecurityContext:
+    runAsUser: null
+    runAsNonRoot: false
+exporter:
+  podSecurityContext:
+    fsGroup: null
+  containerSecurityContext:
+    runAsUser: null
+    runAsNonRoot: false
+route:
+  enabled: true
+  host: design.apps.example.com
+  path: null
+  tls:
+    terminationType: edge
+    terminationPolicy: Redirect
+  wildcardPolicy: None
