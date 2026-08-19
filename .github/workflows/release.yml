@@ -20,7 +20,14 @@ on:
       - "charts/**"
 
 jobs:
+  # Gate: nothing is published unless the chart actually installs and answers on
+  # a real cluster. release is blocked on this, so it holds regardless of how the
+  # push to main happened.
+  smoke-test:
+    uses: ./.github/workflows/smoke-test.yml
+
   release:
+    needs: smoke-test
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
