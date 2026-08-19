@@ -1,25 +1,40 @@
+---
+# Cluster used by scripts/create_cluster.sh, both locally and in CI.
+#
+# One control plane and one worker. Two nodes keep the topology honest — pods
+# land somewhere other than the node running the ingress controller, so anything
+# that quietly assumes co-location shows up here — while staying within what a
+# GitHub-hosted runner (4 vCPU, 16 GB) can hold alongside PostgreSQL, Valkey and
+# the four Penpot components.
+#
+# The control plane carries ingress-ready=true and the host port mappings
+# because the ingress-nginx manifest for kind selects that label and binds host
+# ports. In gateway mode nothing binds these; scripts/forward_gateway.sh
+# port-forwards Envoy instead.
+#
+# Note on scaling: the backend and the frontend both mount the assets PVC, which
+# defaults to ReadWriteOnce. On a multi-node cluster a second replica can be
+# scheduled onto the other node and stay Pending, because the volume is already
+# attached elsewhere. Set persistence.assets.accessModes to ReadWriteMany with
+# storage that supports it before scaling either of them.
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 nodes:
-- role: control-plane
-  kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-  extraPortMappings:
-  - containerPort: 8080
-    hostPort: 8080
-    protocol: TCP
-  - containerPort: 80
-    hostPort: 80
-    protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-- role: worker
-- role: worker
-- role: worker
-- role: worker
-- role: worker
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+      - containerPort: 8080
+        hostPort: 8080
+        protocol: TCP
+  - role: worker

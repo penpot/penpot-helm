@@ -1,23 +1,35 @@
 ---
-# Bootstrap stub. Its only purpose is to exist on the default branch so the
-# "Run workflow" button appears, which lets the real workflow be dispatched
-# against the branch that is still in review.
-#
-# Dispatching against a branch runs that branch's version of this file, so this
-# placeholder is only ever executed if someone dispatches it against develop.
-# It is replaced wholesale when the smoke test PR merges; nothing to clean up.
-#
-# The inputs are declared here as well as in the real file: the dispatch form is
-# rendered from the default branch, so without them the fields would not appear.
 name: Smoke test
 
+# Reusable so the same install runs in two places: on pull requests for early
+# feedback, and as a gate in release.yml so nothing is ever published without a
+# green install.
 on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Branch, tag or SHA to test. Defaults to the calling ref.
+        required: false
+        type: string
+      exposure_mode:
+        description: gateway (default) or ingress.
+        required: false
+        type: string
+  pull_request:
+    paths:
+      - charts/penpot/**
+      - devel/**
+      # Only the shell tooling that builds the cluster. The python scripts in
+      # scripts/ belong to the schema workflow and do not need a cluster.
+      - scripts/*.sh
+      - .github/workflows/smoke-test.yml
   workflow_dispatch:
     inputs:
       ref:
         description: >-
           Branch, tag or SHA to test. Leave empty to use the branch selected
-          above.
+          above. Set it to test a ref that does not carry this workflow, or a
+          tag, or a specific commit.
         required: false
         type: string
       exposure_mode:
@@ -29,12 +41,187 @@ on:
           - gateway
           - ingress
 
+env:
+  CLUSTER_NAME: penpot-cluster
+  NAMESPACE: penpot
+  RELEASE: penpot
+  # Gateway API by default: kubernetes/ingress-nginx was archived in March 2026
+  # and receives no CVE patches, so the ingress path is the legacy one here. The
+  # Ingress API itself is not deprecated and the chart still supports it, which
+  # is why the mode remains selectable for manual runs.
+  EXPOSURE_MODE: ${{ inputs.exposure_mode || 'gateway' }}
+
 jobs:
-  placeholder:
-    name: Not implemented yet
+  install:
+    # The ref shows in the run list, so manual runs are told apart at a glance.
+    name: Install on kind (${{ inputs.exposure_mode || 'gateway' }}, ${{ inputs.ref || github.ref_name }})
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - run: |
-          echo "This is the bootstrap stub on the default branch."
-          echo "Dispatch this workflow against the smoke test branch instead."
+      # Checking out an explicit ref takes the chart, devel/ and scripts/ from
+      # there, while the workflow itself is always the one being run. A ref
+      # without scripts/create_cluster.sh will fail at the cluster step.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Report what is being tested
+        run: |
+          {
+            echo "### Smoke test"
+            echo ""
+            echo "- ref: \`$(git rev-parse --abbrev-ref HEAD)\`"
+            echo "- commit: \`$(git rev-parse --short HEAD)\`"
+            echo "- chart version: \`$(grep '^version:' charts/penpot/Chart.yaml | awk '{print $2}')\`"
+            echo "- appVersion: \`$(grep '^appVersion:' charts/penpot/Chart.yaml | awk '{print $2}')\`"
+            echo "- exposure: \`$EXPOSURE_MODE\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Pick the values file
+        run: |
+          if [ "$EXPOSURE_MODE" = "gateway" ]; then
+            echo "VALUES=devel/penpot.values.gateway.yaml" >> "$GITHUB_ENV"
+          else
+            echo "VALUES=devel/penpot.values.yaml" >> "$GITHUB_ENV"
+          fi
+
+      - uses: azure/setup-helm@v5.0.1
+
+      # install_only: the cluster is created by scripts/create_cluster.sh, which
+      # is the same path a developer follows locally per devel/README.md. Letting
+      # the action create its own cluster would mean CI and local setups drifting.
+      - uses: helm/kind-action@v1.14.0
+        with:
+          install_only: true
+
+      # EXPOSURE_MODE is read by the script itself, which installs either
+      # ingress-nginx or the Gateway API CRDs plus Envoy Gateway.
+      - name: Create the cluster and its dependencies
+        run: ./scripts/create_cluster.sh
+
+      - name: Install the chart
+        run: |
+          helm install "$RELEASE" ./charts/penpot \
+            --namespace "$NAMESPACE" \
+            --values "$VALUES" \
+            --wait \
+            --timeout 15m
+
+      - name: Every component must roll out
+        run: |
+          set -euo pipefail
+          for deployment in $(kubectl get deployments -n "$NAMESPACE" \
+              -l app.kubernetes.io/instance="$RELEASE" -o name); do
+            echo "::group::$deployment"
+            kubectl rollout status "$deployment" -n "$NAMESPACE" --timeout=10m
+            echo "::endgroup::"
+          done
+
+      # Hits /readyz through the frontend, which proxies to the backend, so this
+      # covers the whole chain rather than just "the pods are running".
+      - name: Penpot must answer
+        run: helm test "$RELEASE" --namespace "$NAMESPACE" --logs
+
+      # helm test talks to the Service directly, so on its own it never exercises
+      # the HTTPRoute or the Ingress. This goes in through the front door.
+      - name: Traffic must reach Penpot through the exposure layer
+        run: |
+          set -euo pipefail
+          if [ "$EXPOSURE_MODE" = "gateway" ]; then
+            # forward_gateway.sh needs the Envoy service Envoy Gateway creates
+            # for this Gateway, so wait for that rather than for a status
+            # condition. kubectl wait with a selector errors out when nothing
+            # matches yet instead of waiting, hence the poll first.
+            selector="gateway.envoyproxy.io/owning-gateway-namespace=$NAMESPACE,gateway.envoyproxy.io/owning-gateway-name=penpot"
+            for _ in $(seq 1 60); do
+              if [ -n "$(kubectl get deploy -n envoy-gateway-system -l "$selector" \
+                   -o name 2>/dev/null)" ]; then
+                break
+              fi
+              sleep 5
+            done
+            if ! kubectl wait --for=condition=Available deploy \
+                 -n envoy-gateway-system -l "$selector" --timeout=300s; then
+              echo "::error::Envoy Gateway never produced a proxy for gateways/penpot"
+              kubectl get gatewayclass,gateway,httproute -A -o wide || true
+              kubectl describe gateway penpot -n "$NAMESPACE" || true
+              kubectl get pods -n envoy-gateway-system -o wide || true
+              kubectl logs -n envoy-gateway-system deploy/envoy-gateway --tail=100 || true
+              exit 1
+            fi
+            ./scripts/forward_gateway.sh &
+            forward_pid=$!
+            trap 'kill "$forward_pid" 2>/dev/null || true' EXIT
+            url=http://127.0.0.1:8888/
+          else
+            # devel/kind.config.yml maps host port 80 to the control plane node.
+            url=http://127.0.0.1/
+          fi
+          for _ in $(seq 1 30); do
+            if curl --fail --silent --show-error --max-time 10 \
+                 --header 'Host: penpot.example.com' "$url" >/dev/null; then
+              echo "ok: Penpot answered through $EXPOSURE_MODE"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::no answer through $EXPOSURE_MODE at $url"
+          kubectl get gateway,httproute,ingress -n "$NAMESPACE" -o wide || true
           exit 1
+
+      # NOTES.txt now branches on the values, so a broken condition would only
+      # surface on a user's install. Rendering both sides keeps that honest.
+      - name: The scaling warning must appear only when it applies
+        run: |
+          set -euo pipefail
+          # NOTES.txt is never part of `helm template` output: it is rendered and
+          # printed, not sent to Kubernetes, so --show-only cannot find it.
+          # --dry-run does print it. No error swallowing either: a render that
+          # fails must say so rather than silently yield an empty string.
+          render() {
+            helm install notes-check ./charts/penpot \
+              --namespace "$NAMESPACE" --values "$VALUES" --dry-run "$@"
+          }
+          quiet=$(render)
+          loud=$(render --set backend.replicaCount=2)
+          if grep -q "WARNING: more than one replica" <<<"$quiet"; then
+            echo "::error::the scaling warning fires on a default install"
+            exit 1
+          fi
+          if ! grep -q "WARNING: more than one replica" <<<"$loud"; then
+            echo "::error::the scaling warning does not fire when scaling the backend"
+            exit 1
+          fi
+          echo "ok: the warning fires only when it applies"
+
+      # An upgrade breaking is at least as likely as a fresh install breaking.
+      # The change is a rolling restart rather than a replica bump: the backend
+      # and frontend mount the assets PVC, which is ReadWriteOnce by default, so
+      # a second replica can land on the other node and stay Pending.
+      - name: Upgrade must work too
+        run: |
+          helm upgrade "$RELEASE" ./charts/penpot \
+            --namespace "$NAMESPACE" \
+            --values "$VALUES" \
+            --set-string backend.podAnnotations.smoke-test="$GITHUB_RUN_ID" \
+            --wait \
+            --timeout 15m
+          helm test "$RELEASE" --namespace "$NAMESPACE"
+
+      - name: Collect diagnostics
+        if: failure()
+        run: |
+          kubectl get all,pvc,ingress,gateway,httproute -n "$NAMESPACE" -o wide || true
+          kubectl describe pods -n "$NAMESPACE" || true
+          # The exposure layer lives in another namespace, and a failure there
+          # says nothing if only the penpot namespace is dumped.
+          kubectl get gatewayclass -o wide || true
+          kubectl describe gateway -n "$NAMESPACE" || true
+          kubectl get all -n envoy-gateway-system -o wide || true
+          kubectl describe pods -n envoy-gateway-system || true
+          kubectl logs -n envoy-gateway-system deploy/envoy-gateway --tail=200 || true
+          for pod in $(kubectl get pods -n "$NAMESPACE" -o name); do
+            echo "::group::logs $pod"
+            kubectl logs "$pod" -n "$NAMESPACE" --all-containers --tail=200 || true
+            echo "::endgroup::"
+          done

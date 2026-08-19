@@ -67,25 +67,11 @@ Choose one exposure mode:
   EXPOSURE_MODE=gateway ./scripts/create_cluster.sh
   ```
 
-- Create a local copy of the chart values:
+- Create a local copy of the chart values. `penpot.values.gateway.yaml` already
+  has ingress disabled, the gateway enabled and `publicUri` set to the port
+  `forward_gateway.sh` uses, so there is nothing to uncomment:
   ```shell
-  cp devel/penpot.values.yaml local.penpot.values.yaml
-  ```
-
-- Ensure the local values use:
-  ```yaml
-  config:
-    publicUri: "http://penpot.example.com:8888"
-  ingress:
-    enabled: false
-  gateway:
-    enabled: true
-    parentRefs:
-      - name: penpot
-        namespace: penpot
-        sectionName: http
-    hostnames:
-      - "penpot.example.com"
+  cp devel/penpot.values.gateway.yaml local.penpot.values.yaml
   ```
 
 - Install the chart:
