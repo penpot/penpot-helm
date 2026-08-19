@@ -23,6 +23,17 @@ repos:
     hooks:
       - id: helmlint
 
+  - repo: local
+    hooks:
+      - id: sync-schema-descriptions
+        name: Sync values.schema.json descriptions from values.yaml
+        # values.yaml owns the prose: helm-docs renders it into README.md and
+        # this copies it into the schema, so it is written once.
+        entry: scripts/sync-descriptions.py
+        language: system
+        files: ^charts/[^/]+/values\.(yaml|schema\.json)$
+        pass_filenames: false
+
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
     hooks:

@@ -41,7 +41,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: values.schema.json, validating values on install and providing editor autocompletion
-    - kind: added
-      description: helm test hook that checks Penpot answers on /readyz through the frontend
-    - kind: added
-      description: Document the assets volume constraint that applies when scaling the backend or frontend, and warn about it on install
