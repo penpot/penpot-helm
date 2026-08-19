@@ -1,0 +1,40 @@
+{{- /*
+Run with `helm test <release>`. Hits /readyz through the frontend service, which
+nginx proxies to the backend, so a pass means the whole chain is up: frontend
+serving, backend started and its database reachable.
+*/ -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "penpot.fullname" . }}-test-connection"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  restartPolicy: Never
+  {{- with .Values.frontend.podSecurityContext }}
+  securityContext:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  containers:
+    - name: readyz
+      image: curlimages/curl:8.11.1
+      {{- with .Values.frontend.containerSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      args:
+        - --fail
+        - --silent
+        - --show-error
+        - --max-time
+        - "10"
+        - --retry
+        - "12"
+        - --retry-delay
+        - "5"
+        - --retry-connrefused
+        - http://{{ include "penpot.fullname" . }}:{{ .Values.frontend.service.port }}/readyz
