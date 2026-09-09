@@ -41,3 +41,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: values.schema.json, validating values on install and providing editor autocompletion
+    - kind: added
+      description: Admin Console component (deployment, service, HPA/VPA, PDB), enabled by default via the `enable-admin-console` flag

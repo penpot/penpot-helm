@@ -1,0 +1,20 @@
+{{- if and (eq (include "penpot.adminConsoleEnabled" .) "true") .Values.adminConsole.pdb.enabled -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "penpot.fullname" . }}-admin-console
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.adminConsole.pdb.minAvailable }}
+  minAvailable: {{ .Values.adminConsole.pdb.minAvailable }}
+  {{- else if .Values.adminConsole.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.adminConsole.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      app: penpot-admin-console
+{{- end -}}

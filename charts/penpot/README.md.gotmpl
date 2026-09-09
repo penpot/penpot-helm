@@ -106,6 +106,24 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
+### Admin Console
+
+The Admin Console is only deployed when `config.flags` contains `enable-admin-console`.
+
+The chart default flags currently include `enable-admin-console`, so the Admin Console remains
+enabled by default. A future Penpot version will make it mandatory and drop the flag entirely; until
+then, if you want to disable it, remove `enable-admin-console` from the `config.flags` string.
+
+It shares the same PostgreSQL connection and `config.apiSecretKey` as the backend, and talks to the
+frontend through `PENPOT_INTERNAL_URI`, so no extra configuration is required beyond enabling the flag.
+
+Example:
+
+```yml
+config:
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"
+```
+
 ### Running more than one replica
 
 Every component can be scaled with `replicaCount`, or automatically through
@@ -116,8 +134,8 @@ PersistentVolumeClaim with `accessModes: [ReadWriteOnce]`, and **both the backen
 and the frontend mount it**. A ReadWriteOnce volume can only be attached to a
 single node, so on a cluster with more than one node a second replica of either
 component may be scheduled elsewhere and stay `Pending` indefinitely, waiting for
-a volume it cannot get. The exporter and the MCP server do not mount it and scale
-freely.
+a volume it cannot get. The exporter, the MCP server, and the Admin Console do
+not mount it and scale freely.
 
 Pick one of these before scaling the backend or the frontend:
 
@@ -212,6 +230,12 @@ mcp:
     fsGroup: 1000700000
   containerSecurityContext:
     runAsUser: 1000700000
+
+adminConsole:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
+    runAsUser: 1000700000
 ```
 
 Replace `1000700000` with a valid UID/GID from your namespace range.
@@ -244,6 +268,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
     (hasPrefix "frontend" .Key)
     (hasPrefix "exporter" .Key)
     (hasPrefix "mcp" .Key)
+    (hasPrefix "adminConsole" .Key)
     (hasPrefix "persistence" .Key)
     (hasPrefix "gateway" .Key)
     (hasPrefix "ingress" .Key)
@@ -304,6 +329,17 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "mcp" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+
+### Penpot Admin Console
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "adminConsole" .Key }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}

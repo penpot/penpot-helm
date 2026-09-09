@@ -107,6 +107,24 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
+### Admin Console
+
+The Admin Console is only deployed when `config.flags` contains `enable-admin-console`.
+
+The chart default flags currently include `enable-admin-console`, so the Admin Console remains
+enabled by default. A future Penpot version will make it mandatory and drop the flag entirely; until
+then, if you want to disable it, remove `enable-admin-console` from the `config.flags` string.
+
+It shares the same PostgreSQL connection and `config.apiSecretKey` as the backend, and talks to the
+frontend through `PENPOT_INTERNAL_URI`, so no extra configuration is required beyond enabling the flag.
+
+Example:
+
+```yml
+config:
+  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"
+```
+
 ### Running more than one replica
 
 Every component can be scaled with `replicaCount`, or automatically through
@@ -117,8 +135,8 @@ PersistentVolumeClaim with `accessModes: [ReadWriteOnce]`, and **both the backen
 and the frontend mount it**. A ReadWriteOnce volume can only be attached to a
 single node, so on a cluster with more than one node a second replica of either
 component may be scheduled elsewhere and stay `Pending` indefinitely, waiting for
-a volume it cannot get. The exporter and the MCP server do not mount it and scale
-freely.
+a volume it cannot get. The exporter, the MCP server, and the Admin Console do
+not mount it and scale freely.
 
 Pick one of these before scaling the backend or the frontend:
 
@@ -213,6 +231,12 @@ mcp:
     fsGroup: 1000700000
   containerSecurityContext:
     runAsUser: 1000700000
+
+adminConsole:
+  podSecurityContext:
+    fsGroup: 1000700000
+  containerSecurityContext:
+    runAsUser: 1000700000
 ```
 
 Replace `1000700000` with a valid UID/GID from your namespace range.
@@ -249,7 +273,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
-| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"` | The feature flags to enable. Every entry must be prefixed with `enable-` or `disable-`: any other token is silently ignored, and unknown flag names are accepted without complaint, so a typo is a no-op rather than an error. The available flags change between Penpot versions, check [the official docs](https://help.penpot.app/technical-guide/configuration/) for the list matching your appVersion. |
+| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp enable-admin-console"` | The feature flags to enable. Every entry must be prefixed with `enable-` or `disable-`: any other token is silently ignored, and unknown flag names are accepted without complaint, so a typo is a no-op rather than an error. The available flags change between Penpot versions, check [the official docs](https://help.penpot.app/technical-guide/configuration/) for the list matching your appVersion. |
 | config.httpServerMaxBodySize | string | `"367001600"` | Defines the maximum size of HTTP request bodies (in bytes) that penpot will accept from clients. It controls how large files or data payloads can be when uploading files, submitting forms, or making API requests. It also helps protect against denial-of-service attacks by rejecting oversized requests. Default value for Penpot is 367001600 bytes (~350 MB). See [Nginx documentation]( https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size). |
 | config.internalResolver | string | `""` | Add custom resolver for frontend. e.g. 192.168.1.1 |
 | config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |
@@ -498,6 +522,45 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
 | mcp.volumeMounts | list | `[]` | Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 | mcp.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+
+### Penpot Admin Console
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| adminConsole.affinity | object | `{}` | Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| adminConsole.autoscaling | object | `{"hpa":{"enabled":false,"maxReplicas":5,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}],"minReplicas":1},"vpa":{"enabled":false,"resourcePolicy":{},"updateMode":"Auto"}}` | Configure autoscaling for the Admin Console pods. |
+| adminConsole.autoscaling.hpa.enabled | bool | `false` | Enable Horizontal Pod Autoscaler. When enabled, replicaCount is ignored. |
+| adminConsole.autoscaling.hpa.maxReplicas | int | `5` | Maximum number of replicas. |
+| adminConsole.autoscaling.hpa.metrics | list | `[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` | Metrics to use for HPA scaling. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| adminConsole.autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas. |
+| adminConsole.autoscaling.vpa.enabled | bool | `false` | Enable Vertical Pod Autoscaler. Requires VPA operator installed in the cluster. |
+| adminConsole.autoscaling.vpa.resourcePolicy | object | `{}` | VPA resource policy for the containers. |
+| adminConsole.autoscaling.vpa.updateMode | string | `"Auto"` | VPA update mode. One of: "Off" (recommendations only), "Initial", "Auto". Check [the official doc](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) |
+| adminConsole.containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":false,"runAsNonRoot":true,"runAsUser":1001}` | Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| adminConsole.deploymentAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Deployment |
+| adminConsole.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the Admin Console container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
+| adminConsole.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
+| adminConsole.image.repository | string | `"penpotapp/admin-console"` | The Docker repository to pull the image from. |
+| adminConsole.image.tag | string | `"2.17.2"` | The image tag to use. |
+| adminConsole.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
+| adminConsole.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the Admin Console pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
+| adminConsole.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
+| adminConsole.pdb.maxUnavailable | int,string | `nil` | The number or percentage of pods from that set that can be unavailable after the eviction (e.g.: 3, "10%"). |
+| adminConsole.pdb.minAvailable | int,string | `nil` | The number or percentage of pods from that set that must still be available after the eviction (e.g.: 3, "10%"). |
+| adminConsole.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
+| adminConsole.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
+| adminConsole.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| adminConsole.replicaCount | int | `1` | The number of replicas to deploy. |
+| adminConsole.resources | object | `{"limits":{},"requests":{}}` | Penpot Admin Console resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
+| adminConsole.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
+| adminConsole.resources.requests | object | `{}` | The requested resources for the Penpot containers. |
+| adminConsole.service.annotations | object | `{}` | Mapped annotations for the service. |
+| adminConsole.service.port | int | `3000` | The service port to use. |
+| adminConsole.service.type | string | `"ClusterIP"` | The service type to create. |
+| adminConsole.tolerations | list | `[]` | Tolerations for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| adminConsole.updateStrategy | object | `{"type":"RollingUpdate"}` | The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) E.g. updateStrategy:   type: RollingUpdate   rollingUpdate:     maxSurge: 25%     maxUnavailable: 25% |
+| adminConsole.volumeMounts | list | `[]` | Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| adminConsole.volumes | list | `[]` | Extra volumes to be made available. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
 ### Persistence
 

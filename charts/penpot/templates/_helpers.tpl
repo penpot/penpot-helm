@@ -137,3 +137,15 @@ Check if MCP is enabled or not.
 {{- define "penpot.mcpEnabled" -}}
 {{- has "enable-mcp" (splitList " " (default "" .Values.config.flags)) -}}
 {{- end -}}
+
+{{/*
+Check if the admin console is enabled or not.
+*/}}
+{{- define "penpot.adminConsoleEnabled" -}}
+{{- has "enable-admin-console" (splitList " " (default "" .Values.config.flags)) -}}
+{{- end -}}
+
+{{- define "penpot.adminConsoleSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "penpot.name" . }}-admin-console
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
