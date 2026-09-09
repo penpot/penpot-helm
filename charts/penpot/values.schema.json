@@ -1642,6 +1642,159 @@
           }
         }
       }
+    },
+    "adminConsole": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/component"
+        }
+      ],
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/imageWithDeprecatedPullPolicy"
+        },
+        "replicaCount": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/replicaCount"
+            }
+          ],
+          "description": "The number of replicas to deploy."
+        },
+        "updateStrategy": {
+          "$ref": "#/definitions/updateStrategy"
+        },
+        "service": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/serviceType"
+                }
+              ],
+              "description": "The service type to create."
+            },
+            "port": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/port"
+                }
+              ],
+              "description": "The service port to use."
+            },
+            "annotations": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/stringMap"
+                }
+              ],
+              "description": "Mapped annotations for the service."
+            }
+          }
+        },
+        "deploymentAnnotations": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringMap"
+            }
+          ],
+          "description": "An optional map of annotations to be applied to the controller Deployment"
+        },
+        "podLabels": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringMap"
+            }
+          ],
+          "description": "An optional map of labels to be applied to the controller Pods"
+        },
+        "podAnnotations": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringMap"
+            }
+          ],
+          "description": "An optional map of annotations to be applied to the controller Pods"
+        },
+        "podSecurityContext": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/securityContext"
+            }
+          ],
+          "description": "Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)"
+        },
+        "containerSecurityContext": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/securityContext"
+            }
+          ],
+          "description": "Configure Container Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)"
+        },
+        "affinity": {
+          "type": "object",
+          "description": "Affinity for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)"
+        },
+        "nodeSelector": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringMap"
+            }
+          ],
+          "description": "Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/)"
+        },
+        "tolerations": {
+          "$ref": "#/definitions/tolerations"
+        },
+        "resources": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/resources"
+            }
+          ],
+          "description": "Penpot Admin Console resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/)"
+        },
+        "pdb": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/pdb"
+            }
+          ],
+          "description": "Configure Pod Disruption Budget for the Admin Console pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)"
+        },
+        "autoscaling": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/autoscaling"
+            }
+          ],
+          "description": "Configure autoscaling for the Admin Console pods."
+        },
+        "extraEnvs": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/envVars"
+            }
+          ],
+          "description": "Specify any additional environment values you want to provide to the Admin Console container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)"
+        },
+        "volumes": {
+          "$ref": "#/definitions/volumes"
+        },
+        "volumeMounts": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/volumeMounts"
+            }
+          ],
+          "description": "Extra volumes to be mounted in the container. Check [the official doc](https://kubernetes.io/docs/concepts/storage/volumes/)"
+        }
+      }
     }
   },
   "definitions": {

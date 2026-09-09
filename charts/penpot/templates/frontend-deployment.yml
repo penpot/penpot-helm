@@ -63,6 +63,10 @@ spec:
             - name: PENPOT_MCP_URI_WS
               value: {{ print "http://" (include "penpot.fullname" .) "-mcp:" .Values.mcp.service.wsPort }}
             {{- end }}
+            {{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
+            - name: PENPOT_ADMIN_CONSOLE_URI
+              value: {{ print "http://" (include "penpot.fullname" .) "-admin-console:" .Values.adminConsole.service.port }}
+            {{- end }}
             - name: PENPOT_INTERNAL_RESOLVER
               {{- if not .Values.config.internalResolver }}
               valueFrom:

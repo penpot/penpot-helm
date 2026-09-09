@@ -1,0 +1,22 @@
+{{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "penpot.fullname" . }}-admin-console
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "penpot.labels" . | nindent 4 }}
+  {{- if .Values.adminConsole.service.annotations }}
+  annotations:
+    {{- .Values.adminConsole.service.annotations | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.adminConsole.service.type }}
+  ports:
+    - port: {{ .Values.adminConsole.service.port }}
+      targetPort: {{ .Values.adminConsole.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "penpot.adminConsoleSelectorLabels" . | nindent 4 }}
+{{- end }}

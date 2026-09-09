@@ -100,6 +100,10 @@ spec:
                   name: {{ .Values.config.postgresql.existingSecret }}
                   key: {{ .Values.config.postgresql.secretKeys.passwordKey }}
               {{- end }}
+            {{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
+            - name: PENPOT_ADMIN_CONSOLE_URI
+              value: {{ print "http://" (include "penpot.fullname" .) "-admin-console:" .Values.adminConsole.service.port }}
+            {{- end }}
             # Valkey/Redis connection settings
             - name: PENPOT_REDIS_URI
               {{- if not .Values.config.redis.secretKeys.redisUriKey }}
