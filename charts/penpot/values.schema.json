@@ -145,9 +145,14 @@
           "default": true
         },
         "internalResolver": {
-          "description": "Add custom resolver for frontend. e.g. 192.168.1.1",
+          "description": "Custom DNS resolver for the frontend nginx. Defaults to the nameserver in the pod's /etc/resolv.conf. e.g. 192.168.1.1",
           "type": "string",
           "default": ""
+        },
+        "clusterDomain": {
+          "description": "Kubernetes cluster domain, used to build the FQDNs of the services proxied by the frontend nginx.",
+          "type": "string",
+          "default": "cluster.local"
         },
         "termsOfServicesUri": {
           "type": "string",
