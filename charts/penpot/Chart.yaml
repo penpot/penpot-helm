@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.10.0 # Chart version
+version: 1.11.0-unreleased # Chart version
 appVersion: "2.18.0"  # Penpot version
 type: application
 name: penpot
@@ -39,11 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: values.schema.json, validating values on install and providing editor autocompletion
-    - kind: added
-      description: Admin Console component (deployment, service, HPA/VPA, PDB), enabled by default via the `enable-admin-console` flag
-    - kind: changed
-      description: Bump Penpot to 2.18.0
-    - kind: fixed
-      description: Frontend nginx now resolves the MCP and Admin Console services through the cluster DNS instead of its own pod IP
