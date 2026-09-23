@@ -55,9 +55,12 @@ config:
   # -- Whether to enable sending of anonymous telemetry data.
   # @section -- Configuration parameters
   telemetryEnabled: true
-  # -- Add custom resolver for frontend. e.g. 192.168.1.1
+  # -- Custom DNS resolver for the frontend nginx. Defaults to the nameserver in the pod's /etc/resolv.conf. e.g. 192.168.1.1
   # @section -- Configuration parameters
   internalResolver: ""
+  # -- Kubernetes cluster domain, used to build the FQDNs of the services proxied by the frontend nginx.
+  # @section -- Configuration parameters
+  clusterDomain: "cluster.local"
   # -- Url adress to Terms of Services (empty to hide the link)
   # @section -- Configuration parameters
   termsOfServicesUri: ""

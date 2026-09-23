@@ -45,3 +45,5 @@ annotations:
       description: Admin Console component (deployment, service, HPA/VPA, PDB), enabled by default via the `enable-admin-console` flag
     - kind: changed
       description: Bump Penpot to 2.18.0
+    - kind: fixed
+      description: Frontend nginx now resolves the MCP and Admin Console services through the cluster DNS instead of its own pod IP

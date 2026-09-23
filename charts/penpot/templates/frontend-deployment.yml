@@ -59,22 +59,18 @@ spec:
               value: {{ print "http://" (include "penpot.fullname" .) "-exporter:" .Values.exporter.service.port }}
             {{- if eq (include "penpot.mcpEnabled" .) "true" }}
             - name: PENPOT_MCP_URI
-              value: {{ print "http://" (include "penpot.fullname" .) "-mcp:" .Values.mcp.service.httpPort }}
+              value: {{ print "http://" (include "penpot.fullname" .) "-mcp." .Release.Namespace ".svc." .Values.config.clusterDomain ":" .Values.mcp.service.httpPort }}
             - name: PENPOT_MCP_URI_WS
-              value: {{ print "http://" (include "penpot.fullname" .) "-mcp:" .Values.mcp.service.wsPort }}
+              value: {{ print "http://" (include "penpot.fullname" .) "-mcp." .Release.Namespace ".svc." .Values.config.clusterDomain ":" .Values.mcp.service.wsPort }}
             {{- end }}
             {{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
             - name: PENPOT_ADMIN_CONSOLE_URI
-              value: {{ print "http://" (include "penpot.fullname" .) "-admin-console:" .Values.adminConsole.service.port }}
+              value: {{ print "http://" (include "penpot.fullname" .) "-admin-console." .Release.Namespace ".svc." .Values.config.clusterDomain ":" .Values.adminConsole.service.port }}
             {{- end }}
+            {{- with .Values.config.internalResolver }}
             - name: PENPOT_INTERNAL_RESOLVER
-              {{- if not .Values.config.internalResolver }}
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
-              {{- else }}
-              value: {{ .Values.config.internalResolver | quote }}
-              {{- end }}
+              value: {{ . | quote }}
+            {{- end }}
             - name: PENPOT_TERMS_OF_SERVICE_URI
               value: {{ .Values.config.termsOfServicesUri | quote }}
             - name: PENPOT_PRIVACY_POLICY_URI
