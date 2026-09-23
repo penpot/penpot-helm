@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 1.10.0-unreleased](https://img.shields.io/badge/Version-1.10.0--unreleased-informational?style=flat-square) ![AppVersion: 2.17.2](https://img.shields.io/badge/AppVersion-2.17.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 1.10.0-unreleased](https://img.shields.io/badge/Version-1.10.0--unreleased-informational?style=flat-square) ![AppVersion: 2.18.0](https://img.shields.io/badge/AppVersion-2.18.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -383,7 +383,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | backend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the backend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | backend.image.repository | string | `"penpotapp/backend"` | The Docker repository to pull the image from. |
-| backend.image.tag | string | `"2.17.2"` | The image tag to use. |
+| backend.image.tag | string | `"2.18.0"` | The image tag to use. |
 | backend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | backend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the backend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | backend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
@@ -423,7 +423,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | frontend.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the frontend container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use. |
 | frontend.image.repository | string | `"penpotapp/frontend"` | The Docker repository to pull the image from. |
-| frontend.image.tag | string | `"2.17.2"` | The image tag to use. |
+| frontend.image.tag | string | `"2.18.0"` | The image tag to use. |
 | frontend.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | frontend.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the frontend pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | frontend.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
@@ -462,7 +462,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the exporter container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
-| exporter.image.tag | string | `"2.17.2"` | The image tag to use. |
+| exporter.image.tag | string | `"2.18.0"` | The image tag to use. |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
@@ -501,7 +501,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | mcp.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the MCP server container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | mcp.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | mcp.image.repository | string | `"penpotapp/mcp"` | The Docker repository to pull the image from. |
-| mcp.image.tag | string | `"2.17.2"` | The image tag to use. |
+| mcp.image.tag | string | `"2.18.0"` | The image tag to use. |
 | mcp.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | mcp.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the MCP server pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | mcp.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
@@ -541,7 +541,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | adminConsole.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to the Admin Console container in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | adminConsole.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | adminConsole.image.repository | string | `"penpotapp/admin-console"` | The Docker repository to pull the image from. |
-| adminConsole.image.tag | string | `"2.17.2"` | The image tag to use. |
+| adminConsole.image.tag | string | `"2.18.0"` | The image tag to use. |
 | adminConsole.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | adminConsole.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the Admin Console pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | adminConsole.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
