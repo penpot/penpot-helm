@@ -33,4 +33,7 @@ spec:
       backendRefs:
         - name: {{ include "penpot.fullname" . }}
           port: {{ .Values.frontend.service.port }}
+      timeouts:
+        request: 300s
+        backendRequest: 300s
 {{- end }}
