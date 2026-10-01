@@ -56,6 +56,8 @@ spec:
               value: {{ .Values.mcp.service.wsPort | quote }}
             - name: PENPOT_MCP_REMOTE_MODE
               value: "true"
+            # Valkey/Redis connection settings (enables multi-instance task routing)
+            {{- include "penpot.redisUriEnv" (dict "ctx" . "name" "PENPOT_MCP_REDIS_URI") | nindent 12 }}
             # Extra environments
           {{- with .Values.config.extraEnvs }}
             {{- toYaml . | nindent 12 }}
