@@ -90,7 +90,7 @@ jobs:
       # install_only: the cluster is created by scripts/create_cluster.sh, which
       # is the same path a developer follows locally per devel/README.md. Letting
       # the action create its own cluster would mean CI and local setups drifting.
-      - uses: helm/kind-action@v1.14.0
+      - uses: helm/kind-action@v1.15.0
         with:
           install_only: true
 
