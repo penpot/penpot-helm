@@ -3,6 +3,52 @@ entries:
   penpot:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Bump Penpot to 2.18.1
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.app
+        - name: documentation
+          url: https://help.penpot.app
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: 2.18.1
+    created: "2026-10-01T10:15:40.517459153Z"
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: ed9e22992b37f0f8c2d224ab7c37fb1faada9f75ebfbe4dff5c2b18a5f022f20
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: KALEIDOS INC Sucursal en España SL
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-1.11.0/penpot-1.11.0.tgz
+    version: 1.11.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: values.schema.json, validating values on install and providing editor autocompletion
         - kind: added
@@ -3359,4 +3405,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2026-09-23T12:16:59.918972344Z"
+generated: "2026-10-01T10:15:40.517630342Z"
