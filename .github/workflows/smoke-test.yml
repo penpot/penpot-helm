@@ -85,7 +85,7 @@ jobs:
             echo "VALUES=devel/penpot.values.yaml" >> "$GITHUB_ENV"
           fi
 
-      - uses: azure/setup-helm@v5.0.1
+      - uses: azure/setup-helm@v5
 
       # install_only: the cluster is created by scripts/create_cluster.sh, which
       # is the same path a developer follows locally per devel/README.md. Letting
