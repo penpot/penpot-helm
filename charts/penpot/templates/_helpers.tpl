@@ -132,6 +132,24 @@ runtime user checks when requested.
 {{- end }}
 
 {{/*
+Render a container env var holding the Valkey/Redis connection URI, built from
+config.redis or read from config.redis.existingSecret when redisUriKey is set.
+Usage: {{ include "penpot.redisUriEnv" (dict "ctx" . "name" "PENPOT_REDIS_URI") }}
+*/}}
+{{- define "penpot.redisUriEnv" -}}
+{{- $redis := .ctx.Values.config.redis -}}
+- name: {{ .name }}
+{{- if not $redis.secretKeys.redisUriKey }}
+  value: {{ printf "redis://%s:%v/%v" $redis.host $redis.port $redis.database | quote }}
+{{- else }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ $redis.existingSecret }}
+      key: {{ $redis.secretKeys.redisUriKey }}
+{{- end }}
+{{- end -}}
+
+{{/*
 Check if MCP is enabled or not.
 */}}
 {{- define "penpot.mcpEnabled" -}}

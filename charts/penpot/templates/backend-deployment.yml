@@ -105,15 +105,7 @@ spec:
               value: {{ print "http://" (include "penpot.fullname" .) "-admin-console:" .Values.adminConsole.service.port }}
             {{- end }}
             # Valkey/Redis connection settings
-            - name: PENPOT_REDIS_URI
-              {{- if not .Values.config.redis.secretKeys.redisUriKey }}
-              value: "redis://{{ .Values.config.redis.host }}:{{ .Values.config.redis.port }}/{{ .Values.config.redis.database }}"
-              {{- else }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.redis.existingSecret }}
-                  key: {{ .Values.config.redis.secretKeys.redisUriKey }}
-              {{- end }}
+            {{- include "penpot.redisUriEnv" (dict "ctx" . "name" "PENPOT_REDIS_URI") | nindent 12 }}
             # Objects Storage settings
             - name: PENPOT_OBJECTS_STORAGE_BACKEND
               value: {{ .Values.config.objectsStorage.storageBackend | quote }}

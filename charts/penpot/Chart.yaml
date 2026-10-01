@@ -39,3 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: MCP server now receives `PENPOT_MCP_REDIS_URI` from `config.redis`, enabling multi-instance task routing when scaled
