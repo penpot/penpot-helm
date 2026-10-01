@@ -1,6 +1,6 @@
 # penpot
 
-![Version: 1.11.1-unreleased](https://img.shields.io/badge/Version-1.11.1--unreleased-informational?style=flat-square) ![AppVersion: 2.18.1](https://img.shields.io/badge/AppVersion-2.18.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 1.11.1](https://img.shields.io/badge/Version-1.11.1-informational?style=flat-square) ![AppVersion: 2.18.1](https://img.shields.io/badge/AppVersion-2.18.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Penpot, the Open Source design and prototyping platform.
 
@@ -703,6 +703,6 @@ This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-Copyright (c) KALEIDOS INC Sucursal en España SL
+Copyright (c) KALEIDOS Subsidiary SL
 ```
 Penpot is a Kaleidos’ [open source project](https://kaleidos.net/)
