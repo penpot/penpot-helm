@@ -24,7 +24,7 @@ jobs:
     outputs:
       charts: ${{ steps.find.outputs.charts }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - id: find
         run: |
@@ -44,7 +44,7 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v5
         with:
@@ -90,7 +90,7 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: azure/setup-helm@v4
         with:
@@ -173,7 +173,7 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v5
         with:
