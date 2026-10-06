@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>penpot/renovate-config"],
+  "semanticCommits": "enabled",
+  "enabledManagers": ["github-actions", "pre-commit", "custom.regex"],
+  "pre-commit": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "description": "Override the commit types set by config:recommended",
+      "matchPackageNames": ["*"],
+      "semanticCommitType": "build"
+    },
+    {
+      "description": "pre-commit hooks: one monthly PR",
+      "matchManagers": ["pre-commit"],
+      "groupName": "pre-commit hooks",
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days",
+      "schedule": ["* 0-5 1 * *"]
+    }
+  ]
+}
