@@ -242,8 +242,6 @@ adminConsole:
 Replace `1000700000` with a valid UID/GID from your namespace range.
 This allows running the chart securely in OpenShift without granting anyuid permissions.
 
-</details>
-
 ## Parameters
 
 ### Global
@@ -321,7 +319,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.providers.ldap.port | int | `10389` | The LDAP port to use. |
 | config.providers.ldap.ssl | bool | `false` | Whether to use SSL for the LDAP connection. |
 | config.providers.ldap.startTLS | bool | `false` | Whether to utilize StartTLS for the LDAP connection. |
-| config.providers.ldap.userQuery | string | `"(&(|(uid=:username)(mail=:username))(memberOf=cn=penpot,ou=groups,dc=my-domain,dc=com))"` | The LDAP user query to use. |
+| config.providers.ldap.userQuery | string | `"(&(\|(uid=:username)(mail=:username))(memberOf=cn=penpot,ou=groups,dc=my-domain,dc=com))"` | The LDAP user query to use. |
 | config.providers.oidc.authURI | string | `""` | Optional OpenID Connect auth URI to use. Auto discovered if not provided. |
 | config.providers.oidc.baseURI | string | `""` | The OpenID Connect base URI to use. |
 | config.providers.oidc.clientID | string | `""` | The OpenID Connect client ID to use. |
@@ -598,7 +596,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | ingress.path | string | `"/"` | Root path for every hosts. |
 | ingress.tls | list | `[]` | Array style TLS secrets for the (frontend) ingress crontroller. E.g. tls:   - secretName: penpot.example.com-tls     hosts:       - penpot.example.com |
 
-### Reute (for OpenShift Container Platform)
+### Route (for OpenShift Container Platform)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

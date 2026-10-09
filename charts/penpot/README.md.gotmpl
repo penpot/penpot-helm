@@ -241,9 +241,16 @@ adminConsole:
 Replace `1000700000` with a valid UID/GID from your namespace range.
 This allows running the chart securely in OpenShift without granting anyuid permissions.
 
-</details>
-
 ## Parameters
+
+{{- /*
+  Values table row. Pipes in defaults and descriptions are escaped as `\|`
+  so they don't split the Markdown table cell (GFM requires this even
+  inside code spans).
+*/ -}}
+{{- define "penpot.valuesRow" }}
+| {{ .Key }} | {{ .Type }} | {{ (ternary .Default .AutoDefault (ne .Default "")) | replace "|" "\\|" }} | {{ (ternary .Description .AutoDescription (ne .Description "")) | replace "|" "\\|" }} |
+{{- end }}
 
 ### Global
 
@@ -251,7 +258,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "global" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -274,7 +281,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
     (hasPrefix "ingress" .Key)
     (hasPrefix "route" .Key)
   ) }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -285,7 +292,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "config" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -296,7 +303,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "backend" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -307,7 +314,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "frontend" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -318,7 +325,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "exporter" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -329,7 +336,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "mcp" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -340,7 +347,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "adminConsole" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -351,7 +358,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "persistence" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -362,7 +369,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "gateway" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
@@ -373,18 +380,18 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "ingress" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
 
-### Reute (for OpenShift Container Platform)
+### Route (for OpenShift Container Platform)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "route" .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- template "penpot.valuesRow" . }}
   {{- end }}
 {{- end }}
 
