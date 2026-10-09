@@ -93,6 +93,60 @@ persistence:
 ```
 > **Tip**: You can use the default values.yaml
 
+### Serving Penpot from a subpath
+
+By default, the chart serves Penpot from `/`. To serve it from a subpath,
+configure both `config.publicUri` and the Ingress or Gateway API route. Changing
+only the public URI is not enough because the exposure layer must remove the
+prefix before forwarding requests to the Penpot frontend.
+
+For example, with NGINX Ingress and `/penpot/`:
+
+```yml
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: true
+  hosts:
+    - example.com
+  path: /penpot(/|$)(.*)
+  pathType: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+```
+
+With Gateway API, use a `URLRewrite` filter:
+
+```yml
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: penpot
+      namespace: penpot
+      sectionName: http
+  hostnames:
+    - example.com
+  path: /penpot
+  pathMatchType: PathPrefix
+  filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+```
+
+Keep the trailing slash in `config.publicUri`. Other Ingress and Gateway API
+implementations may require different path matching or rewrite configuration.
+
 ### MCP Server
 
 The MCP server is only deployed when `config.flags` contains `enable-mcp`.
@@ -596,6 +650,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | ingress.hosts | list | `["penpot.example.com"]` | Array style hosts for the (frontend) ingress crontroller. |
 | ingress.hosts[0] | string | `"penpot.example.com"` | The default external hostname to access to the penpot app. |
 | ingress.path | string | `"/"` | Root path for every hosts. |
+| ingress.pathType | string | `"Prefix"` | Path matching behavior for the Ingress rule. Use `ImplementationSpecific` when the ingress controller needs a regular expression, for example to serve Penpot from a subpath. |
 | ingress.tls | list | `[]` | Array style TLS secrets for the (frontend) ingress crontroller. E.g. tls:   - secretName: penpot.example.com-tls     hosts:       - penpot.example.com |
 
 ### Reute (for OpenShift Container Platform)
