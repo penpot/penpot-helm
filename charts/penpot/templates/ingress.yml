@@ -2,6 +2,7 @@
 {{- $fullName := include "penpot.fullname" . -}}
 {{- $svcPort := .Values.frontend.service.port -}}
 {{- $path := .Values.ingress.path }}
+{{- $pathType := .Values.ingress.pathType }}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
@@ -38,7 +39,7 @@ spec:
         paths:
           - path: {{ $path }}
             {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: Prefix
+            pathType: {{ $pathType }}
             backend:
               service:
                 name: {{ $fullName }}

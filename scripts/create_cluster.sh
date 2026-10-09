@@ -36,6 +36,15 @@ if [[ "${EXPOSURE_MODE}" == "ingress" ]]; then
   echo "Installing ingress-nginx for kind..."
   kubectl apply --context "${KUBECTL_CONTEXT}" -f "${INGRESS_MANIFEST_URL}"
 
+  # Kind publishes ports 80 and 443 from the control-plane node, which carries
+  # ingress-ready=true in devel/kind.config.yml. Keep the controller on that
+  # node even if the upstream ingress-nginx manifest changes its scheduling.
+  kubectl patch deployment ingress-nginx-controller \
+    --namespace ingress-nginx \
+    --context "${KUBECTL_CONTEXT}" \
+    --type merge \
+    --patch '{"spec":{"template":{"spec":{"nodeSelector":{"ingress-ready":"true"}}}}}'
+
   echo "Waiting for ingress-nginx controller..."
   kubectl rollout status deployment/ingress-nginx-controller \
     -n ingress-nginx \

@@ -109,6 +109,18 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Gateway subpath must render its prefix rewrite
+        run: |
+          set -euo pipefail
+          rendered=$(helm template gateway-subpath "$CHART" \
+            --values "$CHART/tests/values/valid/14-gateway-subpath.yaml")
+          grep -q 'kind: HTTPRoute' <<<"$rendered"
+          grep -q 'value: "/penpot"' <<<"$rendered"
+          grep -q 'type: URLRewrite' <<<"$rendered"
+          grep -q 'type: ReplacePrefixMatch' <<<"$rendered"
+          grep -q 'replacePrefixMatch: /' <<<"$rendered"
+          echo "ok: Gateway API rewrites the subpath before forwarding"
+
       # Helm validates values.schema.json before rendering templates, so a schema
       # that rejected these keys would shadow the migration message in
       # install-validation.yaml. That is why `global` is left open in the schema,

@@ -1,0 +1,12 @@
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: true
+  path: /penpot(/|$)(.*)
+  pathType: ImplementationSpecific
+  hosts:
+    - example.com
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2

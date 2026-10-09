@@ -1496,6 +1496,16 @@
           "default": "/",
           "description": "Root path for every hosts."
         },
+        "pathType": {
+          "type": "string",
+          "enum": [
+            "Exact",
+            "Prefix",
+            "ImplementationSpecific"
+          ],
+          "default": "Prefix",
+          "description": "Path matching behavior for the Ingress rule. Use `ImplementationSpecific` when the ingress controller needs a regular expression, for example to serve Penpot from a subpath."
+        },
         "hosts": {
           "type": "array",
           "items": {
