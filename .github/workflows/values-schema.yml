@@ -109,6 +109,19 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: NGINX Ingress serves Admin Console in the same resource on a subpath
+        run: |
+          set -euo pipefail
+          rendered=$(helm template ingress-subpath "$CHART" \
+            --values "$CHART/tests/values/valid/13-ingress-subpath.yaml")
+          ingress_count=$(grep -c '^kind: Ingress$' <<<"$rendered")
+          test "$ingress_count" -eq 1
+          grep -Fq 'path: /penpot(/|$)(.*)' <<<"$rendered"
+          grep -Fq 'path: /()(admin-console(/|$).*)' <<<"$rendered"
+          grep -Fq 'nginx.ingress.kubernetes.io/rewrite-target: /$2' <<<"$rendered"
+          grep -Fq 'value: "https://example.com/admin-console/"' <<<"$rendered"
+          echo "ok: one Ingress preserves the Admin Console path while stripping the Penpot subpath"
+
       # Helm validates values.schema.json before rendering templates, so a schema
       # that rejected these keys would shadow the migration message in
       # install-validation.yaml. That is why `global` is left open in the schema,

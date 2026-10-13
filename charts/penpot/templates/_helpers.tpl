@@ -163,6 +163,16 @@ Check if the admin console is enabled or not.
 {{- has "enable-admin-console" (splitList " " (default "" .Values.config.flags)) -}}
 {{- end -}}
 
+{{/*
+Return the public URI for the Admin Console. Its client bundle is built for
+/admin-console/, so the default URI keeps that path on the same origin as
+config.publicUri even when Penpot itself is served from a subpath.
+*/}}
+{{- define "penpot.adminConsolePublicUri" -}}
+{{- $publicUri := urlParse .Values.config.publicUri -}}
+{{- printf "%s://%s/admin-console/" (get $publicUri "scheme") (get $publicUri "host") -}}
+{{- end -}}
+
 {{- define "penpot.adminConsoleSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "penpot.name" . }}-admin-console
 app.kubernetes.io/instance: {{ .Release.Name }}

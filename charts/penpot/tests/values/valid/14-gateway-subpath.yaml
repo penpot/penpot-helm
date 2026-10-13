@@ -1,0 +1,22 @@
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: penpot
+      namespace: penpot
+      sectionName: http
+  hostnames:
+    - example.com
+  path: /penpot
+  pathMatchType: PathPrefix
+  filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /

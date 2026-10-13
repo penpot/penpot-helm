@@ -52,6 +52,8 @@ spec:
           env:
             - name: PENPOT_PUBLIC_URI
               value: {{ .Values.config.publicUri | quote }}
+            - name: PENPOT_ADMIN_CONSOLE_URI
+              value: {{ include "penpot.adminConsolePublicUri" . | quote }}
             - name: PENPOT_INTERNAL_URI
               value: {{ print "http://" (include "penpot.fullname" .) ":" .Values.frontend.service.port }}
             - name: PENPOT_SECRET_KEY

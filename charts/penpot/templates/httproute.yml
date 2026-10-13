@@ -33,4 +33,13 @@ spec:
       backendRefs:
         - name: {{ include "penpot.fullname" . }}
           port: {{ .Values.frontend.service.port }}
+    {{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: "/admin-console"
+      backendRefs:
+        - name: {{ include "penpot.fullname" . }}
+          port: {{ .Values.frontend.service.port }}
+    {{- end }}
 {{- end }}
