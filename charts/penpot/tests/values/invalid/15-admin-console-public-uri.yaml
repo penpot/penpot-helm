@@ -1,0 +1,3 @@
+# Admin Console URI is derived from config.publicUri and cannot be overridden.
+adminConsole:
+  publicUri: "https://example.com/admin-console/"

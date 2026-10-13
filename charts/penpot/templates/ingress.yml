@@ -2,6 +2,9 @@
 {{- $fullName := include "penpot.fullname" . -}}
 {{- $svcPort := .Values.frontend.service.port -}}
 {{- $path := .Values.ingress.path }}
+{{- $pathType := .Values.ingress.pathType }}
+{{- $adminConsoleEnabled := eq (include "penpot.adminConsoleEnabled" .) "true" -}}
+{{- $usesNginxSubpathRewrite := and (eq (default "" (index .Values.ingress.annotations "nginx.ingress.kubernetes.io/use-regex")) "true") (eq (default "" (index .Values.ingress.annotations "nginx.ingress.kubernetes.io/rewrite-target")) "/$2") -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
@@ -38,7 +41,7 @@ spec:
         paths:
           - path: {{ $path }}
             {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: Prefix
+            pathType: {{ $pathType }}
             backend:
               service:
                 name: {{ $fullName }}
@@ -48,6 +51,21 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
-           {{- end }}
+            {{- end }}
+            {{- if $adminConsoleEnabled }}
+          - path: {{ if $usesNginxSubpathRewrite }}/()(admin-console(/|$).*){{ else }}/admin-console{{ end }}
+            {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: {{ if $usesNginxSubpathRewrite }}ImplementationSpecific{{ else }}Prefix{{ end }}
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+            {{- else }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+            {{- end }}
+            {{- end }}
     {{- end }}
 {{- end }}
