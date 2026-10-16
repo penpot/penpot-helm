@@ -39,3 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Support serving Penpot from a subpath using Ingress or Gateway API
