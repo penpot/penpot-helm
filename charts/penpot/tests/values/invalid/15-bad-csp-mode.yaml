@@ -1,0 +1,3 @@
+# cspMode accepts report-only, enforce or disabled.
+config:
+  cspMode: "report_only"

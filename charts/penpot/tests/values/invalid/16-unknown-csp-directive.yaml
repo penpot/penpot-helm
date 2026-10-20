@@ -1,0 +1,5 @@
+# Only the directives a deployment may widen are extensible. base-uri,
+# form-action, object-src and frame-ancestors are deliberately left out.
+config:
+  csp:
+    baseUriExtra: "https://example.com"

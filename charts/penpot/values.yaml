@@ -58,6 +58,40 @@ config:
   # -- Custom DNS resolver for the frontend nginx. Defaults to the nameserver in the pod's /etc/resolv.conf. e.g. 192.168.1.1
   # @section -- Configuration parameters
   internalResolver: ""
+  # -- The Content Security Policy mode. `report-only` reports violations to the browser console without blocking anything, `enforce` blocks them, and `disabled` emits no policy at all.
+  # Enforcing mode with the default policy breaks the plugin runtime, which needs `'unsafe-eval'`: add it through `config.csp.scriptSrcExtra` if you use plugins.
+  # @section -- Configuration parameters
+  cspMode: "report-only"
+  # -- A complete Content Security Policy, replacing the one shipped in the image.
+  # Note that it also replaces the hashes of the inline scripts, which change on every Penpot release, so prefer the `*SrcExtra` values below unless you need to remove a directive.
+  # @section -- Configuration parameters
+  cspPolicy: ""
+  csp:
+    # -- Sources to add to the `script-src` directive. E.g. `'unsafe-eval' https://plugins.example.com`
+    # @section -- Configuration parameters
+    scriptSrcExtra: ""
+    # -- Sources to add to the `style-src` directive.
+    # @section -- Configuration parameters
+    styleSrcExtra: ""
+    # -- Sources to add to the `img-src` directive.
+    # @section -- Configuration parameters
+    imgSrcExtra: ""
+    # -- Sources to add to the `font-src` directive.
+    # @section -- Configuration parameters
+    fontSrcExtra: ""
+    # -- Sources to add to the `connect-src` directive.
+    # @section -- Configuration parameters
+    connectSrcExtra: ""
+    # -- Sources to add to the `frame-src` directive.
+    # @section -- Configuration parameters
+    frameSrcExtra: ""
+    # -- An endpoint to receive Content Security Policy violation reports, added as a `report-uri` directive. Without it, a report-only policy reports nothing beyond the browser console.
+    # @section -- Configuration parameters
+    reportUri: ""
+  # -- The value of the `Strict-Transport-Security` header. Left unset, the image enables it with `max-age=31536000` when `config.publicUri` uses the https scheme, and omits it otherwise.
+  # Set it to an empty string to omit the header, for instance when a reverse proxy in front of Penpot already sends it.
+  # @section -- Configuration parameters
+  hstsValue: null
   # -- Kubernetes cluster domain, used to build the FQDNs of the services proxied by the frontend nginx.
   # @section -- Configuration parameters
   clusterDomain: "cluster.local"
