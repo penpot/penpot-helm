@@ -1,0 +1,15 @@
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: penpot
+      namespace: penpot
+      sectionName: http
+  hostnames:
+    - example.com
+  path: /penpot
