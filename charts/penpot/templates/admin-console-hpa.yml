@@ -1,4 +1,4 @@
-{{- if and (eq (include "penpot.adminConsoleEnabled" .) "true") .Values.adminConsole.autoscaling.hpa.enabled }}
+{{- if .Values.adminConsole.autoscaling.hpa.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
