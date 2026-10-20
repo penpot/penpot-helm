@@ -77,6 +77,44 @@ spec:
               value: {{ .Values.config.privacyPolicyUri | quote }}
             - name: PENPOT_HTTP_SERVER_MAX_BODY_SIZE
               value: {{ .Values.config.httpServerMaxBodySize | quote  }}
+            - name: PENPOT_CSP_MODE
+              value: {{ .Values.config.cspMode | quote }}
+            {{- with .Values.config.cspPolicy }}
+            - name: PENPOT_CSP_POLICY
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.scriptSrcExtra }}
+            - name: PENPOT_CSP_SCRIPT_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.styleSrcExtra }}
+            - name: PENPOT_CSP_STYLE_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.imgSrcExtra }}
+            - name: PENPOT_CSP_IMG_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.fontSrcExtra }}
+            - name: PENPOT_CSP_FONT_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.connectSrcExtra }}
+            - name: PENPOT_CSP_CONNECT_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.frameSrcExtra }}
+            - name: PENPOT_CSP_FRAME_SRC_EXTRA
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.csp.reportUri }}
+            - name: PENPOT_CSP_REPORT_URI
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if not (kindIs "invalid" .Values.config.hstsValue) }}
+            - name: PENPOT_HSTS_VALUE
+              value: {{ .Values.config.hstsValue | quote }}
+            {{- end }}
             # Extra environments
           {{- with .Values.config.extraEnvs }}
             {{- toYaml . | nindent 12 }}
