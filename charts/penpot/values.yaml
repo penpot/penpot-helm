@@ -646,7 +646,7 @@ exporter:
     # -- Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version.
     # @section -- Exporter parameters
     imagePullPolicy: IfNotPresent
-  # -- The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount.
+  # -- The number of replicas to deploy.
   # @section -- Exporter parameters
   replicaCount: 1
   # -- The update strategy to apply to the Deployment. Check [the official doc](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)

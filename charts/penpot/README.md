@@ -470,7 +470,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| exporter.replicaCount | int | `1` | The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount. |
+| exporter.replicaCount | int | `1` | The number of replicas to deploy. |
 | exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | exporter.resources.limits | object | `{}` | The resources limits for the Penpot containers. |
 | exporter.resources.requests | object | `{}` | The requested resources for the Penpot containers. |

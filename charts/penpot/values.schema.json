@@ -1045,7 +1045,7 @@
               "$ref": "#/definitions/replicaCount"
             }
           ],
-          "description": "The number of replicas to deploy. Enable persistence.exporter if you use more than 1 replicaCount."
+          "description": "The number of replicas to deploy."
         },
         "updateStrategy": {
           "$ref": "#/definitions/updateStrategy"
