@@ -1,4 +1,3 @@
-{{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,4 +18,3 @@ spec:
       name: http
   selector:
     {{- include "penpot.adminConsoleSelectorLabels" . | nindent 4 }}
-{{- end }}

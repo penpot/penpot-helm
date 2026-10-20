@@ -106,24 +106,6 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
-### Admin Console
-
-The Admin Console is only deployed when `config.flags` contains `enable-admin-console`.
-
-The chart default flags currently include `enable-admin-console`, so the Admin Console remains
-enabled by default. A future Penpot version will make it mandatory and drop the flag entirely; until
-then, if you want to disable it, remove `enable-admin-console` from the `config.flags` string.
-
-It shares the same PostgreSQL connection and `config.apiSecretKey` as the backend, and talks to the
-frontend through `PENPOT_INTERNAL_URI`, so no extra configuration is required beyond enabling the flag.
-
-Example:
-
-```yml
-config:
-  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"
-```
-
 ### Running more than one replica
 
 Every component can be scaled with `replicaCount`, or automatically through

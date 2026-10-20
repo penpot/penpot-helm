@@ -39,3 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: changed
+      description: The Admin Console is always deployed and the `enable-admin-console` flag is no longer needed (Penpot 2.19+)
