@@ -39,3 +39,7 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Content Security Policy settings for the frontend (`config.cspMode`, `config.cspPolicy` and the `config.csp.*SrcExtra` values), shipped in report-only mode by default
+    - kind: added
+      description: "`config.hstsValue`, to override or omit the `Strict-Transport-Security` header the image emits for https deployments"
