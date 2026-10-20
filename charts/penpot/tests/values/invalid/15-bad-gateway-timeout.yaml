@@ -1,0 +1,4 @@
+# Gateway API durations are Go-style without fractions or days (e.g. 5m, 300s).
+gateway:
+  timeouts:
+    request: 5min

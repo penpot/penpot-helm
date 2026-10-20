@@ -1110,6 +1110,16 @@ gateway:
   # @section -- Gateway API parameters
   filters: []
 
+  # -- Optional timeouts for the HTTPRoute rule (Gateway API >= v1.2, Extended support).
+  # Unset by default, so the gateway implementation defaults apply.
+  # Values above 300s have no effect: the frontend nginx already times out proxied requests at 300s.
+  # Example:
+  # timeouts:
+  #   request: 300s
+  #   backendRequest: 300s
+  # @section -- Gateway API parameters
+  timeouts: {}
+
 ingress:
   # -- Enable (frontend) Ingress Controller.
   # @section -- Ingress parameters

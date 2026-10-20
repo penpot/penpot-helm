@@ -583,6 +583,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | gateway.parentRefs | list | `[]` | ParentRefs for attaching the HTTPRoute to one or more Gateways. Example: parentRefs:   - name: shared-gateway     namespace: infra     sectionName: http |
 | gateway.path | string | `"/"` | Path value for the HTTPRoute match. |
 | gateway.pathMatchType | string | `"PathPrefix"` | Path match type for the HTTPRoute. Common values: PathPrefix, Exact |
+| gateway.timeouts | object | `{}` | Optional timeouts for the HTTPRoute rule (Gateway API >= v1.2, Extended support). Unset by default, so the gateway implementation defaults apply. Values above 300s have no effect: the frontend nginx already times out proxied requests at 300s. Example: timeouts:   request: 300s   backendRequest: 300s |
 
 ### Ingress
 
