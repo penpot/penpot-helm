@@ -1,0 +1,6 @@
+# An empty hstsValue omits the header, for a deployment whose reverse proxy
+# already sends it. Distinct from leaving it unset, which lets the image decide.
+config:
+  publicUri: "https://design.example.com"
+  apiSecretKey: "aVeryLongRandomSecretKeyUsedOnlyForTestingPurposes0123456789"
+  hstsValue: ""
