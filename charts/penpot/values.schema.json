@@ -1465,6 +1465,19 @@
             }
           },
           "description": "Optional filters for the HTTPRoute rules.\nExample:\nfilters:\n  - type: RequestHeaderModifier\n    requestHeaderModifier:\n      set:\n        - name: X-Forwarded-Proto\n          value: https"
+        },
+        "timeouts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/gatewayDuration"
+            },
+            "backendRequest": {
+              "$ref": "#/definitions/gatewayDuration"
+            }
+          },
+          "description": "Optional timeouts for the HTTPRoute rule (Gateway API >= v1.2, Extended support).\nUnset by default, so the gateway implementation defaults apply.\nValues above 300s have no effect: the frontend nginx already times out proxied requests at 300s.\nExample:\ntimeouts:\n  request: 300s\n  backendRequest: 300s"
         }
       }
     },
@@ -1803,6 +1816,10 @@
     }
   },
   "definitions": {
+    "gatewayDuration": {
+      "type": "string",
+      "pattern": "^([0-9]{1,5}(h|m|s|ms)){1,4}$"
+    },
     "stringMap": {
       "description": "Map of string keys and string values (labels/annotations).",
       "type": "object",
