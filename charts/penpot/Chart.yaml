@@ -41,3 +41,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Configurable HTTPRoute timeouts via gateway.timeouts
+    - kind: fixed
+      description: The backend now receives `config.httpServerMaxBodySize` as well, so raising the upload limit no longer leaves it rejecting at its own default

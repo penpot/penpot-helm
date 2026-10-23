@@ -54,6 +54,8 @@ spec:
               value: {{ .Values.config.publicUri | quote }}
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
+            - name: PENPOT_HTTP_SERVER_MAX_BODY_SIZE
+              value: {{ .Values.config.httpServerMaxBodySize | quote }}
             - name: PENPOT_SECRET_KEY
               {{- if not .Values.config.secretKeys.apiSecretKey }}
               value: {{ .Values.config.apiSecretKey | quote }}
