@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 version: 1.11.4-unreleased # Chart version
-appVersion: "2.18.3"  # Penpot version
+appVersion: "2.18.4"  # Penpot version
 type: application
 name: penpot
 description: Helm chart for Penpot, the Open Source design and prototyping platform.
@@ -39,7 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Configurable HTTPRoute timeouts via gateway.timeouts
-    - kind: fixed
-      description: The backend now receives `config.httpServerMaxBodySize` as well, so raising the upload limit no longer leaves it rejecting at its own default
+    - kind: changed
+      description: Bump Penpot to 2.18.4
