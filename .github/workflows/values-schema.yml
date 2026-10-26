@@ -109,6 +109,24 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Subpath is routed as a single prefix without rewrites
+        run: |
+          set -euo pipefail
+          check() {
+            local rendered
+            rendered=$(helm template subpath "$CHART" \
+              --values "$CHART/tests/values/valid/$1.yaml")
+            test "$(grep -c -- '- path:' <<<"$rendered")" -eq 1
+            grep -Fq -- "$2" <<<"$rendered"
+            if grep -Eq 'rewrite-target|URLRewrite' <<<"$rendered"; then
+              echo "unexpected path rewrite in $1" >&2
+              return 1
+            fi
+          }
+          check 13-ingress-subpath '- path: /penpot'
+          check 14-gateway-subpath 'value: "/penpot"'
+          echo "ok: Penpot is served through a single route under the subpath"
+
       # Helm validates values.schema.json before rendering templates, so a schema
       # that rejected these keys would shadow the migration message in
       # install-validation.yaml. That is why `global` is left open in the schema,
