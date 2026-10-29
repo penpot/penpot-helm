@@ -13,12 +13,12 @@
       "semanticCommitType": "build"
     },
     {
-      "description": "pre-commit hooks: one monthly PR",
+      "description": "pre-commit hooks: one weekly PR",
       "matchManagers": ["pre-commit"],
       "groupName": "pre-commit hooks",
       "separateMajorMinor": false,
-      "minimumReleaseAge": "7 days",
-      "schedule": ["* 0-5 1 * *"]
+      "minimumReleaseAge": "1 day",
+      "schedule": ["* 0-11 * * 1"]
     }
   ]
 }
