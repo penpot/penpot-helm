@@ -107,24 +107,6 @@ config:
   flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp"
 ```
 
-### Admin Console
-
-The Admin Console is only deployed when `config.flags` contains `enable-admin-console`.
-
-The chart default flags currently include `enable-admin-console`, so the Admin Console remains
-enabled by default. A future Penpot version will make it mandatory and drop the flag entirely; until
-then, if you want to disable it, remove `enable-admin-console` from the `config.flags` string.
-
-It shares the same PostgreSQL connection and `config.apiSecretKey` as the backend, and talks to the
-frontend through `PENPOT_INTERNAL_URI`, so no extra configuration is required beyond enabling the flag.
-
-Example:
-
-```yml
-config:
-  flags: "enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"
-```
-
 ### Running more than one replica
 
 Every component can be scaled with `replicaCount`, or automatically through
@@ -272,7 +254,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | config.existingSecret | string | `""` | The name of an existing secret. |
 | config.extraEnvs | list | `[]` | Specify any additional environment values you want to provide to all the containers (frontend, backend and exporter) in the deployment according to the [specification](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) |
 | config.fileDataBackend | string | `"legacy-db"` | Define the strategy (backend) for internal file data storage of Penpot. Use "legacy-db" (default) the current behaviour, "db" to use an specific table in the database (future default) and "storage" to use the predefined objects storage system (S3, file system,...) |
-| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp enable-admin-console"` | The feature flags to enable. Every entry must be prefixed with `enable-` or `disable-`: any other token is silently ignored, and unknown flag names are accepted without complaint, so a typo is a no-op rather than an error. The available flags change between Penpot versions, check [the official docs](https://help.penpot.app/technical-guide/configuration/) for the list matching your appVersion. |
+| config.flags | string | `"enable-registration enable-login-with-password disable-email-verification enable-smtp enable-mcp"` | The feature flags to enable. Every entry must be prefixed with `enable-` or `disable-`: any other token is silently ignored, and unknown flag names are accepted without complaint, so a typo is a no-op rather than an error. The available flags change between Penpot versions, check [the official docs](https://help.penpot.app/technical-guide/configuration/) for the list matching your appVersion. |
 | config.httpServerMaxBodySize | string | `"367001600"` | Defines the maximum size of HTTP request bodies (in bytes) that Penpot will accept from clients. It controls how large files or data payloads can be when uploading files, submitting forms, or making API requests. It also helps protect against denial-of-service attacks by rejecting oversized requests. Applied to both the frontend nginx and the backend, since the effective limit is the lower of the two. Default value for Penpot is 367001600 bytes (~350 MB). See [Nginx documentation](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size). |
 | config.internalResolver | string | `""` | Custom DNS resolver for the frontend nginx. Defaults to the nameserver in the pod's /etc/resolv.conf. e.g. 192.168.1.1 |
 | config.objectsStorage.filesystem.directory | string | `"/opt/data/assets"` | The storage directory to use if you chose the filesystem storage backend. |

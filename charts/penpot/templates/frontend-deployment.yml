@@ -63,10 +63,8 @@ spec:
             - name: PENPOT_MCP_URI_WS
               value: {{ print "http://" (include "penpot.fullname" .) "-mcp." .Release.Namespace ".svc." .Values.config.clusterDomain ":" .Values.mcp.service.wsPort }}
             {{- end }}
-            {{- if eq (include "penpot.adminConsoleEnabled" .) "true" }}
             - name: PENPOT_ADMIN_CONSOLE_URI
               value: {{ print "http://" (include "penpot.fullname" .) "-admin-console." .Release.Namespace ".svc." .Values.config.clusterDomain ":" .Values.adminConsole.service.port }}
-            {{- end }}
             {{- with .Values.config.internalResolver }}
             - name: PENPOT_INTERNAL_RESOLVER
               value: {{ . | quote }}
