@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.11.7-unreleased  # Chart version
+version: 1.11.7  # Chart version
 appVersion: "2.18.6"  # Penpot version
 type: application
 name: penpot
