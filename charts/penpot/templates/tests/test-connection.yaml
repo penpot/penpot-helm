@@ -15,16 +15,16 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   restartPolicy: Never
-  {{- with .Values.frontend.podSecurityContext }}
+  {{- with (include "penpot.podSecurityContext" (dict "ctx" . "values" .Values.frontend.podSecurityContext)) }}
   securityContext:
-    {{- toYaml . | nindent 4 }}
+    {{- . | nindent 4 }}
   {{- end }}
   containers:
     - name: readyz
       image: curlimages/curl:8.11.1
-      {{- with .Values.frontend.containerSecurityContext }}
+      {{- with (include "penpot.containerSecurityContext" (dict "ctx" . "values" .Values.frontend.containerSecurityContext)) }}
       securityContext:
-        {{- toYaml . | nindent 8 }}
+        {{- . | nindent 8 }}
       {{- end }}
       args:
         - --fail
