@@ -24,7 +24,7 @@ jobs:
     outputs:
       charts: ${{ steps.find.outputs.charts }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - id: find
         run: |
@@ -44,11 +44,11 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
-          python-version: "3.12"
+          python-version: "3.15"
 
       - name: Install check-jsonschema
         run: pip install --disable-pip-version-check check-jsonschema
@@ -90,9 +90,9 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: azure/setup-helm@v5
+      - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5
         with:
           version: ${{ matrix.helm }}
 
@@ -173,11 +173,11 @@ jobs:
     env:
       CHART: ${{ matrix.chart }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
-          python-version: "3.12"
+          python-version: "3.15"
 
       - name: Install dependencies
         run: pip install --disable-pip-version-check pyyaml
