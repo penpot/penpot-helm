@@ -1,4 +1,4 @@
-{{- if and (eq (include "penpot.adminConsoleEnabled" .) "true") .Values.adminConsole.pdb.enabled -}}
+{{- if .Values.adminConsole.pdb.enabled -}}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:

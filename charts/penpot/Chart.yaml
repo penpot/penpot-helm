@@ -41,3 +41,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Bump Penpot to 2.19.0
+    - kind: changed
+      description: The Admin Console is always deployed and the `enable-admin-console` flag is no longer needed (Penpot 2.19+)
