@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.11.9  # Chart version
+version: 1.12.0-unreleased  # Chart version
 appVersion: "2.19.0"  # Penpot version
 type: application
 name: penpot
@@ -39,11 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump Penpot to 2.19.0
-    - kind: changed
-      description: The Admin Console is always deployed and the `enable-admin-console` flag is no longer needed (Penpot 2.19+)
-    - kind: added
-      description: Content Security Policy settings for the frontend (`config.cspMode`, `config.cspPolicy` and the `config.csp.*SrcExtra` values), shipped in report-only mode by default
-    - kind: added
-      description: "`config.hstsValue`, to override or omit the `Strict-Transport-Security` header the image emits for https deployments"
