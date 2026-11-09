@@ -2,6 +2,58 @@ apiVersion: v1
 entries:
   penpot:
   - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: Bump Penpot to 2.19.0
+        - kind: changed
+          description: The Admin Console is always deployed and the `enable-admin-console` flag is no longer needed (Penpot 2.19+)
+        - kind: added
+          description: Content Security Policy settings for the frontend (`config.cspMode`, `config.cspPolicy` and the `config.csp.*SrcExtra` values), shipped in report-only mode by default
+        - kind: added
+          description: "`config.hstsValue`, to override or omit the `Strict-Transport-Security` header the image emits for https deployments"
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/links: |
+        - name: support
+          url: https://github.com/penpot/penpot-helm/issues
+        - name: community
+          url: https://community.penpot.app
+        - name: documentation
+          url: https://help.penpot.app
+        - name: tutorials
+          url: https://www.youtube.com/playlist?list=PLgcCPfOv5v54WpXhHmNO7T-YC7AE-SRsr
+        - name: dev-diaries
+          url: https://penpot.app/dev-diaries.html
+      artifacthub.io/signKey: |
+        fingerprint: F0B526DC641A6DCBD94A2B2BA11A82757E9E6942
+        url: https://helm.penpot.app/pubkey.asc
+    apiVersion: v2
+    appVersion: 2.19.0
+    created: "2026-11-09T15:23:51.384610909Z"
+    description: Helm chart for Penpot, the Open Source design and prototyping platform.
+    digest: 48e71d7f041e287acdcd8c6f423834341f022d55153817bb23d48f076cb7a842
+    home: https://penpot.app
+    icon: https://avatars.githubusercontent.com/u/30179644?s=200&v=4
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    - designsystem
+    - opensource
+    - ux
+    - ui
+    maintainers:
+    - name: KALEIDOS Subsidiary SL
+      url: https://kaleidos.net
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot/tree/main
+    - https://github.com/penpot/penpot-helm/tree/main
+    type: application
+    urls:
+    - https://github.com/penpot/penpot-helm/releases/download/penpot-1.11.9/penpot-1.11.9.tgz
+    version: 1.11.9
+  - annotations:
       artifacthub.io/changes: |
         - kind: changed
           description: Bump Penpot to 2.18.7
@@ -3727,4 +3779,4 @@ entries:
     urls:
     - https://github.com/penpot/penpot-helm/releases/download/penpot-0.1.0-alpha-001/penpot-0.1.0-alpha-001.tgz
     version: 0.1.0-alpha-001
-generated: "2026-11-09T12:07:13.989369162Z"
+generated: "2026-11-09T15:23:51.384818086Z"
