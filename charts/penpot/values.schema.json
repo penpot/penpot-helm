@@ -149,6 +149,70 @@
           "type": "string",
           "default": ""
         },
+        "cspMode": {
+          "type": "string",
+          "enum": [
+            "report-only",
+            "enforce",
+            "disabled"
+          ],
+          "default": "report-only",
+          "description": "The Content Security Policy mode. `report-only` reports violations to the browser console without blocking anything, `enforce` blocks them, and `disabled` emits no policy at all.\nEnforcing mode with the default policy breaks the plugin runtime, which needs `'unsafe-eval'`: add it through `config.csp.scriptSrcExtra` if you use plugins."
+        },
+        "cspPolicy": {
+          "type": "string",
+          "default": "",
+          "description": "A complete Content Security Policy, replacing the one shipped in the image.\nNote that it also replaces the hashes of the inline scripts, which change on every Penpot release, so prefer the `*SrcExtra` values below unless you need to remove a directive."
+        },
+        "csp": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scriptSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `script-src` directive. E.g. `'unsafe-eval' https://plugins.example.com`"
+            },
+            "styleSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `style-src` directive."
+            },
+            "imgSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `img-src` directive."
+            },
+            "fontSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `font-src` directive."
+            },
+            "connectSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `connect-src` directive."
+            },
+            "frameSrcExtra": {
+              "type": "string",
+              "default": "",
+              "description": "Sources to add to the `frame-src` directive."
+            },
+            "reportUri": {
+              "type": "string",
+              "default": "",
+              "description": "An endpoint to receive Content Security Policy violation reports, added as a `report-uri` directive. Without it, a report-only policy reports nothing beyond the browser console."
+            }
+          }
+        },
+        "hstsValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "The value of the `Strict-Transport-Security` header. Left unset, the image enables it with `max-age=31536000` when `config.publicUri` uses the https scheme, and omits it otherwise.\nSet it to an empty string to omit the header, for instance when a reverse proxy in front of Penpot already sends it."
+        },
         "clusterDomain": {
           "description": "Kubernetes cluster domain, used to build the FQDNs of the services proxied by the frontend nginx.",
           "type": "string",

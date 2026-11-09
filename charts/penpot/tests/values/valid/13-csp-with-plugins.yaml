@@ -1,0 +1,14 @@
+# Content Security Policy tuned for a deployment that uses plugins: the sandbox
+# evaluates plugin code, and plugins are installed, rendered and iconified from
+# their own hosts.
+config:
+  publicUri: "https://design.example.com"
+  apiSecretKey: "aVeryLongRandomSecretKeyUsedOnlyForTestingPurposes0123456789"
+  cspMode: "enforce"
+  csp:
+    scriptSrcExtra: "'unsafe-eval' https://plugins.example.com"
+    connectSrcExtra: "https://plugins.example.com"
+    imgSrcExtra: "https://plugins.example.com"
+    frameSrcExtra: "https://plugins.example.com"
+    reportUri: "https://csp.example.com/report"
+  hstsValue: "max-age=63072000; includeSubDomains"
