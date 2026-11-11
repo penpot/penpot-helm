@@ -61,7 +61,7 @@ jobs:
       # Checking out an explicit ref takes the chart, devel/ and scripts/ from
       # there, while the workflow itself is always the one being run. A ref
       # without scripts/create_cluster.sh will fail at the cluster step.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -85,12 +85,12 @@ jobs:
             echo "VALUES=devel/penpot.values.yaml" >> "$GITHUB_ENV"
           fi
 
-      - uses: azure/setup-helm@v5
+      - uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
 
       # install_only: the cluster is created by scripts/create_cluster.sh, which
       # is the same path a developer follows locally per devel/README.md. Letting
       # the action create its own cluster would mean CI and local setups drifting.
-      - uses: helm/kind-action@v1.15.0
+      - uses: helm/kind-action@ea822c7bf1874f08e5a491df991c228edffc3376 # v1.15.2
         with:
           install_only: true
 
