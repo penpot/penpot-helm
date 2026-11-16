@@ -82,6 +82,14 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.exporter.resources | nindent 12 }}
+          {{- with .Values.exporter.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.exporter.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.exporter.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

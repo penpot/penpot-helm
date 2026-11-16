@@ -926,7 +926,12 @@
           "description": "Penpot backend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/)"
         },
         "startupProbe": {
-          "$ref": "#/definitions/probe"
+          "allOf": [
+            {
+              "$ref": "#/definitions/probe"
+            }
+          ],
+          "description": "Startup probe for the Penpot backend containers. Tolerates up to 30 * 10 = 300 seconds = 5 Minutes. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)"
         },
         "pdb": {
           "allOf": [
@@ -1179,6 +1184,17 @@
             }
           ],
           "description": "Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/)"
+        },
+        "readinessProbe": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/probe"
+            }
+          ],
+          "description": "Readiness probe for the exporter containers, so a new pod receives traffic only once its HTTP server is listening. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes)"
+        },
+        "lifecycle": {
+          "$ref": "#/definitions/lifecycle"
         },
         "pdb": {
           "allOf": [
@@ -2149,7 +2165,7 @@
       }
     },
     "probe": {
-      "description": "Startup probe for the Penpot backend containers. Tolerates up to 30 * 10 = 300 seconds = 5 Minutes. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)",
+      "description": "Container probe. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)",
       "type": [
         "object",
         "null"
@@ -2538,6 +2554,60 @@
         }
       },
       "description": "Image parameters for components that historically used imagePullPolicy. Both keys are accepted; pullPolicy wins when both are set."
+    },
+    "lifecycle": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "postStart": {
+          "$ref": "#/definitions/lifecycleHandler"
+        },
+        "preStop": {
+          "$ref": "#/definitions/lifecycleHandler"
+        }
+      },
+      "description": "Lifecycle hooks for the exporter containers. The default `preStop` delays SIGTERM so the pod leaves the Service endpoints before the exporter stops accepting connections. To use another handler, such as `sleep` on Kubernetes 1.30+, set `exec: null` next to it. Check [the official doc](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/)"
+    },
+    "lifecycleHandler": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exec": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          }
+        },
+        "httpGet": {
+          "type": "object"
+        },
+        "sleep": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "seconds"
+          ],
+          "properties": {
+            "seconds": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -454,6 +454,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.image.imagePullPolicy | string | `"IfNotPresent"` | Deprecated, use `pullPolicy` instead. The image pull policy to use. Kept for backwards compatibility: this component historically used a different key name than the backend and frontend. If `pullPolicy` is set it takes precedence, and this key will be removed in a future major version. |
 | exporter.image.repository | string | `"penpotapp/exporter"` | The Docker repository to pull the image from. |
 | exporter.image.tag | string | `"2.19.1"` | The image tag to use. |
+| exporter.lifecycle | object | `{"preStop":{"exec":{"command":["sleep","5"]}}}` | Lifecycle hooks for the exporter containers. The default `preStop` delays SIGTERM so the pod leaves the Service endpoints before the exporter stops accepting connections. To use another handler, such as `sleep` on Kubernetes 1.30+, set `exec: null` next to it. Check [the official doc](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/) |
 | exporter.nodeSelector | object | `{}` | Node labels for Penpot pods assignment. Check [the official doc](https://kubernetes.io/docs/user-guide/node-selection/) |
 | exporter.pdb | object | `{"enabled":false,"maxUnavailable":null,"minAvailable":null}` | Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | exporter.pdb.enabled | bool | `false` | Enable Pod Disruption Budget for the pods. |
@@ -462,6 +463,7 @@ This allows running the chart securely in OpenShift without granting anyuid perm
 | exporter.podAnnotations | object | `{}` | An optional map of annotations to be applied to the controller Pods |
 | exporter.podLabels | object | `{}` | An optional map of labels to be applied to the controller Pods |
 | exporter.podSecurityContext | object | `{"fsGroup":1001}` | Configure Pods Security Context. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| exporter.readinessProbe | object | `{"httpGet":{"path":"/readyz","port":"http"}}` | Readiness probe for the exporter containers, so a new pod receives traffic only once its HTTP server is listening. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes) |
 | exporter.replicaCount | int | `1` | The number of replicas to deploy. |
 | exporter.resources | object | `{"limits":{},"requests":{}}` | Penpot frontend resource requests and limits. Check [the official doc](https://kubernetes.io/docs/user-guide/compute-resources/) |
 | exporter.resources.limits | object | `{}` | The resources limits for the Penpot containers. |

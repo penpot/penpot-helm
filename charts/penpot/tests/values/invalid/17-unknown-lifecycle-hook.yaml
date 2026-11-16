@@ -1,0 +1,6 @@
+# Typo in a lifecycle hook name.
+exporter:
+  lifecycle:
+    preStopp:
+      exec:
+        command: ["sleep", "5"]

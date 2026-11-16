@@ -743,6 +743,18 @@ exporter:
     # -- The requested resources for the Penpot containers.
     # @section -- Exporter parameters
     requests: {}
+  # -- Readiness probe for the exporter containers, so a new pod receives traffic only once its HTTP server is listening. Check [the official doc](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes)
+  # @section -- Exporter parameters
+  readinessProbe:
+    httpGet:
+      path: /readyz
+      port: http
+  # -- Lifecycle hooks for the exporter containers. The default `preStop` delays SIGTERM so the pod leaves the Service endpoints before the exporter stops accepting connections. To use another handler, such as `sleep` on Kubernetes 1.30+, set `exec: null` next to it. Check [the official doc](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/)
+  # @section -- Exporter parameters
+  lifecycle:
+    preStop:
+      exec:
+        command: ["sleep", "5"]
   # -- Configure Pod Disruption Budget for the exporter pods. Check [the official doc](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
   # @section -- Exporter parameters
   pdb:

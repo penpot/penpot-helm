@@ -1,0 +1,7 @@
+# Replace the exporter's default exec preStop with the native sleep action.
+exporter:
+  lifecycle:
+    preStop:
+      exec: null
+      sleep:
+        seconds: 10

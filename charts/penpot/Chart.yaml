@@ -39,3 +39,5 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
+    - kind: added
+      description: Readiness probe (`exporter.readinessProbe`) and a `preStop` hook (`exporter.lifecycle`) for the exporter, so rollouts no longer send requests to pods that are not listening yet or are already shutting down
