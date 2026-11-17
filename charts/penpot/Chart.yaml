@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-version: 1.13.0  # Chart version
+version: 1.14.0-unreleased  # Chart version
 appVersion: "2.19.2"  # Penpot version
 type: application
 name: penpot
@@ -39,7 +39,3 @@ annotations:
       url: https://penpot.app/dev-diaries.html
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/changes: |
-    - kind: added
-      description: Readiness probe (`exporter.readinessProbe`) and a `preStop` hook (`exporter.lifecycle`) for the exporter, so rollouts no longer send requests to pods that are not listening yet or are already shutting down
-    - kind: changed
-      description: Bump Penpot to 2.19.2
