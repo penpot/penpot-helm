@@ -1,0 +1,3 @@
+# Worker processes must be a positive number or "auto".
+config:
+  httpServerWorkerProcesses: "two"
