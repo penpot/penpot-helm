@@ -1,0 +1,4 @@
+# Fixed nginx worker sizing for the frontend.
+config:
+  httpServerWorkerProcesses: 2
+  httpServerWorkerConnections: 2048

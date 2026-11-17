@@ -452,6 +452,28 @@
           "pattern": "^[0-9]+$",
           "default": "367001600"
         },
+        "httpServerWorkerProcesses": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ],
+          "minimum": 1,
+          "pattern": "^(auto|[1-9][0-9]*)$",
+          "default": null,
+          "description": "(int,string) Number of frontend nginx worker processes, or `auto` for one per node CPU. Left unset, the image uses the container CPU limit, rounded up, and `auto` when there is none. Requires Penpot 2.19.3 or later. See [Nginx documentation](https://nginx.org/en/docs/ngx_core_module.html#worker_processes)."
+        },
+        "httpServerWorkerConnections": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ],
+          "minimum": 1,
+          "pattern": "^[1-9][0-9]*$",
+          "default": null,
+          "description": "(int) Maximum simultaneous connections per frontend nginx worker. Each worker reserves the memory for all of them at startup, about 30 MB with the image default of 65535. Requires Penpot 2.19.3 or later. See [Nginx documentation](https://nginx.org/en/docs/ngx_core_module.html#worker_connections)."
+        },
         "smtp": {
           "type": "object",
           "additionalProperties": false,

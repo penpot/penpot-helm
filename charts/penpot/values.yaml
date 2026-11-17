@@ -195,6 +195,12 @@ config:
   # -- Defines the maximum size of HTTP request bodies (in bytes) that Penpot will accept from clients. It controls how large files or data payloads can be when uploading files, submitting forms, or making API requests. It also helps protect against denial-of-service attacks by rejecting oversized requests. Applied to both the frontend nginx and the backend, since the effective limit is the lower of the two. Default value for Penpot is 367001600 bytes (~350 MB). See [Nginx documentation](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size).
   # @section -- Configuration parameters
   httpServerMaxBodySize: "367001600" 
+  # -- (int,string) Number of frontend nginx worker processes, or `auto` for one per node CPU. Left unset, the image uses the container CPU limit, rounded up, and `auto` when there is none. Requires Penpot 2.19.3 or later. See [Nginx documentation](https://nginx.org/en/docs/ngx_core_module.html#worker_processes).
+  # @section -- Configuration parameters
+  httpServerWorkerProcesses:
+  # -- (int) Maximum simultaneous connections per frontend nginx worker. Each worker reserves the memory for all of them at startup, about 30 MB with the image default of 65535. Requires Penpot 2.19.3 or later. See [Nginx documentation](https://nginx.org/en/docs/ngx_core_module.html#worker_connections).
+  # @section -- Configuration parameters
+  httpServerWorkerConnections:
 
   smtp:
     # -- Whether to enable SMTP configuration. You also need to add the 'enable-smtp' flag to the PENPOT_FLAGS variable.

@@ -75,6 +75,14 @@ spec:
               value: {{ .Values.config.privacyPolicyUri | quote }}
             - name: PENPOT_HTTP_SERVER_MAX_BODY_SIZE
               value: {{ .Values.config.httpServerMaxBodySize | quote  }}
+            {{- with .Values.config.httpServerWorkerProcesses }}
+            - name: PENPOT_HTTP_SERVER_WORKER_PROCESSES
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.httpServerWorkerConnections }}
+            - name: PENPOT_HTTP_SERVER_WORKER_CONNECTIONS
+              value: {{ . | quote }}
+            {{- end }}
             - name: PENPOT_CSP_MODE
               value: {{ .Values.config.cspMode | quote }}
             {{- with .Values.config.cspPolicy }}
