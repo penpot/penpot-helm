@@ -1,0 +1,8 @@
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: true
+  path: /penpot
+  hosts:
+    - example.com
