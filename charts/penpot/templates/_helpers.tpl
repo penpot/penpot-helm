@@ -94,8 +94,9 @@ false
 {{- end }}
 
 {{/*
-Render a pod securityContext, omitting only OpenShift-managed user/group IDs.
-Keep fsGroup because stateful workloads may still require it for writable PVCs.
+Render a pod securityContext, omitting OpenShift-managed user/group IDs.
+fsGroup is dropped too: restricted-v2 rejects values outside the namespace
+range and injects an allowed one itself, so writable PVCs keep working.
 */}}
 {{- define "penpot.podSecurityContext" -}}
 {{- $ctx := .ctx -}}
@@ -104,7 +105,7 @@ Keep fsGroup because stateful workloads may still require it for writable PVCs.
   {{- $adapt := eq (include "penpot.openshift.adaptSecurityContext" $ctx) "true" -}}
   {{- $render := $values -}}
   {{- if $adapt -}}
-    {{- $render = omit $values "runAsGroup" -}}
+    {{- $render = omit $values "runAsUser" "runAsGroup" "fsGroup" -}}
   {{- end -}}
   {{- if gt (len $render) 0 -}}
 {{ toYaml $render }}
