@@ -92,6 +92,46 @@ persistence:
 ```
 > **Tip**: You can use the default values.yaml
 
+### Serving Penpot from a subpath
+
+By default, the chart serves Penpot from `/`. To serve it from a subpath, set
+`config.publicUri` to the full URL, with a trailing slash, and route that
+prefix to Penpot without rewriting it. The frontend derives the subpath from
+`config.publicUri`.
+
+For example, with Ingress and `/penpot/`:
+
+```yml
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: true
+  hosts:
+    - example.com
+  path: /penpot
+```
+
+With Gateway API:
+
+```yml
+config:
+  publicUri: "https://example.com/penpot/"
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: penpot
+      namespace: penpot
+      sectionName: http
+  hostnames:
+    - example.com
+  path: /penpot
+```
+
 ### MCP Server
 
 The MCP server is only deployed when `config.flags` contains `enable-mcp`.
